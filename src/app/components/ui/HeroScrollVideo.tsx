@@ -1,19 +1,15 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
+// We no longer need ScrollTrigger for the expansion itself
 const VIDEOS = [
   { id: 1, src: "/assets/videos/Midline.mp4" },
   { id: 2, src: "/assets/videos/plane2.mp4" },
 ];
 
-export default function HeroScrollVideo() {
+export default function HeroAutoVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -22,31 +18,19 @@ export default function HeroScrollVideo() {
   const [progress, setProgress] = useState(0);
 
   useGSAP(() => {
-    // 1. Expansion Animation
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "+=100%",
-        pin: true,
-        scrub: 1,
-        once: true, // Lock expansion
-        onLeave: () => {
-          // Removes the pinning spacer white space and locks the video
-          gsap.set(containerRef.current, { height: "100vh" });
-        },
-      },
-    });
-
-    tl.to(videoWrapperRef.current, {
+    // AUTOMATIC EXPANSION
+    // This starts immediately on load and takes 3.5 seconds
+    gsap.to(videoWrapperRef.current, {
       width: "100vw",
       height: "100vh",
       borderRadius: "0px",
-      ease: "power2.out",
+      duration: 3.5, // Your requested 3-4 second window
+      ease: "power2.inOut",
+      delay: 0.5, // Short pause before starting for impact
     });
   }, { scope: containerRef });
 
-  // 2. Playback Progress Logic
+  // Playback Progress Logic (for the segmented bars)
   useEffect(() => {
     const video = videoRefs.current[currentIndex];
     if (!video) return;
@@ -61,12 +45,12 @@ export default function HeroScrollVideo() {
   }, [currentIndex]);
 
   return (
-    <section ref={containerRef} className="relative w-full bg-black overflow-hidden">
-      <div className="flex h-screen w-full items-center justify-center">
+    <section ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden">
+      <div className="flex h-full w-full items-center justify-center">
         
         <div
           ref={videoWrapperRef}
-          className="relative h-[60vh] w-[40vw] overflow-hidden rounded-[30px] z-10"
+          className="relative h-[60vh] w-[40vw] overflow-hidden rounded-[30px] z-10 shadow-2xl"
         >
           {VIDEOS.map((video, index) => (
             <video
@@ -78,14 +62,14 @@ export default function HeroScrollVideo() {
               }}
               autoPlay muted playsInline
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-                currentIndex === index ? "opacity-100" : "opacity-0"
+                currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
               }`}
             >
               <source src={video.src} type="video/mp4" />
             </video>
           ))}
 
-          {/* 3. Segmented Progress Bar (Matching your image) */}
+          {/* Segmented Progress Bar */}
           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 flex gap-2 w-[80%] max-w-md">
             {VIDEOS.map((_, index) => (
               <div key={index} className="h-[2px] flex-1 bg-white/30 overflow-hidden">
@@ -99,8 +83,10 @@ export default function HeroScrollVideo() {
             ))}
           </div>
 
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <h1 className="text-white text-5xl font-light tracking-[0.2em]">AVIATION</h1>
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
+            <h1 className="text-white text-5xl font-light tracking-[0.3em] md:text-7xl">
+              AVIATION
+            </h1>
           </div>
         </div>
       </div>
