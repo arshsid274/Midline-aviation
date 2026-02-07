@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -41,17 +42,23 @@ const services = [
 ]
 
 export default function DesktopMenu() {
+  const pathname = usePathname()
+
+  const isActive = (href: string) => {
+    return pathname === href || (href !== "/" && pathname.startsWith(href))
+  }
+
   return (
     <NavigationMenu>
       <NavigationMenuList className="text-xl font-semibold">
         <NavigationMenuItem>
-          <NavigationMenuLink asChild>
+          <NavigationMenuLink asChild data-active={isActive("/") ? "true" : undefined}>
             <Link href="/" className={navigationMenuTriggerStyle()}>Home</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink asChild>
+          <NavigationMenuLink asChild data-active={isActive("/fleet") ? "true" : undefined}>
             <Link href="/fleet" className={navigationMenuTriggerStyle()}>Our Fleet</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -62,7 +69,7 @@ export default function DesktopMenu() {
             <ul className="grid w-[500px] gap-3 p-4 md:grid-cols-2">
               {services.map((service) => (
                 <li key={service.title}>
-                  <NavigationMenuLink asChild>
+                  <NavigationMenuLink asChild data-active={isActive(service.href) ? "true" : undefined}>
                     <Link href={service.href}>
                       <div className="font-medium">{service.title}</div>
                       <p className="text-muted-foreground line-clamp-2">{service.description}</p>
@@ -75,13 +82,13 @@ export default function DesktopMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink asChild>
+          <NavigationMenuLink asChild data-active={isActive("/about") ? "true" : undefined}>
             <Link href="/about" className={navigationMenuTriggerStyle()}>About</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink asChild>
+          <NavigationMenuLink asChild data-active={isActive("/contact") ? "true" : undefined}>
             <Link href="/contact" className={navigationMenuTriggerStyle()}>Contact</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="pt-14">
         <Navbar />
         {children}
         <footer className="p-6 text-center border-t">

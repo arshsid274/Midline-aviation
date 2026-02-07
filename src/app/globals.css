@@ -79,6 +79,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --hover-link: #02a0dd;
+  --active-link: #0f2e53;
 }
 
 .dark {
@@ -113,6 +115,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --hover-link: #02a0dd;
+  --active-link: #0f2e53;
 }
 
 @layer base {
@@ -122,6 +126,16 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+[data-slot="navigation-menu-link"]:hover,
+[data-slot="navigation-menu-link"]:hover * {
+  color: var(--hover-link);
+}
+
+[data-slot="navigation-menu-link"][data-active="true"],
+[data-slot="navigation-menu-link"][data-active="true"] * {
+  color: var(--active-link);
 }
 
 * {

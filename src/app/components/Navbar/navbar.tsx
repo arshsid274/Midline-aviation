@@ -1,29 +1,37 @@
 import Image from "next/image"
 import Link from "next/link"
 import DesktopMenu from "./DesktopMenu.client"
+import MobileMenu from "./MobileMenu.client"
 
 export default function Navbar() {
   return (
-    <header className="border-b">
+    <header className="fixed top-0 left-0 w-full z-50 bg-white/10 dark:bg-black/30 backdrop-blur-md border-b border-border">
       <nav
         aria-label="Primary navigation"
-        className="container mx-auto flex items-center "
+        className="container mx-auto flex items-center justify-between "
       >
+        <div className="w-10 md:hidden" />
+
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
-            src="/assets/images/Midline_Airlines.png"       // Path to your logo in /public
-            alt="Brand Name"      // Alt text for SEO and accessibility
-            width={150}           // Adjust based on your logo's aspect ratio
-            height={40}           // Adjust based on your logo's aspect ratio
-            className="h-26 w-auto" // Control height via CSS, let width scale
-            priority              // Important: tells Next.js to load this first
+            src="/assets/images/Midline_Airlines.png"
+            alt="Brand Name"
+            width={150}
+            height={40}
+            className="w-auto h-22"
+            priority
           />
         </Link>
 
         {/* Desktop Menu */}
-        <div className="flex-1 flex justify-center">
+        <div className="hidden md:flex flex-1 justify-center">
           <DesktopMenu />
+        </div>
+
+        {/* Mobile Menu (hamburger) */}
+        <div className="md:hidden">
+          <MobileMenu />
         </div>
       </nav>
     </header>

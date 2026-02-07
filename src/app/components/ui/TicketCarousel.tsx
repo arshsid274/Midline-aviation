@@ -24,10 +24,10 @@ export default function TicketCarousel() {
         {/* Header Section */}
         <div className="flex justify-between items-end mb-12">
           <div className="space-y-2">
-            <h2 className="inline-block bg-teal-950/50 border-l-4 border-teal-500 px-3 py-1 text-teal-400 text-xs font-mono tracking-widest uppercase">
+            <div className="inline-block bg-teal-950/50 border-l-4 border-teal-500 px-3 py-1 text-teal-400 text-xs font-mono tracking-widest uppercase">
               Live Marketplace
-            </h2>
-            <h1 className="text-3xl text-white font-light">Recent <span className="font-bold">Bookings</span></h1>
+            </div>
+            <h2 className="text-3xl text-white font-light">Recent <span className="font-bold">Bookings</span></h2>
           </div>
           <div className="flex gap-3">
             <button onClick={() => emblaApi?.scrollPrev()} className="p-3 border border-zinc-800 text-zinc-500 hover:text-teal-400 hover:border-teal-400 transition-all rounded-full bg-zinc-900/50">

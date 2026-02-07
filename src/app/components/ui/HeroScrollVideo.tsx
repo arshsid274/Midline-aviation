@@ -45,12 +45,12 @@ export default function HeroAutoVideo() {
   }, [currentIndex]);
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden">
+    <section ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden -mt-14">
       <div className="flex h-full w-full items-center justify-center">
         
         <div
           ref={videoWrapperRef}
-          className="relative h-[60vh] w-[40vw] overflow-hidden rounded-[30px] z-10 shadow-2xl"
+          className="relative h-[60vh] w-[40vw] overflow-hidden rounded-[30px] z-0 shadow-2xl"
         >
           {VIDEOS.map((video, index) => (
             <video
@@ -70,7 +70,7 @@ export default function HeroAutoVideo() {
           ))}
 
           {/* Segmented Progress Bar */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 flex gap-2 w-[80%] max-w-md">
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex gap-2 w-[80%] max-w-md">
             {VIDEOS.map((_, index) => (
               <div key={index} className="h-[2px] flex-1 bg-white/30 overflow-hidden">
                 <div 
