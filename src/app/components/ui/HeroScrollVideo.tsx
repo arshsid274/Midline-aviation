@@ -13,27 +13,67 @@ export default function HeroAutoVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const textRef = useRef<HTMLHeadingElement>(null);
+  const hasIntroPlayed = useRef(false);
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 
   useGSAP(() => {
-    // AUTOMATIC EXPANSION
-    // This starts immediately on load and takes 3.5 seconds
-    gsap.to(videoWrapperRef.current, {
+    const tl = gsap.timeline();
+    const header = document.querySelector("header");
+
+    // 1. Initial State: Hide Navbar
+    if (header) {
+      tl.set(header, { yPercent: -100, autoAlpha: 0 });
+    }
+
+    // 2. Text Animation
+    tl.from(textRef.current, {
+      y: 50,
+      opacity: 0,
+      duration: 1.5,
+      ease: "power3.out",
+      delay: 0.5
+    });
+
+    // 3. Expansion & Video Start
+    tl.add(() => {
+      const video = videoRefs.current[currentIndex];
+      if (video) {
+        video.play().catch(() => {});
+        hasIntroPlayed.current = true;
+      }
+    });
+
+    tl.to(videoWrapperRef.current, {
       width: "100vw",
       height: "100vh",
       borderRadius: "0px",
-      duration: 3.5, // Your requested 3-4 second window
+      duration: 3.5,
       ease: "power2.inOut",
-      delay: 0.5, // Short pause before starting for impact
     });
+
+    // 4. Navbar Pop In
+    if (header) {
+      tl.to(header, {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 1,
+        ease: "power3.out"
+      }, "-=1"); // Overlap slightly with expansion end
+    }
   }, { scope: containerRef });
 
-  // Playback Progress Logic (for the segmented bars)
+  // Playback Progress Logic
   useEffect(() => {
     const video = videoRefs.current[currentIndex];
     if (!video) return;
+
+    // Ensure subsequent videos play automatically after the intro sequence
+    if (hasIntroPlayed.current) {
+      video.play().catch(() => {});
+    }
 
     const updateProgress = () => {
       const p = (video.currentTime / video.duration) * 100;
@@ -60,7 +100,7 @@ export default function HeroAutoVideo() {
                 setProgress(0);
                 setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
               }}
-              autoPlay muted playsInline
+              muted playsInline
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
                 currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
               }`}
@@ -84,8 +124,8 @@ export default function HeroAutoVideo() {
           </div>
 
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-            <h1 className="text-white text-5xl font-light tracking-[0.3em] md:text-7xl">
-              AVIATION
+            <h1 ref={textRef} className="text-white text-5xl font-light tracking-[0.3em] md:text-7xl">
+              The Art of Seamless, Luxury Air Travel
             </h1>
           </div>
         </div>
