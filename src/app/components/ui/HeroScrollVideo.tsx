@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 // We no longer need ScrollTrigger for the expansion itself
 const VIDEOS = [
   { id: 1, src: "/assets/videos/Midline.mp4" },
-  { id: 2, src: "/assets/videos/plane2.mp4" },
+  { id: 2, src: "/assets/videos/Midline.mp4" },
 ];
 
 export default function HeroAutoVideo() {

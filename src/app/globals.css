@@ -123,3 +123,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+* {
+  font-family: Suisse, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+
+
+

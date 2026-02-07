@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import FlightMarketplaceHero from "@/app/components/ui/FlightMarketplaceHero";
 
 
+
 export const metadata: Metadata = {
   title: "Elite Aviation Services | Private Jet Charter & Management",
   description: "Experience the pinnacle of aviation. From aircraft management to global charters, we define luxury travel.",
@@ -21,6 +22,7 @@ export default function HomePage() {
       <HeroScrollVideo />
       
       {/* Content below to allow for scrolling */}
+      <div> </div>
       <FlightMarketplaceHero/>
     </main>
   );

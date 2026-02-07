@@ -43,7 +43,7 @@ const services = [
 export default function DesktopMenu() {
   return (
     <NavigationMenu>
-      <NavigationMenuList>
+      <NavigationMenuList className="text-xl font-semibold">
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link href="/" className={navigationMenuTriggerStyle()}>Home</Link>
