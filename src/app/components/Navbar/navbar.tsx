@@ -5,7 +5,7 @@ import MobileMenu from "./MobileMenu.client"
 
 export default function Navbar() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white/10 dark:bg-black/30 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 w-full z-50 bg-slate-900/50 backdrop-blur-md border-b border-white/10 transition-all duration-500">
       <nav
         aria-label="Primary navigation"
         className="container mx-auto flex items-center justify-between "

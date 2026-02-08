@@ -1,0 +1,349 @@
+/* ============================================
+   MIDLINE AIRLINES LOADER COMPONENT
+   Next.js CSS Module
+   ============================================ */
+
+:root {
+  --maskL: 50%;
+  --maskB: 0;
+  --maskR: 50%;
+  --maskT: 100%;
+  --base-ratio: 1;
+  --base-size: 1920;
+  --base-percent: 1%;
+  --primary-color: #003366; /* Midline Airlines Dark Blue */
+  --secondary-color: #0099ff; /* Midline Airlines Light Blue */
+  --accent-color: #ff6b35; /* Midline Airlines Orange Accent */
+}
+
+/* Main Visual Container */
+.main_visual {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #003366 0%, #004080 100%);
+}
+
+/* Intro Wrap - Loader Container */
+.intro_wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  transition: 0.4s ease-out;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro {
+  .intro_wrap {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Title Wrap - Contains animated text */
+.title_wrap {
+  width: 100%;
+  height: max(260px, calc(260 / 1920 * 100vw));
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Horizontal line animation */
+.title_wrap::before {
+  content: "";
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0099ff, transparent);
+  transition: 1s ease;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+/* Paragraph text styling */
+.title_wrap p {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Step 1 - "WELCOME ABOARD" */
+.step1 {
+  font-size: max(128px, calc(128 / 1920 * 100vw));
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  opacity: 1;
+  transition: all 0.5s ease-out 0.6s;
+}
+
+/* Step 2 - "MIDLINE" */
+.step2 {
+  font-size: max(240px, calc(240 / 1920 * 100vw));
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+  opacity: 0;
+  transition: all 0.5s ease-out;
+  background: linear-gradient(135deg, #0099ff 0%, #00ccff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 8px rgba(0, 153, 255, 0.3));
+}
+
+/* Individual letter spans - letter by letter animation */
+.title_wrap p span {
+  display: inline-block;
+  vertical-align: top;
+  opacity: 0;
+  transform: translateX(40px) scaleX(0.3);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* Active state for letter animations */
+.title_wrap p span.animated {
+  opacity: 1;
+  transform: translateX(0) scaleX(1);
+}
+
+/* Bottom Wrap - Contains mask animation */
+.bot_wrap {
+  width: 100%;
+  height: calc(100% - max(260px, calc(260 / 1920 * 100vw)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mask Wrap - Border reveal animation */
+.mask_wrap {
+  width: max(700px, calc(700 / 1920 * 100vw));
+  height: 100%;
+  padding: max(50px, calc(50 / 1920 * 100vw)) max(50px, calc(50 / 1920 * 100vw)) 0;
+  position: relative;
+}
+
+/* Vertical lines animation */
+.mask_wrap::before {
+  content: "";
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, #0099ff, transparent);
+  transition: 1s ease;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.mask_wrap::after {
+  content: "";
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, transparent, #0099ff);
+  transition: 1s ease;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+/* Mask blank */
+.mask_blank {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed rgba(0, 153, 255, 0.4);
+  opacity: 0.3;
+  box-shadow: inset 0 0 20px rgba(0, 153, 255, 0.2);
+}
+
+/* Visual Wrap - Main content area with clip-path animation */
+.visual_wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  clip-path: inset(100% var(--maskR) 0% var(--maskL));
+  -webkit-clip-path: inset(100% var(--maskR) 0% var(--maskL));
+  overflow: hidden;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: clip-path 0.6s 0.3s ease, -webkit-clip-path 0.6s 0.3s ease;
+  background: #ffffff;
+}
+
+/* Animation phase 1 - Horizontal line and vertical lines appear */
+.main_visual.active-1 .title_wrap::before {
+  width: 100%;
+}
+
+.main_visual.active-1 .mask_wrap::before,
+.main_visual.active-1 .mask_wrap::after {
+  height: 100%;
+}
+
+.main_visual.active-1 .visual_wrap {
+  clip-path: inset(var(--maskT) var(--maskR) 0% var(--maskL));
+  -webkit-clip-path: inset(var(--maskT) var(--maskR) 0% var(--maskL));
+}
+
+/* Animation phase 2 - Intro scales out */
+.main_visual.active-2 .intro_wrap {
+  transform: scale(4);
+  top: -35%;
+  transition: 1s ease;
+  animation-timing-function: ease;
+}
+
+.main_visual.active-2 .visual_wrap {
+  clip-path: inset(0% 0% 0% 0%);
+  -webkit-clip-path: inset(0% 0% 0% 0%);
+  transition: clip-path 0.7s ease, -webkit-clip-path 0.7s ease;
+}
+
+/* Skip Button Styling */
+.intro_skip_btn {
+  display: none;
+  font-size: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Desktop - Large invisible hit area */
+@media (min-width: 1025px) and (pointer: fine) {
+  .intro_skip_btn {
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    transform: none;
+  }
+}
+
+/* Tablet/Mobile - Circular badge button */
+@media (max-width: 1024px), (max-width: 1366px) and (pointer: coarse) {
+  .intro_skip_btn {
+    width: max(72px, calc(72 / 1920 * 100vw));
+    height: max(72px, calc(72 / 1920 * 100vw));
+    border-radius: 50%;
+    border: 2px solid #0099ff;
+    background: rgba(0, 51, 102, 0.6);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: flex;
+    padding: max(10px, calc(10 / 1920 * 100vw)) max(12px, calc(12 / 1920 * 100vw));
+    justify-content: center;
+    align-items: center;
+    gap: max(4px, calc(4 / 1920 * 100vw));
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .intro_skip_btn:hover {
+    border-color: #ff6b35;
+    background: rgba(0, 51, 102, 0.8);
+    box-shadow: 0 0 15px rgba(0, 153, 255, 0.3);
+  }
+
+  .intro_skip_btn::before {
+    content: "SKIP";
+    font-size: max(14px, calc(14 / 1920 * 100vw));
+    line-height: 1;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .intro_skip_btn::after {
+    content: "";
+    width: max(6px, calc(6 / 1920 * 100vw));
+    height: max(10px, calc(10 / 1920 * 100vw));
+    background: linear-gradient(135deg, transparent 40%, #0099ff 40%, #0099ff 60%, transparent 60%);
+    clip-path: polygon(0 30%, 100% 0%, 100% 70%, 0 100%);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .intro_skip_btn {
+    width: max(56px, calc(56 / 1920 * 100vw));
+    height: max(56px, calc(56 / 1920 * 100vw));
+    padding: max(8px, calc(8 / 1920 * 100vw));
+    bottom: max(16px, calc(16 / 1920 * 100vw));
+  }
+
+  .intro_skip_btn::before {
+    font-size: max(12px, calc(12 / 1920 * 100vw));
+  }
+
+  .intro_skip_btn::after {
+    width: max(5px, calc(5 / 1920 * 100vw));
+    height: max(9px, calc(9 / 1920 * 100vw));
+  }
+
+  .title_wrap {
+    height: max(300px, calc(300 / 1920 * 100vw));
+  }
+
+  .step1 {
+    font-size: max(72px, calc(72 / 1920 * 100vw));
+  }
+
+  .step2 {
+    font-size: max(88px, calc(88 / 1920 * 100vw));
+  }
+
+  .mask_wrap {
+    width: max(600px, calc(600 / 1920 * 100vw));
+    padding: max(40px, calc(40 / 1920 * 100vw)) max(40px, calc(40 / 1920 * 100vw)) 0;
+  }
+}
+
+/* Dark overlay for clip-path effect */
+.visual_wrap::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, #003366 0%, #004080 100%);
+  transition: 0.6s;
+  display: none;
+  opacity: 1;
+  visibility: visible;
+}
+
+.main_visual.not_intro .visual_wrap::before {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}

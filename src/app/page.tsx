@@ -1,7 +1,7 @@
 // src/app/page.tsx
 import HeroScrollVideo from "@/app/components/ui/HeroScrollVideo";
 import { Metadata } from "next";
-import FlightMarketplaceHero from "@/app/components/ui/FlightMarketplaceHero";
+import TripsMapView from "@/app/components/ui/TripsMapView";
 
 
 
@@ -11,10 +11,6 @@ export const metadata: Metadata = {
 };
 
 
-
-const handleAnimationComplete = () => {
-  console.log('All letters have animated!');
-};
 export default function HomePage() {
   return (
     <main>
@@ -23,7 +19,7 @@ export default function HomePage() {
       
       {/* Content below to allow for scrolling */}
       <div> </div>
-      <FlightMarketplaceHero/>
+      <TripsMapView/>
     </main>
   );
 }

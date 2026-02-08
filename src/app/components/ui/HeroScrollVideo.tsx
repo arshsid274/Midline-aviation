@@ -85,7 +85,7 @@ export default function HeroAutoVideo() {
   }, [currentIndex]);
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden -mt-14">
+    <section ref={containerRef} className="relative w-full h-screen bg-white overflow-hidden -mt-14">
       <div className="flex h-full w-full items-center justify-center">
         
         <div
