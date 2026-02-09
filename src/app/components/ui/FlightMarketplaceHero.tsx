@@ -248,7 +248,7 @@ const FlightCard = React.memo(function FlightCard({
                   isActive ? "text-[#41b3b5] drop-shadow-[0_0_8px_rgba(65,179,181,0.4)]" : "text-zinc-600"
                 }`}
               >
-                <Plane size={16} className="rotate-[50deg]" />
+                <Plane size={16} className="rotate-[48deg]" />
               </div>
             </div>
 
