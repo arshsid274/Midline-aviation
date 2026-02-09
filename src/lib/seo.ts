@@ -4,6 +4,10 @@ export const SITE_NAME = "Midline Airlines";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://midline-aviation.com";
 export const DEFAULT_OG_IMAGE = "/assets/images/Midline_Airlines.png";
+export const BRAND_THEME_COLOR = "#0c2450";
+export const CONTACT_EMAIL = "info@midline-aviation.com";
+export const CONTACT_PHONE = "+97140000000";
+export const DEFAULT_LOCALE = "en_US";
 
 export const DEFAULT_DESCRIPTION =
   "Midline Airlines provides private jet charter, aircraft management, aircraft sales, MRO, and air cargo transportation services worldwide.";
@@ -23,6 +27,15 @@ export function absoluteUrl(path = "/") {
   return new URL(path, SITE_URL).toString();
 }
 
+const uniqueKeywords = (keywords: string[]) =>
+  Array.from(
+    new Set(
+      keywords
+        .map((keyword) => keyword.trim())
+        .filter(Boolean)
+    )
+  );
+
 type BuildPageMetadataArgs = {
   title: string;
   description: string;
@@ -37,12 +50,17 @@ export function buildPageMetadata({
   keywords = [],
 }: BuildPageMetadataArgs): Metadata {
   const canonical = absoluteUrl(path);
-  const mergedKeywords = [...DEFAULT_KEYWORDS, ...keywords];
+  const mergedKeywords = uniqueKeywords([...DEFAULT_KEYWORDS, ...keywords]);
 
   return {
     title,
     description,
+    category: "Aviation",
     keywords: mergedKeywords,
+    robots: {
+      index: true,
+      follow: true,
+    },
     alternates: {
       canonical,
     },
@@ -52,7 +70,7 @@ export function buildPageMetadata({
       description,
       url: canonical,
       siteName: SITE_NAME,
-      locale: "en_US",
+      locale: DEFAULT_LOCALE,
       images: [
         {
           url: absoluteUrl(DEFAULT_OG_IMAGE),

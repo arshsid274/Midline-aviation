@@ -2,8 +2,12 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Navbar from "./components/Navbar/navbar";
 import {
+  BRAND_THEME_COLOR,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
   DEFAULT_DESCRIPTION,
   DEFAULT_KEYWORDS,
+  DEFAULT_LOCALE,
   DEFAULT_OG_IMAGE,
   SITE_NAME,
   SITE_URL,
@@ -25,6 +29,16 @@ const organizationSchema = {
   logo: absoluteUrl(DEFAULT_OG_IMAGE),
   description: DEFAULT_DESCRIPTION,
   areaServed: "Worldwide",
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: CONTACT_EMAIL,
+      telephone: CONTACT_PHONE,
+      areaServed: "Worldwide",
+      availableLanguage: ["English"],
+    },
+  ],
 };
 
 const websiteSchema = {
@@ -33,17 +47,34 @@ const websiteSchema = {
   name: SITE_NAME,
   url: SITE_URL,
   inLanguage: "en-US",
+  potentialAction: {
+    "@type": "ContactAction",
+    target: `${SITE_URL}/contact`,
+    name: "Contact Midline Airlines",
+  },
 };
+
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  themeColor: BRAND_THEME_COLOR,
   title: {
     default: defaultTitle,
     template: `%s | ${SITE_NAME}`,
   },
   alternates: {
     canonical: SITE_URL,
+    languages: {
+      "en-US": SITE_URL,
+    },
   },
   description: DEFAULT_DESCRIPTION,
   keywords: DEFAULT_KEYWORDS,
@@ -51,6 +82,11 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
+  verification: googleSiteVerification
+    ? {
+        google: googleSiteVerification,
+      }
+    : undefined,
   robots: {
     index: true,
     follow: true,
@@ -67,7 +103,7 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: DEFAULT_DESCRIPTION,
     url: SITE_URL,
-    locale: "en_US",
+    locale: DEFAULT_LOCALE,
     siteName: SITE_NAME,
     images: [
       {
