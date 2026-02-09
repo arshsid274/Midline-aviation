@@ -1,16 +1,11 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Navbar from "./components/Navbar/navbar";
-
-import type { Viewport } from "next";
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };
-
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +21,6 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: {
@@ -34,11 +28,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="pt-14">
+      <body className="min-h-screen bg-background pt-[72px] md:pt-[84px]">
         <Navbar />
         {children}
-        <footer className="p-6 text-center border-t">
-          © {new Date().getFullYear()} Brand Name
+        <footer className="border-t border-border/70 bg-background/95 px-4 py-6 text-center text-sm text-muted-foreground backdrop-blur-sm sm:px-6">
+          &copy; {new Date().getFullYear()} Brand Name
         </footer>
       </body>
     </html>

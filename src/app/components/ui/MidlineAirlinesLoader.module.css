@@ -21,10 +21,19 @@
   width: 100%;
   height: 100vh;
   height: 100svh;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   overflow: hidden;
-  background: linear-gradient(135deg, #003366 0%, #004080 100%);
+  background: transparent;
+  z-index: 10;
+  pointer-events: none;
 }
+
+.main_visual:not(.intro) {
+  display: none;
+}
+
 
 /* Intro Wrap - Loader Container */
 .intro_wrap {
@@ -41,7 +50,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  pointer-events: auto;
 }
+
+
 
 .intro {
   .intro_wrap {
@@ -53,7 +66,7 @@
 /* Title Wrap - Contains animated text */
 .title_wrap {
   width: 100%;
-  height: max(260px, calc(260 / 1920 * 100vw));
+  height: clamp(120px, 18vw, 260px);
   position: relative;
   display: flex;
   align-items: center;
@@ -83,7 +96,7 @@
   text-align: center;
   font-family: 'Arial', 'Helvetica', sans-serif;
   font-weight: 700;
-  color: #ffffff;
+  color: #0099ff;
   margin: 0;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -91,25 +104,26 @@
 
 /* Step 1 - "WELCOME ABOARD" */
 .step1 {
-  font-size: max(128px, calc(128 / 1920 * 100vw));
+  font-size: clamp(30px, 9.5vw, 128px);
   line-height: 0.9;
   letter-spacing: 0.02em;
   opacity: 1;
   transition: all 0.5s ease-out 0.6s;
+  white-space: nowrap;
 }
 
 /* Step 2 - "MIDLINE" */
 .step2 {
-  font-size: max(240px, calc(240 / 1920 * 100vw));
+  font-size: clamp(48px, 15vw, 220px);
   line-height: 0.9;
   letter-spacing: 0.03em;
   opacity: 0;
   transition: all 0.5s ease-out;
-  background: linear-gradient(135deg, #0099ff 0%, #00ccff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #0099ff;
+  background: none;
+  -webkit-text-fill-color: currentColor;
   filter: drop-shadow(0 4px 8px rgba(0, 153, 255, 0.3));
+  white-space: nowrap;
 }
 
 /* Individual letter spans - letter by letter animation */
@@ -130,17 +144,21 @@
 /* Bottom Wrap - Contains mask animation */
 .bot_wrap {
   width: 100%;
-  height: calc(100% - max(260px, calc(260 / 1920 * 100vw)));
+  height: calc(100% - clamp(120px, 18vw, 260px));
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  position: relative;
+  z-index: 5;
 }
+
 
 /* Mask Wrap - Border reveal animation */
 .mask_wrap {
-  width: max(700px, calc(700 / 1920 * 100vw));
+  width: min(700px, 88vw);
   height: 100%;
-  padding: max(50px, calc(50 / 1920 * 100vw)) max(50px, calc(50 / 1920 * 100vw)) 0;
+  padding: clamp(18px, 3vw, 50px) clamp(18px, 3vw, 50px) 0;
   position: relative;
 }
 
@@ -171,28 +189,30 @@
 .mask_blank {
   width: 100%;
   height: 100%;
-  border: 2px dashed rgba(0, 153, 255, 0.4);
-  opacity: 0.3;
-  box-shadow: inset 0 0 20px rgba(0, 153, 255, 0.2);
+  border: 2px solid #3a78b6;
+  opacity: 1;
+  background: transparent;
+  position: relative;
+  z-index: -1;
 }
 
-/* Visual Wrap - Main content area with clip-path animation */
+/* Visual Wrap - Opaque outer layer with transparent expanding cutout */
 .visual_wrap {
-  width: 100%;
-  height: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: var(--maskT);
+  right: var(--maskR);
+  bottom: var(--maskB);
+  left: var(--maskL);
   z-index: 1;
-  clip-path: inset(100% var(--maskR) 0% var(--maskL));
-  -webkit-clip-path: inset(100% var(--maskR) 0% var(--maskL));
-  overflow: hidden;
-  will-change: transform;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transition: clip-path 0.6s 0.3s ease, -webkit-clip-path 0.6s 0.3s ease;
-  background: #ffffff;
+  box-shadow: 0 0 0 120vmax #ffffff;
+  will-change: top, right, bottom, left;
+  transition: top 0.8s ease, right 0.8s ease, bottom 0.8s ease, left 0.8s ease;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  pointer-events: none;
 }
+
+
 
 /* Animation phase 1 - Horizontal line and vertical lines appear */
 .main_visual.active-1 .title_wrap::before {
@@ -205,22 +225,24 @@
 }
 
 .main_visual.active-1 .visual_wrap {
-  clip-path: inset(var(--maskT) var(--maskR) 0% var(--maskL));
-  -webkit-clip-path: inset(var(--maskT) var(--maskR) 0% var(--maskL));
+  bottom: 0%;
+  transition: top 1s ease, right 1s ease, bottom 1s ease, left 1s ease;
 }
 
 /* Animation phase 2 - Intro scales out */
 .main_visual.active-2 .intro_wrap {
   transform: scale(4);
-  top: -35%;
+  top: -30%;
   transition: 1s ease;
   animation-timing-function: ease;
 }
 
 .main_visual.active-2 .visual_wrap {
-  clip-path: inset(0% 0% 0% 0%);
-  -webkit-clip-path: inset(0% 0% 0% 0%);
-  transition: clip-path 0.7s ease, -webkit-clip-path 0.7s ease;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  transition: top 0.7s ease, right 0.7s ease, bottom 0.7s ease, left 0.7s ease;
 }
 
 /* Skip Button Styling */
@@ -233,6 +255,7 @@
   transform: translateX(-50%);
   z-index: 10;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 /* Desktop - Large invisible hit area */
@@ -250,18 +273,18 @@
 /* Tablet/Mobile - Circular badge button */
 @media (max-width: 1024px), (max-width: 1366px) and (pointer: coarse) {
   .intro_skip_btn {
-    width: max(72px, calc(72 / 1920 * 100vw));
-    height: max(72px, calc(72 / 1920 * 100vw));
+    width: clamp(56px, 9vw, 72px);
+    height: clamp(56px, 9vw, 72px);
     border-radius: 50%;
     border: 2px solid #0099ff;
     background: rgba(0, 51, 102, 0.6);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     display: flex;
-    padding: max(10px, calc(10 / 1920 * 100vw)) max(12px, calc(12 / 1920 * 100vw));
+    padding: clamp(8px, 1.4vw, 10px) clamp(10px, 1.5vw, 12px);
     justify-content: center;
     align-items: center;
-    gap: max(4px, calc(4 / 1920 * 100vw));
+    gap: clamp(3px, 0.5vw, 4px);
     flex-shrink: 0;
     transition: all 0.3s ease;
   }
@@ -274,7 +297,7 @@
 
   .intro_skip_btn::before {
     content: "SKIP";
-    font-size: max(14px, calc(14 / 1920 * 100vw));
+    font-size: clamp(11px, 1.5vw, 14px);
     line-height: 1;
     letter-spacing: 0.05em;
     font-weight: 700;
@@ -283,8 +306,8 @@
 
   .intro_skip_btn::after {
     content: "";
-    width: max(6px, calc(6 / 1920 * 100vw));
-    height: max(10px, calc(10 / 1920 * 100vw));
+    width: clamp(5px, 0.6vw, 6px);
+    height: clamp(8px, 1vw, 10px);
     background: linear-gradient(135deg, transparent 40%, #0099ff 40%, #0099ff 60%, transparent 60%);
     clip-path: polygon(0 30%, 100% 0%, 100% 70%, 0 100%);
   }
@@ -293,57 +316,51 @@
 /* Mobile adjustments */
 @media (max-width: 767px) {
   .intro_skip_btn {
-    width: max(56px, calc(56 / 1920 * 100vw));
-    height: max(56px, calc(56 / 1920 * 100vw));
-    padding: max(8px, calc(8 / 1920 * 100vw));
-    bottom: max(16px, calc(16 / 1920 * 100vw));
+    width: 56px;
+    height: 56px;
+    padding: 8px;
+    bottom: 18px;
   }
 
   .intro_skip_btn::before {
-    font-size: max(12px, calc(12 / 1920 * 100vw));
+    font-size: 12px;
   }
 
   .intro_skip_btn::after {
-    width: max(5px, calc(5 / 1920 * 100vw));
-    height: max(9px, calc(9 / 1920 * 100vw));
+    width: 5px;
+    height: 9px;
   }
 
   .title_wrap {
-    height: max(300px, calc(300 / 1920 * 100vw));
+    height: clamp(120px, 34vw, 180px);
   }
 
   .step1 {
-    font-size: max(72px, calc(72 / 1920 * 100vw));
+    font-size: clamp(28px, 10vw, 44px);
+    letter-spacing: 0.01em;
   }
 
   .step2 {
-    font-size: max(88px, calc(88 / 1920 * 100vw));
+    font-size: clamp(42px, 14vw, 66px);
+    letter-spacing: 0.02em;
+  }
+
+  .bot_wrap {
+    height: calc(100% - clamp(120px, 34vw, 180px));
   }
 
   .mask_wrap {
-    width: max(600px, calc(600 / 1920 * 100vw));
-    padding: max(40px, calc(40 / 1920 * 100vw)) max(40px, calc(40 / 1920 * 100vw)) 0;
+    width: min(92vw, 520px);
+    padding: 14px 14px 0;
   }
+
+  .main_visual.active-2 .intro_wrap {
+    transform: scale(2.8);
+    top: -8%;
+  }
+
 }
 
-/* Dark overlay for clip-path effect */
-.visual_wrap::before {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(135deg, #003366 0%, #004080 100%);
-  transition: 0.6s;
-  display: none;
-  opacity: 1;
-  visibility: visible;
-}
-
-.main_visual.not_intro .visual_wrap::before {
-  display: block;
-  opacity: 0;
-  visibility: hidden;
+.intro_wrap::before {
+  content: none;
 }

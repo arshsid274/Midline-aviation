@@ -1,25 +1,40 @@
-// src/app/page.tsx
-import HeroScrollVideo from "@/app/components/ui/HeroScrollVideo";
-import { Metadata } from "next";
+"use client";
+import { useEffect, useState } from "react";
 import TripsMapView from "@/app/components/ui/TripsMapView";
-
-
-
-export const metadata: Metadata = {
-  title: "Elite Aviation Services | Private Jet Charter & Management",
-  description: "Experience the pinnacle of aviation. From aircraft management to global charters, we define luxury travel.",
-};
-
+import MidlineAirlinesLoader from "@/app/components/ui/MidlineAirlinesLoader";
+import HeroScrollVideo from "@/app/components/ui/HeroScrollVideo";
+import { VideoProvider } from "@/app/components/ui/VideoContext";
 
 export default function HomePage() {
+  const [loadingComplete, setLoadingComplete] = useState(false);
+
+  useEffect(() => {
+    const body = document.body;
+
+    if (loadingComplete) {
+      body.classList.remove("home-loader-active");
+      body.classList.add("home-loader-complete");
+    } else {
+      body.classList.add("home-loader-active");
+      body.classList.remove("home-loader-complete");
+    }
+
+    return () => {
+      body.classList.remove("home-loader-active");
+      body.classList.remove("home-loader-complete");
+    };
+  }, [loadingComplete]);
+
   return (
-    <main>
-      {/* This component handles the GSAP magic */}
-      <HeroScrollVideo />
-      
-      {/* Content below to allow for scrolling */}
-      <div> </div>
-      <TripsMapView/>
-    </main>
+    <VideoProvider>
+      <main className="relative z-[1] bg-black">
+        <HeroScrollVideo revealText={loadingComplete} />
+        {loadingComplete && <TripsMapView />}
+      </main>
+
+      {!loadingComplete && (
+        <MidlineAirlinesLoader onLoadingComplete={() => setLoadingComplete(true)} />
+      )}
+    </VideoProvider>
   );
 }

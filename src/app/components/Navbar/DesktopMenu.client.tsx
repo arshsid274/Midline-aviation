@@ -50,7 +50,7 @@ export default function DesktopMenu() {
 
   return (
     <NavigationMenu>
-      <NavigationMenuList className="text-xl font-semibold">
+      <NavigationMenuList className="text-sm font-semibold lg:text-base">
         <NavigationMenuItem>
           <NavigationMenuLink asChild data-active={isActive("/") ? "true" : undefined}>
             <Link href="/" className={navigationMenuTriggerStyle()}>Home</Link>
@@ -66,13 +66,17 @@ export default function DesktopMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Services</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[500px] gap-3 p-4 md:grid-cols-2">
+            <ul className="grid w-[min(92vw,36rem)] gap-3 p-3 md:p-4 lg:w-[40rem] lg:grid-cols-2">
               {services.map((service) => (
                 <li key={service.title}>
-                  <NavigationMenuLink asChild data-active={isActive(service.href) ? "true" : undefined}>
+                  <NavigationMenuLink
+                    asChild
+                    className="rounded-lg border border-border/60 bg-card/80 p-3 transition-colors hover:bg-card"
+                    data-active={isActive(service.href) ? "true" : undefined}
+                  >
                     <Link href={service.href}>
-                      <div className="font-medium">{service.title}</div>
-                      <p className="text-muted-foreground line-clamp-2">{service.description}</p>
+                      <div className="text-sm font-semibold lg:text-base">{service.title}</div>
+                      <p className="line-clamp-2 text-xs text-muted-foreground lg:text-sm">{service.description}</p>
                     </Link>
                   </NavigationMenuLink>
                 </li>

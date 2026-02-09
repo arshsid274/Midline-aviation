@@ -1,22 +1,32 @@
+import ServicePageShell from "@/app/components/ui/ServicePageShell";
+
 export const dynamic = "force-static";
 
 export const metadata = {
   title: "Private Jet Charter",
-  description:
-    "Flexible private jet charter services with worldwide coverage.",
+  description: "Flexible private jet charter services with worldwide coverage.",
 };
 
 export default function CharterPage() {
   return (
-    <main className="py-24">
-      <h1 className="text-4xl font-bold text-center">
-        Private Jet Charter
-      </h1>
-
-      <p className="mt-6 max-w-3xl mx-auto text-center">
-        On-demand private jet charter services tailored
-        to business and leisure travelers.
-      </p>
-    </main>
+    <ServicePageShell
+      title="Private Jet Charter"
+      description="On-demand private jet charter tailored for business leaders, families, and time-critical travel."
+      columns={3}
+      features={[
+        {
+          title: "On-Demand Scheduling",
+          description: "Fly when you need with flexible departure windows and rapid trip planning support.",
+        },
+        {
+          title: "Global Route Access",
+          description: "Reach major and secondary airports worldwide through trusted operational partnerships.",
+        },
+        {
+          title: "Cabin Personalization",
+          description: "Enjoy customized catering, comfort preferences, and concierge-grade in-flight service.",
+        },
+      ]}
+    />
   );
 }

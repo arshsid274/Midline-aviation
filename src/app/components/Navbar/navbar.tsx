@@ -5,31 +5,31 @@ import MobileMenu from "./MobileMenu.client"
 
 export default function Navbar() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-slate-900/50 backdrop-blur-md border-b border-white/10 transition-all duration-500">
+    <header
+      data-site-navbar="true"
+      className="fixed top-0 left-0 z-50 w-full border-b border-white/15  backdrop-blur-xl transition-all duration-500"
+    >
       <nav
         aria-label="Primary navigation"
-        className="container mx-auto flex items-center justify-between "
+        className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between px-4 sm:h-[76px] sm:px-6 md:h-[84px] lg:px-8"
       >
-        <div className="w-10 md:hidden" />
+        <div className="w-10 sm:w-11 md:hidden" />
 
-        {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
             src="/assets/images/Midline_Airlines.png"
             alt="Brand Name"
             width={150}
             height={40}
-            className="w-auto h-22"
+            className="h-9 w-auto sm:h-10 md:h-12 lg:h-14"
             priority
           />
         </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex flex-1 justify-center">
+        <div className="hidden flex-1 justify-center md:flex">
           <DesktopMenu />
         </div>
 
-        {/* Mobile Menu (hamburger) */}
         <div className="md:hidden">
           <MobileMenu />
         </div>

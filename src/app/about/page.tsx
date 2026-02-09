@@ -1,15 +1,47 @@
-import MidlineAirlinesLoader from "@/app/components/ui/MidlineAirlinesLoader";
+export const dynamic = "force-static";
+
+export const metadata = {
+  title: "About Us",
+  description: "Learn more about our aviation heritage, safety culture, and service standards.",
+};
 
 export default function AboutPage() {
   return (
-    <MidlineAirlinesLoader>
-      <main className="py-24 text-center">
-        <h1 className="text-4xl font-bold">About Us</h1>
-        <p className="mt-6 max-w-2xl mx-auto">
-          We are an aviation company delivering premium
-          flight solutions with a focus on safety and service.
-        </p>
-      </main>
-    </MidlineAirlinesLoader>
+    <main className="bg-slate-950/35 py-10 sm:py-12 md:py-16">
+      <div className="page-shell">
+        <section className="page-hero">
+          <h1 className="page-title">About Midline Aviation</h1>
+          <p className="page-lead">
+            We deliver premium charter and aviation support with a focus on safety, reliability, and refined onboard
+            service.
+          </p>
+        </section>
+
+        <section className="feature-grid md:grid-cols-3">
+          <article className="feature-card">
+            <h2 className="text-lg font-semibold sm:text-xl">Safety First</h2>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+              Our flight operations follow strict standards and continuous crew training for dependable mission
+              outcomes.
+            </p>
+          </article>
+
+          <article className="feature-card">
+            <h2 className="text-lg font-semibold sm:text-xl">Global Reach</h2>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+              We coordinate seamless travel worldwide with tailored routing, permits, and concierge-level ground
+              handling.
+            </p>
+          </article>
+
+          <article className="feature-card">
+            <h2 className="text-lg font-semibold sm:text-xl">Personal Service</h2>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+              Every journey is designed around passenger preferences, from aircraft selection to onboard experience.
+            </p>
+          </article>
+        </section>
+      </div>
+    </main>
   );
 }

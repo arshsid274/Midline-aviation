@@ -1,133 +1,86 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useState } from "react";
+import { useVideoContext } from "./VideoContext";
 
-// We no longer need ScrollTrigger for the expansion itself
 const VIDEOS = [
   { id: 1, src: "/assets/videos/Midline.mp4" },
   { id: 2, src: "/assets/videos/Midline.mp4" },
 ];
 
-export default function HeroAutoVideo() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoWrapperRef = useRef<HTMLDivElement>(null);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const textRef = useRef<HTMLHeadingElement>(null);
-  const hasIntroPlayed = useRef(false);
-  
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface HeroAutoVideoProps {
+  revealText?: boolean;
+}
+
+export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps) {
+  const { videoRefs, currentIndex, setCurrentIndex } = useVideoContext();
   const [progress, setProgress] = useState(0);
 
-  useGSAP(() => {
-    const tl = gsap.timeline();
-    const header = document.querySelector("header");
-
-    // 1. Initial State: Hide Navbar
-    if (header) {
-      tl.set(header, { yPercent: -100, autoAlpha: 0 });
-    }
-
-    // 2. Text Animation
-    tl.from(textRef.current, {
-      y: 50,
-      opacity: 0,
-      duration: 1.5,
-      ease: "power3.out",
-      delay: 0.5
-    });
-
-    // 3. Expansion & Video Start
-    tl.add(() => {
-      const video = videoRefs.current[currentIndex];
-      if (video) {
-        video.play().catch(() => {});
-        hasIntroPlayed.current = true;
-      }
-    });
-
-    tl.to(videoWrapperRef.current, {
-      width: "100vw",
-      height: "100vh",
-      borderRadius: "0px",
-      duration: 3.5,
-      ease: "power2.inOut",
-    });
-
-    // 4. Navbar Pop In
-    if (header) {
-      tl.to(header, {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: 1,
-        ease: "power3.out"
-      }, "-=1"); // Overlap slightly with expansion end
-    }
-  }, { scope: containerRef });
-
-  // Playback Progress Logic
   useEffect(() => {
     const video = videoRefs.current[currentIndex];
     if (!video) return;
 
-    // Ensure subsequent videos play automatically after the intro sequence
-    if (hasIntroPlayed.current) {
-      video.play().catch(() => {});
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
     }
 
     const updateProgress = () => {
+      if (!video.duration || Number.isNaN(video.duration)) return;
       const p = (video.currentTime / video.duration) * 100;
       setProgress(p);
     };
 
     video.addEventListener("timeupdate", updateProgress);
     return () => video.removeEventListener("timeupdate", updateProgress);
-  }, [currentIndex]);
+  }, [currentIndex, videoRefs]);
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen bg-white overflow-hidden -mt-14">
-      <div className="flex h-full w-full items-center justify-center">
-        
-        <div
-          ref={videoWrapperRef}
-          className="relative h-[60vh] w-[40vw] overflow-hidden rounded-[30px] z-0 shadow-2xl"
-        >
-          {VIDEOS.map((video, index) => (
-            <video
-              key={video.id}
-              ref={(el) => { videoRefs.current[index] = el; }}
-              onEnded={() => {
-                setProgress(0);
-                setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
-              }}
-              muted playsInline
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-                currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
-              }`}
-            >
-              <source src={video.src} type="video/mp4" />
-            </video>
+    <section className="relative -mt-[72px] h-[100svh] w-full overflow-hidden bg-black md:-mt-[84px]">
+      <div className="relative w-full h-full">
+        {VIDEOS.map((video, index) => (
+          <video
+            key={video.id}
+            ref={(el) => {
+              videoRefs.current[index] = el;
+            }}
+            onEnded={() => {
+              setProgress(0);
+              setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
+            }}
+            muted 
+            playsInline
+            preload="auto"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+              currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <source src={video.src} type="video/mp4" />
+          </video>
+        ))}
+
+        <div className="absolute bottom-6 left-1/2 z-30 flex w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 gap-1.5 sm:bottom-8 sm:w-[72%] md:bottom-10 md:gap-2">
+          {VIDEOS.map((_, index) => (
+            <div key={index} className="h-[2px] flex-1 bg-white/30 overflow-hidden">
+              <div 
+                className="h-full bg-white transition-all duration-100 ease-linear"
+                style={{ 
+                  width: currentIndex === index ? `${progress}%` : currentIndex > index ? "100%" : "0%" 
+                }}
+              />
+            </div>
           ))}
+        </div>
 
-          {/* Segmented Progress Bar */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex gap-2 w-[80%] max-w-md">
-            {VIDEOS.map((_, index) => (
-              <div key={index} className="h-[2px] flex-1 bg-white/30 overflow-hidden">
-                <div 
-                  className="h-full bg-white transition-all duration-100 ease-linear"
-                  style={{ 
-                    width: currentIndex === index ? `${progress}%` : currentIndex > index ? "100%" : "0%" 
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
-            <h1 ref={textRef} className="text-white text-5xl font-light tracking-[0.3em] md:text-7xl">
-              The Art of Seamless, Luxury Air Travel
-            </h1>
-          </div>
+        <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center overflow-hidden px-4 sm:px-8">
+          <h1
+            className={`max-w-[20ch] text-balance text-center text-2xl font-light leading-[1.2] tracking-[0.08em] text-white transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-3xl sm:tracking-[0.12em] md:text-5xl md:tracking-[0.16em] lg:text-6xl ${
+              revealText
+                ? "translate-y-0 opacity-100 delay-[700ms]"
+                : "translate-y-6 opacity-0 md:translate-y-10"
+            }`}
+          >
+            The Art of Seamless, Luxury Air Travel
+          </h1>
         </div>
       </div>
     </section>

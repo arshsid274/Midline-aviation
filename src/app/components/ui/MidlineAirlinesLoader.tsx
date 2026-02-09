@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, ReactNode } from 'react';
-import gsap from 'gsap';
-import styles from './MidlineAirlinesLoader.module.css';
+import { useCallback, useEffect, useRef } from "react";
+import gsap from "gsap";
+import styles from "./MidlineAirlinesLoader.module.css";
 
 interface MidlineAirlinesLoaderProps {
   onLoadingComplete?: () => void;
   autoSkip?: boolean;
-  children?: ReactNode;
 }
 
 const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
   onLoadingComplete,
   autoSkip = false
 }) => {
+  const introActiveClass = "home-loader-intro-active";
   const mainVisualRef = useRef<HTMLDivElement>(null);
   const introWrapRef = useRef<HTMLDivElement>(null);
   const step1TxtRef = useRef<HTMLParagraphElement>(null);
@@ -21,55 +21,50 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
   const maskBlankRef = useRef<HTMLDivElement>(null);
   const skipBtnRef = useRef<HTMLDivElement>(null);
 
+  const finishIntro = useCallback(() => {
+    mainVisualRef.current?.classList.remove(styles.intro);
+    mainVisualRef.current?.classList.remove(introActiveClass);
+    onLoadingComplete?.();
+  }, [onLoadingComplete]);
+
   useEffect(() => {
-    // Check if intro should be skipped via URL parameter
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('intro') === 'false') {
-      mainVisualRef.current?.classList.remove(styles.intro);
+    if (urlParams.get("intro") === "false") {
+      finishIntro();
       return;
     }
 
-    // Set initial clip-path values and start animation
     const initialMaskOffsets = getMaskOffsetRelativeToSection();
     gsap.set(mainVisualRef.current, {
       ...initialMaskOffsets,
-      ease: 'none',
+      ease: "none",
       onComplete: startLoaderAnimation
     });
 
-    /**
-     * Start the main loader animation sequence
-     */
     function startLoaderAnimation() {
       setTimeout(() => {
-        mainVisualRef.current?.classList.add(styles['active-1']);
+        mainVisualRef.current?.classList.add(styles["active-1"]);
 
-        // Animate step 1 letters
         animateLetters(step1TxtRef.current, () => {
-          // Hide step 1 and show step 2
           setTimeout(() => {
             gsap.to(step1TxtRef.current, {
               autoAlpha: 0,
               duration: 0.5,
-              ease: 'power2.out'
+              ease: "power2.out"
             });
 
             gsap.to(step2TxtRef.current, {
               autoAlpha: 1,
               duration: 0.5,
-              ease: 'power2.out',
+              ease: "power2.out",
               onComplete: () => {
-                // Animate step 2 letters
                 animateLetters(step2TxtRef.current, () => {
-                  // Add active-2 class for scale animation
                   setTimeout(() => {
-                    mainVisualRef.current?.classList.add(styles['active-2']);
+                    mainVisualRef.current?.classList.add(styles["active-2"]);
                   }, 400);
 
-                  // Remove intro class to show main content
                   setTimeout(() => {
-                    mainVisualRef.current?.classList.remove(styles.intro);
-                    onLoadingComplete?.();
+                    finishIntro();
                   }, 1200);
                 });
               }
@@ -79,9 +74,6 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
       }, 100);
     }
 
-    /**
-     * Animate individual letters in text
-     */
     function animateLetters(
       textElement: HTMLElement | null,
       callback?: () => void
@@ -95,15 +87,12 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
         x: 0,
         scaleX: 1,
         duration: 1,
-        ease: 'power2.out',
+        ease: "power2.out",
         stagger: 0.025,
         onComplete: callback
       });
     }
 
-    /**
-     * Calculate clip-path mask offset relative to section
-     */
     function getMaskOffsetRelativeToSection(): Record<string, string> {
       const sectionRect = introWrapRef.current?.getBoundingClientRect();
       const targetRect = maskBlankRef.current?.getBoundingClientRect();
@@ -114,69 +103,62 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
       const sectionWidth = introWrapRef.current?.offsetWidth || 1;
 
       return {
-        '--maskT': ((targetRect.top - sectionRect.top) / sectionHeight * 100).toFixed(5) + '%',
-        '--maskR': ((sectionRect.right - targetRect.right) / sectionWidth * 100).toFixed(5) + '%',
-        '--maskB': ((sectionRect.bottom - targetRect.bottom) / sectionHeight * 100).toFixed(5) + '%',
-        '--maskL': ((targetRect.left - sectionRect.left) / sectionWidth * 100).toFixed(5) + '%'
+        "--maskT": ((targetRect.top - sectionRect.top) / sectionHeight * 100).toFixed(5) + "%",
+        "--maskR": ((sectionRect.right - targetRect.right) / sectionWidth * 100).toFixed(5) + "%",
+        "--maskB": ((sectionRect.bottom - targetRect.bottom) / sectionHeight * 100).toFixed(5) + "%",
+        "--maskL": ((targetRect.left - sectionRect.left) / sectionWidth * 100).toFixed(5) + "%"
       };
     }
 
-    /**
-     * Handle skip button click
-     */
     function handleSkip() {
       const params = new URLSearchParams(window.location.search);
-      params.set('intro', 'false');
+      params.set("intro", "false");
       const newUrl = `${window.location.pathname}?${params.toString()}`;
-      window.history.pushState(null, '', newUrl);
+      window.history.pushState(null, "", newUrl);
 
-      mainVisualRef.current?.classList.add(styles['active-2']);
+      mainVisualRef.current?.classList.add(styles["active-2"]);
       setTimeout(() => {
-        mainVisualRef.current?.classList.remove(styles.intro);
-        onLoadingComplete?.();
+        finishIntro();
       }, 800);
     }
 
-    skipBtnRef.current?.addEventListener('click', handleSkip);
+    const skipBtn = skipBtnRef.current;
+    skipBtn?.addEventListener("click", handleSkip);
 
-    /**
-     * Handle window resize
-     */
     function handleResize() {
       const maskOffsets = getMaskOffsetRelativeToSection();
       gsap.set(mainVisualRef.current, maskOffsets);
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    // Auto-skip if enabled
     let autoSkipTimeout: ReturnType<typeof setTimeout> | undefined;
     if (autoSkip) {
       autoSkipTimeout = setTimeout(() => {
         handleSkip();
-      }, 5000); // Auto-skip after 5 seconds
+      }, 5000);
     }
 
-    // Cleanup
     return () => {
       if (autoSkipTimeout) {
         clearTimeout(autoSkipTimeout);
       }
-      window.removeEventListener('resize', handleResize);
-      skipBtnRef.current?.removeEventListener('click', handleSkip);
+      window.removeEventListener("resize", handleResize);
+      skipBtn?.removeEventListener("click", handleSkip);
     };
-  }, [onLoadingComplete, autoSkip]);
+  }, [onLoadingComplete, autoSkip, finishIntro]);
 
   return (
     <div
+      data-home-loader="true"
       ref={mainVisualRef}
-      className={`${styles.main_visual} ${styles.intro}`}
+      className={`${styles.main_visual} ${styles.intro} ${introActiveClass}`}
       style={
         {
-          '--maskL': '50%',
-          '--maskB': '0',
-          '--maskR': '50%',
-          '--maskT': '100%'
+          '--maskL': '45%',
+          '--maskB': '50%',
+          '--maskR': '45%',
+          '--maskT': '50%'
         } as React.CSSProperties
       }
     >
@@ -198,9 +180,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
         </div>
       </div>
 
-      <div className={styles.visual_wrap}>
-        {/* Main content will appear here */}
-      </div>
+      <div className={styles.visual_wrap}></div>
 
       <div ref={skipBtnRef} className={styles.intro_skip_btn}></div>
     </div>
