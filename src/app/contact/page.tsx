@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
+
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "Contact Us",
-  description: "Get in touch with our aviation experts for charter and fleet inquiries.",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: "Contact Midline Airlines",
+  description:
+    "Contact Midline Airlines for private jet charter, aircraft management, sales, and operational support inquiries.",
+  path: "/contact",
+  keywords: ["contact midline airlines", "aviation inquiries", "charter support"],
+});
 
 export default function ContactPage() {
   return (
@@ -20,10 +26,16 @@ export default function ContactPage() {
           <article className="feature-card">
             <h2 className="text-lg font-semibold sm:text-xl">General Inquiries</h2>
             <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-              Email: <a className="text-foreground underline-offset-4 hover:underline" href="mailto:info@brandname.com">info@brandname.com</a>
+              Email:{" "}
+              <a className="text-foreground underline-offset-4 hover:underline" href="mailto:info@midline-aviation.com">
+                info@midline-aviation.com
+              </a>
             </p>
             <p className="mt-1 text-sm text-muted-foreground sm:text-base">
-              Phone: <a className="text-foreground underline-offset-4 hover:underline" href="tel:+97100000000">+971 0000 0000</a>
+              Phone:{" "}
+              <a className="text-foreground underline-offset-4 hover:underline" href="tel:+97140000000">
+                +971 4 000 0000
+              </a>
             </p>
           </article>
 

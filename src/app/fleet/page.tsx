@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
+
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "Our Fleet",
-  description: "Explore our modern fleet of private jets designed for luxury and performance.",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: "Private Jet Fleet",
+  description:
+    "Explore Midline Airlines fleet of long-range, super-mid, and light jets designed for luxury, safety, and performance.",
+  path: "/fleet",
+  keywords: ["private jet fleet", "long-range jets", "business jet aircraft"],
+});
 
 const fleetClasses = [
   {

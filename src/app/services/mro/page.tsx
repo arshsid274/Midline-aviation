@@ -1,11 +1,16 @@
 import ServicePageShell from "@/app/components/ui/ServicePageShell";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Aircraft MRO Services",
-  description: "Comprehensive aircraft maintenance, repair, and overhaul services ensuring safety and compliance.",
-};
+  description:
+    "Comprehensive aircraft maintenance, repair, and overhaul (MRO) services by Midline Airlines with strict safety compliance.",
+  path: "/services/mro",
+  keywords: ["aircraft MRO services", "aircraft maintenance", "aviation repair and overhaul"],
+});
 
 export default function MROPage() {
   return (

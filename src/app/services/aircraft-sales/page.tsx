@@ -1,11 +1,16 @@
 import ServicePageShell from "@/app/components/ui/ServicePageShell";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "Aircraft Sales & Acquisition",
-  description: "Expert aircraft sales and acquisition services for private and business aviation.",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: "Aircraft Sales and Acquisition",
+  description:
+    "Expert aircraft sales and acquisition services by Midline Airlines for private and business aviation clients.",
+  path: "/services/aircraft-sales",
+  keywords: ["aircraft sales", "aircraft acquisition", "business aviation brokerage"],
+});
 
 export default function AircraftSalesPage() {
   return (

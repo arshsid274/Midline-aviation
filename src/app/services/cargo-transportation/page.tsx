@@ -1,12 +1,16 @@
 import ServicePageShell from "@/app/components/ui/ServicePageShell";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "Air Cargo Transport Services",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Air Cargo Transportation Services",
   description:
-    "Reliable and efficient air cargo transport solutions for time-critical and high-value shipments.",
-};
+    "Reliable and efficient air cargo transportation services from Midline Airlines for urgent and high-value shipments.",
+  path: "/services/cargo-transportation",
+  keywords: ["air cargo transportation", "express air freight", "special cargo handling"],
+});
 
 export default function CargoTransportPage() {
   return (

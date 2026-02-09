@@ -1,19 +1,63 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://midline-aviation.com"; // change to your domain
+  const now = new Date();
 
   return [
-    { url: baseUrl, priority: 1 },
-
-    { url: `${baseUrl}/fleet`, priority: 0.8 },
-    { url: `${baseUrl}/about`, priority: 0.6 },
-    { url: `${baseUrl}/contact`, priority: 0.6 },
-
-    { url: `${baseUrl}/services/charter`, priority: 0.8 },
-    { url: `${baseUrl}/services/aircraft-management`, priority: 0.8 },
-    { url: `${baseUrl}/services/aircraft-sales`, priority: 0.8 },
-    { url: `${baseUrl}/services/cargo-transport`, priority: 0.8 },
-    { url: `${baseUrl}/services/mro`, priority: 0.8 },
+    {
+      url: SITE_URL,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: `${SITE_URL}/fleet`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/about`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/contact`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/services/aircraft-charter`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/services/aircraft-management`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/services/aircraft-sales`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/services/cargo-transportation`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/services/mro`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
   ];
 }

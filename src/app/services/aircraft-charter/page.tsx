@@ -1,11 +1,16 @@
 import ServicePageShell from "@/app/components/ui/ServicePageShell";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "Private Jet Charter",
-  description: "Flexible private jet charter services with worldwide coverage.",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: "Private Jet Charter Services",
+  description:
+    "Book flexible private jet charter services with Midline Airlines for business and leisure travel worldwide.",
+  path: "/services/aircraft-charter",
+  keywords: ["private jet charter services", "on-demand charter flights", "business jet charter"],
+});
 
 export default function CharterPage() {
   return (

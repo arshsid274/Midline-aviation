@@ -5,6 +5,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight, Plane, Users } from "lucide-react";
 import dynamic from "next/dynamic";
+import gsap from "gsap";
 
 const WorldMap = dynamic(() => import("./WorldMap").then((mod) => ({ default: mod.WorldMap })), {
   ssr: false,
@@ -136,59 +137,139 @@ export const JET_DATA = [
 
 type JetDeal = (typeof JET_DATA)[number];
 
-const FlightCard = React.memo(({ deal, isActive }: { deal: JetDeal; isActive: boolean }) => (
-  <article className="min-w-0 flex-[0_0_100%] px-2 sm:flex-[0_0_62%] sm:px-2.5 md:flex-[0_0_45%] lg:flex-[0_0_33.333%] xl:flex-[0_0_26%] 2xl:flex-[0_0_22%]">
-    <div
-      className={`h-full rounded-2xl border p-2 transition-all duration-500 sm:p-2.5 ${
-        isActive
-          ? "border-[#41b3b5] bg-[#121a31] shadow-[0_12px_30px_rgba(65,179,181,0.26)] sm:scale-[1.02]"
-          : "border-white/10 bg-[#0f1529] opacity-75"
-      }`}
-    >
-      <div className="mb-3 grid grid-cols-2 gap-2">
-        <div className="flex h-20 items-center justify-center rounded-lg bg-zinc-800/40 text-[11px] text-zinc-500 sm:h-24">
-          Exterior
+const FlightCard = React.memo(function FlightCard({
+  deal,
+  isActive,
+}: {
+  deal: JetDeal;
+  isActive: boolean;
+}) {
+  const routeTrackRef = React.useRef<HTMLDivElement>(null);
+  const planeRef = React.useRef<HTMLDivElement>(null);
+  const planeTweenRef = React.useRef<gsap.core.Tween | null>(null);
+
+  useEffect(() => {
+    const track = routeTrackRef.current;
+    const plane = planeRef.current;
+    if (!track || !plane) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const stopAnimation = () => {
+      planeTweenRef.current?.kill();
+      planeTweenRef.current = null;
+    };
+
+    const centerPlane = () => {
+      gsap.set(plane, {
+        left: "50%",
+        x: 0,
+        xPercent: -50,
+        yPercent: -50,
+      });
+    };
+
+    const animatePlane = () => {
+      stopAnimation();
+
+      if (!isActive || prefersReducedMotion) {
+        centerPlane();
+        return;
+      }
+
+      const travelDistance = Math.max(track.clientWidth - plane.clientWidth, 0);
+      if (travelDistance <= 0) {
+        centerPlane();
+        return;
+      }
+
+      gsap.set(plane, {
+        left: 0,
+        x: 0,
+        xPercent: 0,
+        yPercent: -50,
+      });
+
+      planeTweenRef.current = gsap.to(plane, {
+        x: travelDistance,
+        duration: 2.35,
+        repeat: -1,
+        ease: "none",
+      });
+    };
+
+    animatePlane();
+    window.addEventListener("resize", animatePlane);
+
+    return () => {
+      window.removeEventListener("resize", animatePlane);
+      stopAnimation();
+    };
+  }, [isActive]);
+
+  return (
+    <article className="min-w-0 flex-[0_0_100%] px-2 py-4 sm:flex-[0_0_62%] sm:px-2.5 md:flex-[0_0_45%] lg:flex-[0_0_33.333%] xl:flex-[0_0_26%] 2xl:flex-[0_0_22%]">
+      <div
+        className={`h-full rounded-2xl border p-2 transition-all duration-500 sm:p-2.5 ${
+          isActive
+            ? "border-[#41b3b5] bg-[#121a31] shadow-[0_12px_30px_rgba(65,179,181,0.26)] sm:scale-[1.02]"
+            : "border-white/10 bg-[#0f1529] opacity-75"
+        }`}
+      >
+        <div className="mb-3 grid grid-cols-2 gap-2">
+          <div className="flex h-20 items-center justify-center rounded-lg bg-zinc-800/40 text-[11px] text-zinc-500 sm:h-24">
+            Exterior
+          </div>
+          <div className="flex h-20 items-center justify-center rounded-lg bg-zinc-800/40 text-[11px] text-zinc-500 sm:h-24">
+            Interior
+          </div>
         </div>
-        <div className="flex h-20 items-center justify-center rounded-lg bg-zinc-800/40 text-[11px] text-zinc-500 sm:h-24">
-          Interior
+
+        <div className="rounded-xl bg-black/15 p-3.5 sm:p-4">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h3 className="truncate text-sm font-semibold text-white sm:text-base">{deal.jet}</h3>
+            <div className="flex items-center rounded-full border border-white/10 bg-zinc-900/70 px-2 py-0.5 text-[11px] text-zinc-200">
+              <Users size={12} className="mr-1" />
+              <span>{deal.capacity}</span>
+            </div>
+          </div>
+
+          <div className="mb-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-2.5">
+            <div className="min-w-0 bg-[#121a31] pr-1.5">
+              <p className="truncate whitespace-nowrap font-mono text-xs font-semibold text-[#41b3b5]">{deal.fromICAO}</p>
+              <p className="truncate text-[11px] text-zinc-400">{deal.fromCity}</p>
+            </div>
+
+            <div ref={routeTrackRef} className="relative h-6 w-[84px] sm:w-[106px]">
+              <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-dashed border-zinc-700" />
+              <div
+                ref={planeRef}
+                className={`absolute top-1/2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#121a31] transition-colors duration-300 ${
+                  isActive ? "text-[#41b3b5] drop-shadow-[0_0_8px_rgba(65,179,181,0.4)]" : "text-zinc-600"
+                }`}
+              >
+                <Plane size={16} className="rotate-[50deg]" />
+              </div>
+            </div>
+
+            <div className="min-w-0 bg-[#121a31] pl-1.5 text-right">
+              <p className="truncate whitespace-nowrap font-mono text-xs font-semibold text-[#41b3b5]">{deal.toICAO}</p>
+              <p className="truncate text-[11px] text-zinc-400">{deal.toCity}</p>
+            </div>
+          </div>
+
+          <div className="flex items-end justify-between gap-3 border-t border-zinc-800 pt-3.5">
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">Operator</p>
+              <p className="truncate text-xs font-semibold text-zinc-200 sm:text-sm">{deal.operator}</p>
+            </div>
+            <span className="shrink-0 whitespace-nowrap text-base font-semibold text-white sm:text-lg">{deal.price}</span>
+          </div>
         </div>
       </div>
-
-      <div className="rounded-xl bg-black/15 p-3.5 sm:p-4">
-        <div className="mb-4 flex items-center justify-between gap-3">
-          <h3 className="truncate text-sm font-semibold text-white sm:text-base">{deal.jet}</h3>
-          <div className="flex items-center rounded-full border border-white/10 bg-zinc-900/70 px-2 py-0.5 text-[11px] text-zinc-200">
-            <Users size={12} className="mr-1" />
-            <span>{deal.capacity}</span>
-          </div>
-        </div>
-
-        <div className="relative mb-5 flex items-center justify-between gap-3">
-          <div className="z-10 bg-[#121a31] pr-1.5">
-            <p className="font-mono text-xs font-semibold text-[#41b3b5]">{deal.fromICAO}</p>
-            <p className="text-[11px] text-zinc-400">{deal.fromCity}</p>
-          </div>
-          <div className="absolute left-0 right-0 top-2 z-0 border-t border-dashed border-zinc-700" />
-          <div className="z-10 rounded-full bg-[#121a31] px-1.5">
-            <Plane size={14} className={`rotate-90 transition-colors ${isActive ? "text-[#41b3b5]" : "text-zinc-600"}`} />
-          </div>
-          <div className="z-10 bg-[#121a31] pl-1.5 text-right">
-            <p className="font-mono text-xs font-semibold text-[#41b3b5]">{deal.toICAO}</p>
-            <p className="text-[11px] text-zinc-400">{deal.toCity}</p>
-          </div>
-        </div>
-
-        <div className="flex items-end justify-between border-t border-zinc-800 pt-3.5">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">Operator</p>
-            <p className="text-xs font-semibold text-zinc-200 sm:text-sm">{deal.operator}</p>
-          </div>
-          <span className="text-base font-semibold text-white sm:text-lg">{deal.price}</span>
-        </div>
-      </div>
-    </div>
-  </article>
-));
+    </article>
+  );
+});
 
 FlightCard.displayName = "FlightCard";
 
@@ -252,28 +333,30 @@ export default function FlightMarketplaceHero() {
         </div>
 
         <div className="relative pb-16 sm:pb-0">
-          <div className="overflow-hidden px-1 sm:px-3" ref={emblaRef}>
-            <div className="flex cursor-grab active:cursor-grabbing">
-              {JET_DATA.map((deal, index) => (
-                <FlightCard key={deal.id} deal={deal} isActive={index === selectedIndex} />
-              ))}
+          <div className="relative mx-auto w-full px-1 sm:px-12 lg:px-14">
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex cursor-grab active:cursor-grabbing">
+                {JET_DATA.map((deal, index) => (
+                  <FlightCard key={deal.id} deal={deal} isActive={index === selectedIndex} />
+                ))}
+              </div>
             </div>
-          </div>
 
-          <button
-            aria-label="Previous route"
-            onClick={() => emblaApi?.scrollPrev()}
-            className="absolute left-0 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow-lg transition hover:scale-105 hover:bg-slate-100 sm:inline-flex lg:-left-3"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            aria-label="Next route"
-            onClick={() => emblaApi?.scrollNext()}
-            className="absolute right-0 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow-lg transition hover:scale-105 hover:bg-slate-100 sm:inline-flex lg:-right-3"
-          >
-            <ChevronRight size={20} />
-          </button>
+            <button
+              aria-label="Previous route"
+              onClick={() => emblaApi?.scrollPrev()}
+              className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow-lg transition hover:scale-105 hover:bg-slate-100 sm:inline-flex"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              aria-label="Next route"
+              onClick={() => emblaApi?.scrollNext()}
+              className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow-lg transition hover:scale-105 hover:bg-slate-100 sm:inline-flex"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
 
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-3 sm:hidden">
             <button
@@ -293,6 +376,7 @@ export default function FlightMarketplaceHero() {
           </div>
         </div>
       </div>
+
     </section>
   );
 }

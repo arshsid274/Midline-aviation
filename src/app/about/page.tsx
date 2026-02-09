@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
+
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "About Us",
-  description: "Learn more about our aviation heritage, safety culture, and service standards.",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: "About Midline Airlines",
+  description:
+    "Learn about Midline Airlines, our aviation expertise, safety culture, and commitment to premium global flight services.",
+  path: "/about",
+  keywords: ["about midline airlines", "aviation company", "airline safety standards"],
+});
 
 export default function AboutPage() {
   return (

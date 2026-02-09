@@ -1,12 +1,16 @@
 import ServicePageShell from "@/app/components/ui/ServicePageShell";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
-export const metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Aircraft Management Services",
   description:
-    "Professional aircraft management services ensuring safety, compliance, and operational efficiency.",
-};
+    "Professional aircraft management services from Midline Airlines ensuring safety, compliance, and operational efficiency.",
+  path: "/services/aircraft-management",
+  keywords: ["aircraft management services", "fleet operations support", "aviation compliance"],
+});
 
 export default function AircraftManagementPage() {
   return (

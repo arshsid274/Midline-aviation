@@ -1,40 +1,15 @@
-"use client";
-import { useEffect, useState } from "react";
-import TripsMapView from "@/app/components/ui/TripsMapView";
-import MidlineAirlinesLoader from "@/app/components/ui/MidlineAirlinesLoader";
-import HeroScrollVideo from "@/app/components/ui/HeroScrollVideo";
-import { VideoProvider } from "@/app/components/ui/VideoContext";
+import type { Metadata } from "next";
+import HomePageClient from "@/app/components/HomePageClient";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Private Jet Charter, Fleet Management & Aviation Services",
+  description:
+    "Midline Airlines offers private jet charter, aircraft management, aircraft sales, MRO, and global cargo transportation solutions.",
+  path: "/",
+  keywords: ["private aviation", "charter flights", "fleet management", "aviation services"],
+});
 
 export default function HomePage() {
-  const [loadingComplete, setLoadingComplete] = useState(false);
-
-  useEffect(() => {
-    const body = document.body;
-
-    if (loadingComplete) {
-      body.classList.remove("home-loader-active");
-      body.classList.add("home-loader-complete");
-    } else {
-      body.classList.add("home-loader-active");
-      body.classList.remove("home-loader-complete");
-    }
-
-    return () => {
-      body.classList.remove("home-loader-active");
-      body.classList.remove("home-loader-complete");
-    };
-  }, [loadingComplete]);
-
-  return (
-    <VideoProvider>
-      <main className="relative z-[1] bg-black">
-        <HeroScrollVideo revealText={loadingComplete} />
-        {loadingComplete && <TripsMapView />}
-      </main>
-
-      {!loadingComplete && (
-        <MidlineAirlinesLoader onLoadingComplete={() => setLoadingComplete(true)} />
-      )}
-    </VideoProvider>
-  );
+  return <HomePageClient />;
 }
