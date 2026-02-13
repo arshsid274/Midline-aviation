@@ -94,18 +94,6 @@ export default function DesktopMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink asChild data-active={isActive("/about") ? "true" : undefined}>
-            <Link
-              href="/about"
-              aria-current={isActive("/about") ? "page" : undefined}
-              className={navigationMenuTriggerStyle()}
-            >
-              About
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
           <NavigationMenuLink asChild data-active={isActive("/contact") ? "true" : undefined}>
             <Link
               href="/contact"
@@ -113,6 +101,18 @@ export default function DesktopMenu() {
               className={navigationMenuTriggerStyle()}
             >
               Contact
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild data-active={isActive("/about") ? "true" : undefined}>
+            <Link
+              href="/about"
+              aria-current={isActive("/about") ? "page" : undefined}
+              className={navigationMenuTriggerStyle()}
+            >
+              About Us
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

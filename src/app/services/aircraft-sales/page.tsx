@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = buildPageMetadata({
   title: "Aircraft Sales and Acquisition",
   description:
-    "Expert aircraft sales and acquisition services by Midline Airlines for private and business aviation clients.",
+    "Expert aircraft sales and acquisition guidance with transparent advisory and global market insight.",
   path: "/services/aircraft-sales",
   keywords: ["aircraft sales", "aircraft acquisition", "business aviation brokerage"],
 });
@@ -16,7 +16,7 @@ export default function AircraftSalesPage() {
   return (
     <ServicePageShell
       title="Aircraft Sales & Acquisition"
-      description="End-to-end advisory for buying and selling aircraft with transparent strategy and deal execution."
+      description="Whether you are acquiring or selling an aircraft, our team secures the best value and outcome."
       columns={2}
       features={[
         {

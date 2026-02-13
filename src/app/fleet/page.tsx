@@ -4,25 +4,28 @@ import { buildPageMetadata } from "@/lib/seo";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Private Jet Fleet",
+  title: "Our Fleet",
   description:
-    "Explore Midline Airlines fleet of long-range, super-mid, and light jets designed for luxury, safety, and performance.",
+    "Explore Midline Aviation fleet featuring Embraer Legacy 650, Gulfstream G450, and Gulfstream G200 aircraft for luxury, safety, and performance.",
   path: "/fleet",
-  keywords: ["private jet fleet", "long-range jets", "business jet aircraft"],
+  keywords: ["midline fleet", "embraer legacy 650", "gulfstream g450", "gulfstream g200"],
 });
 
 const fleetClasses = [
   {
-    title: "Long-Range Jets",
-    description: "Perfect for intercontinental flights with spacious cabins and premium comfort.",
+    title: "Embraer Legacy 650",
+    description:
+      "The flagship of luxury aviation delivers ultra-long-range performance, cutting-edge design, and unmatched speed.",
   },
   {
-    title: "Super-Mid Jets",
-    description: "Balanced performance and luxury for regional and medium-haul journeys.",
+    title: "Gulfstream G450",
+    description:
+      "A long-range business jet known for advanced technology, quiet cabin comfort, and superior reliability.",
   },
   {
-    title: "Light Jets",
-    description: "Agile and efficient aircraft for short business trips and quick turnarounds.",
+    title: "Gulfstream G200",
+    description:
+      "A versatile midsize jet offering exceptional comfort and performance for regional and medium-haul flights.",
   },
 ];
 
@@ -33,7 +36,7 @@ export default function FleetPage() {
         <section className="page-hero">
           <h1 className="page-title">Our Fleet</h1>
           <p className="page-lead">
-            Our fleet features state-of-the-art aircraft curated for safety, comfort, and mission flexibility.
+            Excellence Above the Clouds with a curated fleet built for comfort, range, and performance.
           </p>
         </section>
 

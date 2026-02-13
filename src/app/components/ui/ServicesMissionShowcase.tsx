@@ -20,39 +20,39 @@ type ServiceTab = {
 const serviceTabs: ServiceTab[] = [
   {
     id: "charter",
-    label: "On-Demand Charter",
-    title: "Best in class On-Demand",
+    label: "Aircraft Charter",
+    title: "Aircraft Charter",
     description:
-      "View instant pricing for any route in the world. Request bespoke charter offers or book a guaranteed rate for priority departures.",
+      "Experience the freedom of personalized travel. Midline Aviation offers tailored private jet charters designed for comfort, flexibility, and privacy taking you wherever business or leisure calls.",
     ctaHref: "/services/aircraft-charter",
-    ctaLabel: "Learn More",
+    ctaLabel: "More Details",
   },
   {
     id: "membership",
-    label: "Membership",
-    title: "Frequent flyers welcome",
+    label: "Aircraft Management",
+    title: "Aircraft Management",
     description:
-      "Enjoy the freedom and flexibility of on-demand charter with loyalty benefits, concierge support, and member-first access.",
+      "We handle every detail of aircraft ownership from operations and crew to maintenance and scheduling ensuring your jet operates safely, efficiently, and profitably.",
     ctaHref: "/services/aircraft-management",
-    ctaLabel: "Learn More",
+    ctaLabel: "More Details",
   },
   {
     id: "ownership",
-    label: "Whole Ownership",
-    title: "Ownership built for confidence",
+    label: "Aircraft Sales",
+    title: "Aircraft Sales",
     description:
-      "From acquisition to operations, Midline handles fleet strategy, compliance, and maintenance with transparent reporting.",
+      "Whether you are acquiring or selling an aircraft, our team provides expert guidance, transparency, and global market insight to secure the best value and outcome.",
     ctaHref: "/services/aircraft-sales",
-    ctaLabel: "Explore Ownership",
+    ctaLabel: "More Details",
   },
   {
     id: "technology",
-    label: "Technology Services",
-    title: "Technology that keeps you ahead",
+    label: "MRO",
+    title: "MRO",
     description:
-      "Data-led operations, predictive maintenance insights, and real-time mission support for more efficient aviation decisions.",
+      "Our certified engineers deliver world-class maintenance solutions that meet the highest aviation standards, keeping your aircraft in optimal condition and ready to fly anytime.",
     ctaHref: "/services/mro",
-    ctaLabel: "View Services",
+    ctaLabel: "More Details",
   },
 ];
 
@@ -820,17 +820,17 @@ export default function ServicesMissionShowcase() {
       <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-end">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Services</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Our Services</p>
             <h2
               id="services-mission-heading"
               className="mt-3 max-w-[14ch] text-balance text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl"
             >
-              The Perfect Plane for Every Mission
+              Midline Aviation - Elevating Every Aspect of Aviation.
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-relaxed text-blue-100/85 sm:text-base">
-            Midline Airlines offers a complete set of private aviation solutions for modern travelers, operators, and
-            aircraft owners.
+            Aircraft charter, aircraft management, aircraft sales, MRO, and cargo transportation services built for
+            modern travelers and owners.
           </p>
         </div>
 

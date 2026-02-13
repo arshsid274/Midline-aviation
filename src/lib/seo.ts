@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 
-export const SITE_NAME = "Midline Airlines";
+export const SITE_NAME = "Midline Aviation";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://midline-aviation.com";
 export const DEFAULT_OG_IMAGE = "/assets/images/Midline_Airlines.png";
 export const BRAND_THEME_COLOR = "#0c2450";
-export const CONTACT_EMAIL = "info@midline-aviation.com";
-export const CONTACT_PHONE = "+97140000000";
+export const CONTACT_EMAIL = "info@midlineaviation.com";
+export const CONTACT_PHONE = "+97145533430";
 export const DEFAULT_LOCALE = "en_US";
 
 export const DEFAULT_DESCRIPTION =
-  "Midline Airlines provides private jet charter, aircraft management, aircraft sales, MRO, and air cargo transportation services worldwide.";
+  "Midline Aviation is a Dubai-based private aviation provider delivering aircraft charter, management, sales, MRO, and cargo transportation with luxury, safety, and reliability.";
 
 export const DEFAULT_KEYWORDS = [
-  "Midline Airlines",
+  "Midline Aviation",
   "private jet charter",
   "aircraft management",
   "aircraft sales",
@@ -21,6 +21,8 @@ export const DEFAULT_KEYWORDS = [
   "air cargo transportation",
   "business aviation",
   "luxury air travel",
+  "Dubai private aviation",
+  "executive air travel",
 ];
 
 export function absoluteUrl(path = "/") {

@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = buildPageMetadata({
   title: "Air Cargo Transportation Services",
   description:
-    "Reliable and efficient air cargo transportation services from Midline Airlines for urgent and high-value shipments.",
+    "Reliable and secure cargo transportation services with rapid delivery, tracking, and global coverage.",
   path: "/services/cargo-transportation",
   keywords: ["air cargo transportation", "express air freight", "special cargo handling"],
 });
@@ -16,7 +16,7 @@ export default function CargoTransportPage() {
   return (
     <ServicePageShell
       title="Air Cargo Transport Services"
-      description="Purpose-built cargo operations for urgent, oversized, and high-value shipments across global lanes."
+      description="Midline Aviation provides secure air cargo transportation for time-critical and high-value goods."
       columns={3}
       features={[
         {

@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = buildPageMetadata({
   title: "Private Jet Charter Services",
   description:
-    "Book flexible private jet charter services with Midline Airlines for business and leisure travel worldwide.",
+    "Experience personalized private jet charter designed for comfort, flexibility, and privacy with Midline Aviation.",
   path: "/services/aircraft-charter",
   keywords: ["private jet charter services", "on-demand charter flights", "business jet charter"],
 });
@@ -16,7 +16,7 @@ export default function CharterPage() {
   return (
     <ServicePageShell
       title="Private Jet Charter"
-      description="On-demand private jet charter tailored for business leaders, families, and time-critical travel."
+      description="Experience the freedom of personalized travel with tailored private jet charter designed for comfort, flexibility, and privacy."
       columns={3}
       features={[
         {

@@ -88,11 +88,12 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
               revealText ? "delay-[700ms]" : ""
             }`}
           >
-            The Art of Seamless, Luxury Air Travel
+            <span className="block">The Art of Seamless, Luxury Air Travel</span>
+            <span className="mt-2 block">Excellence Above the Clouds</span>
           </h1>
           <p id="home-hero-description" className="sr-only">
-            Midline Airlines provides private jet charter, aircraft management, aircraft sales, MRO, and cargo
-            transportation worldwide.
+            Midline Aviation delivers private charter, aircraft management, aircraft sales, MRO, and cargo
+            transportation with a luxury-first travel experience.
           </p>
         </div>
       </div>

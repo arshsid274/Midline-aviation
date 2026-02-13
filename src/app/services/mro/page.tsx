@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = buildPageMetadata({
   title: "Aircraft MRO Services",
   description:
-    "Comprehensive aircraft maintenance, repair, and overhaul (MRO) services by Midline Airlines with strict safety compliance.",
+    "Certified MRO services delivering world-class maintenance solutions under strict aviation safety standards.",
   path: "/services/mro",
   keywords: ["aircraft MRO services", "aircraft maintenance", "aviation repair and overhaul"],
 });
@@ -16,7 +16,7 @@ export default function MROPage() {
   return (
     <ServicePageShell
       title="Aircraft MRO Services"
-      description="High-quality maintenance, repair, and overhaul programs to keep your fleet compliant and efficient."
+      description="Our certified engineers keep your aircraft in optimal condition and ready to fly anytime."
       columns={3}
       features={[
         {

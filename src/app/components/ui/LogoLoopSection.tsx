@@ -93,13 +93,14 @@ export default function LogoLoopSection() {
           id="logo-loop-heading"
           className="text-center text-3xl font-semibold tracking-tight text-white sm:text-4xl"
         >
-          Built With Trusted Technology
+          Midline Aviation Redefining the Art of Private Air Travel
         </h2>
         <p
           ref={descriptionRef}
           className="mx-auto mt-3 max-w-3xl text-center text-sm leading-relaxed text-blue-100/85 sm:text-base"
         >
-          Modern systems that power reliable private aviation experiences worldwide.
+          Every journey with Midline Aviation is crafted to perfection where luxury, privacy, and precision meet in
+          the skies. We do not just take you to your destination, we elevate the way you travel.
         </p>
 
         <div ref={loopRef} className="relative mt-8 h-[120px] overflow-hidden sm:mt-10 sm:h-[140px]">

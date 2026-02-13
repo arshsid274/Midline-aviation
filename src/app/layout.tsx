@@ -51,7 +51,7 @@ const websiteSchema = {
   potentialAction: {
     "@type": "ContactAction",
     target: `${SITE_URL}/contact`,
-    name: "Contact Midline Airlines",
+    name: "Contact Midline Aviation",
   },
 };
 

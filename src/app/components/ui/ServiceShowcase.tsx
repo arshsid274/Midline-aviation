@@ -222,7 +222,7 @@ export default function ServiceShowcase() {
         <div className="sr-only">
           <h3>Midline Aviation Services Overview</h3>
           <p>
-            Midline Airlines provides private charter flights and concierge services with global coverage and
+            Midline Aviation provides private charter flights and concierge services with global coverage and
             personalized trip planning.
           </p>
         </div>

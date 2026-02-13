@@ -4,11 +4,11 @@ import { buildPageMetadata } from "@/lib/seo";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Contact Midline Airlines",
+  title: "Contact Midline Aviation",
   description:
-    "Contact Midline Airlines for private jet charter, aircraft management, sales, and operational support inquiries.",
+    "Contact Midline Aviation customer service in Dubai for charter, management, sales, MRO, and cargo transportation support.",
   path: "/contact",
-  keywords: ["contact midline airlines", "aviation inquiries", "charter support"],
+  keywords: ["contact midline aviation", "dubai aviation office", "private charter support"],
 });
 
 export default function ContactPage() {
@@ -16,33 +16,43 @@ export default function ContactPage() {
     <main className="bg-slate-950/35 py-10 sm:py-12 md:py-16">
       <div className="page-shell">
         <section className="page-hero">
-          <h1 className="page-title">Contact Us</h1>
+          <h1 className="page-title">Contact Customer Service</h1>
           <p className="page-lead">
-            Speak directly with our charter and operations team. We will respond quickly with a tailored solution.
+            We take you anywhere you can imagine from exclusive events to private luxury flights where every journey
+            becomes an extraordinary experience.
           </p>
         </section>
 
         <section className="feature-grid md:grid-cols-2">
           <article className="feature-card">
-            <h2 className="text-lg font-semibold sm:text-xl">General Inquiries</h2>
+            <h2 className="text-lg font-semibold sm:text-xl">Contact</h2>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+              Office 213, Floor No 2, Building A5, Business Park, Dubai South, UAE
+            </p>
             <p className="mt-2 text-sm text-muted-foreground sm:text-base">
               Email:{" "}
-              <a className="text-foreground underline-offset-4 hover:underline" href="mailto:info@midline-aviation.com">
-                info@midline-aviation.com
+              <a className="text-foreground underline-offset-4 hover:underline" href="mailto:info@midlineaviation.com">
+                info@midlineaviation.com
               </a>
             </p>
-            <p className="mt-1 text-sm text-muted-foreground sm:text-base">
-              Phone:{" "}
-              <a className="text-foreground underline-offset-4 hover:underline" href="tel:+97140000000">
-                +971 4 000 0000
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+              Or give us a call:{" "}
+              <a className="text-foreground underline-offset-4 hover:underline" href="tel:+97145533430">
+                +971 455 334 30
               </a>
             </p>
           </article>
 
           <article className="feature-card">
-            <h2 className="text-lg font-semibold sm:text-xl">Operations Desk</h2>
+            <h2 className="text-lg font-semibold sm:text-xl">Services</h2>
             <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-              Available 24/7 for schedule requests, route support, and urgent mission coordination.
+              Cargo Transportation, MRO, Aircraft Sales, Aircraft Management, and Aircraft Charter.
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+              Contact us:{" "}
+              <a className="text-foreground underline-offset-4 hover:underline" href="tel:+97145533430">
+                97145533430
+              </a>
             </p>
           </article>
         </section>

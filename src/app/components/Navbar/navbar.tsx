@@ -18,7 +18,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center">
           <Image
             src="/assets/images/Midline_Airlines.png"
-            alt="Midline Airlines"
+            alt="Midline Aviation"
             width={150}
             height={40}
             className="h-9 w-auto sm:h-10 md:h-12 lg:h-14"

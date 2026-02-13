@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = buildPageMetadata({
   title: "Aircraft Management Services",
   description:
-    "Professional aircraft management services from Midline Airlines ensuring safety, compliance, and operational efficiency.",
+    "Comprehensive aircraft management covering operations, crew, maintenance, and scheduling for safe and efficient performance.",
   path: "/services/aircraft-management",
   keywords: ["aircraft management services", "fleet operations support", "aviation compliance"],
 });
@@ -16,7 +16,7 @@ export default function AircraftManagementPage() {
   return (
     <ServicePageShell
       title="Aircraft Management Services"
-      description="Comprehensive operational, technical, and regulatory support to keep your aircraft mission-ready."
+      description="We handle every detail of aircraft ownership from operations and crew to maintenance and scheduling."
       columns={3}
       features={[
         {

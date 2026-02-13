@@ -10,8 +10,8 @@ import { CardBody, CardContainer, CardItem } from "./ThreeDCard";
 type AircraftCard = {
   id: string;
   name: string;
-  classType: string;
-  seats: number;
+  description: string;
+  comingSoon?: boolean;
   imageSrc: string;
   imageAlt: string;
   href: string;
@@ -21,8 +21,9 @@ const HOME_AIRCRAFT: AircraftCard[] = [
   {
     id: "legacy-650",
     name: "Embraer Legacy 650",
-    classType: "Heavy Jet",
-    seats: 14,
+    description:
+      "The flagship of luxury aviation delivers ultra-long-range performance, cutting-edge design, and unmatched speed. The Embraer Legacy 650 redefines private air travel with elegance and power.",
+    comingSoon: true,
     imageSrc: "/assets/images/privatejet1.jpg",
     imageAlt: "Embraer Legacy 650 parked on runway",
     href: "/fleet",
@@ -30,19 +31,19 @@ const HOME_AIRCRAFT: AircraftCard[] = [
   {
     id: "g450",
     name: "Gulfstream G450",
-    classType: "Long Range",
-    seats: 16,
+    description:
+      "A long-range business jet known for its advanced technology, quiet cabin, and superior reliability. Perfect for intercontinental travel with unmatched comfort and safety.",
     imageSrc: "/assets/images/privatejet2.jpg",
     imageAlt: "Gulfstream G450 near terminal",
     href: "/fleet",
   },
   {
-    id: "global-6000",
-    name: "Bombardier Global 6000",
-    classType: "Ultra Long Range",
-    seats: 13,
+    id: "g200",
+    name: "Gulfstream G200",
+    description:
+      "A versatile midsize jet offering exceptional comfort and performance for regional and medium-haul flights. The G200 combines spacious seating with impressive range and efficiency.",
     imageSrc: "/assets/images/privatejet.jpg",
-    imageAlt: "Bombardier Global 6000 in flight line",
+    imageAlt: "Gulfstream G200 in flight line",
     href: "/fleet",
   },
 ];
@@ -153,7 +154,7 @@ export default function HomeAircraftCards() {
             data-aircraft-heading-line
             className="mt-3 text-3xl font-semibold tracking-tight text-[#0d1451] sm:text-4xl"
           >
-            Our Aircraft
+            Our Fleet
           </h2>
           <p
             data-aircraft-heading-line
@@ -188,12 +189,12 @@ export default function HomeAircraftCards() {
                 <div data-aircraft-text className="mt-4 space-y-4">
                   <CardItem translateZ={28}>
                     <h3 className="text-xl font-semibold text-white">{aircraft.name}</h3>
-                    <p className="mt-1 text-sm text-blue-100/85">{aircraft.classType}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-blue-100/85">{aircraft.description}</p>
                   </CardItem>
 
                   <CardItem translateZ={24}>
                     <div className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white">
-                      Capacity: {aircraft.seats} passengers
+                      {aircraft.comingSoon ? "Coming Soon" : "Available Now"}
                     </div>
                   </CardItem>
 
@@ -202,7 +203,7 @@ export default function HomeAircraftCards() {
                       href={aircraft.href}
                       className="inline-flex items-center rounded-lg border border-white/30 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
                     >
-                      View Aircraft
+                      More Details
                     </Link>
                   </CardItem>
                 </div>

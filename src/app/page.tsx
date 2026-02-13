@@ -3,11 +3,19 @@ import HomePageClient from "@/app/components/HomePageClient";
 import { SITE_NAME, SITE_URL, absoluteUrl, buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Private Jet Charter, Fleet Management & Aviation Services",
+  title: "The Art of Seamless, Luxury Air Travel",
   description:
-    "Midline Airlines offers private jet charter, aircraft management, aircraft sales, MRO, and global cargo transportation solutions.",
+    "Midline Aviation delivers seamless luxury air travel with private charter, aircraft management, aircraft sales, MRO, and cargo transportation services.",
   path: "/",
-  keywords: ["private aviation", "charter flights", "fleet management", "aviation services"],
+  keywords: [
+    "luxury air travel",
+    "private aviation dubai",
+    "aircraft charter",
+    "aircraft management",
+    "aircraft sales",
+    "aircraft mro",
+    "cargo transportation",
+  ],
 });
 
 const homePageSchema = {
@@ -16,7 +24,7 @@ const homePageSchema = {
   name: `${SITE_NAME} Home`,
   url: absoluteUrl("/"),
   description:
-    "Midline Airlines offers private jet charter, aircraft management, aircraft sales, MRO, and global cargo transportation solutions.",
+    "Midline Aviation combines luxury, privacy, and precision with private charter, fleet services, and global aviation support.",
   inLanguage: "en-US",
   isPartOf: {
     "@type": "WebSite",
@@ -26,7 +34,7 @@ const homePageSchema = {
   about: [
     {
       "@type": "Service",
-      name: "Private Jet Charter",
+      name: "Aircraft Charter",
       url: absoluteUrl("/services/aircraft-charter"),
     },
     {
@@ -41,7 +49,7 @@ const homePageSchema = {
     },
     {
       "@type": "Service",
-      name: "Air Cargo Transportation",
+      name: "Cargo Transportation",
       url: absoluteUrl("/services/cargo-transportation"),
     },
     {
@@ -55,17 +63,17 @@ const homePageSchema = {
 const servicesShowcaseSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Featured Aviation Services",
+  name: "Our Services",
   itemListOrder: "https://schema.org/ItemListOrderAscending",
-  numberOfItems: 2,
+  numberOfItems: 5,
   itemListElement: [
     {
       "@type": "ListItem",
       position: 1,
       item: {
         "@type": "Service",
-        name: "Private Charter",
-        serviceType: "Elite travel management",
+        name: "Aircraft Charter",
+        serviceType: "Personalized private jet charter for business and leisure travel",
         url: absoluteUrl("/services/aircraft-charter"),
         provider: {
           "@type": "Airline",
@@ -78,9 +86,51 @@ const servicesShowcaseSchema = {
       position: 2,
       item: {
         "@type": "Service",
-        name: "Concierge Service",
-        serviceType: "VIP luxury and prestigious experience",
-        url: absoluteUrl("/contact"),
+        name: "Aircraft Management",
+        serviceType: "Complete aircraft ownership and operational management",
+        url: absoluteUrl("/services/aircraft-management"),
+        provider: {
+          "@type": "Airline",
+          name: SITE_NAME,
+        },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      item: {
+        "@type": "Service",
+        name: "Aircraft Sales",
+        serviceType: "Global aircraft acquisition and sales advisory",
+        url: absoluteUrl("/services/aircraft-sales"),
+        provider: {
+          "@type": "Airline",
+          name: SITE_NAME,
+        },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 4,
+      item: {
+        "@type": "Service",
+        name: "MRO",
+        serviceType: "Certified maintenance, repair, and overhaul services",
+        url: absoluteUrl("/services/mro"),
+        provider: {
+          "@type": "Airline",
+          name: SITE_NAME,
+        },
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 5,
+      item: {
+        "@type": "Service",
+        name: "Cargo Transportation",
+        serviceType: "Secure and reliable global air cargo transportation",
+        url: absoluteUrl("/services/cargo-transportation"),
         provider: {
           "@type": "Airline",
           name: SITE_NAME,
