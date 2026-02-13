@@ -62,20 +62,21 @@ export default function TicketCarousel() {
   ]);
 
   return (
-    <section className="overflow-hidden bg-zinc-950 px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
+    <section aria-labelledby="ticket-carousel-heading" className="overflow-hidden bg-zinc-950 px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-5 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-2">
             <div className="inline-block border-l-4 border-teal-500 bg-teal-950/50 px-3 py-1 text-xs font-mono uppercase tracking-widest text-teal-400">
               Live Marketplace
             </div>
-            <h2 className="text-2xl font-light text-white sm:text-3xl">
+            <h2 id="ticket-carousel-heading" className="text-2xl font-light text-white sm:text-3xl">
               Recent <span className="font-bold">Bookings</span>
             </h2>
           </div>
 
           <div className="flex gap-3">
             <button
+              type="button"
               aria-label="Previous ticket"
               onClick={() => emblaApi?.scrollPrev()}
               className="rounded-full border border-zinc-800 bg-zinc-900/50 p-2.5 text-zinc-500 transition-all hover:border-teal-400 hover:text-teal-400 sm:p-3"
@@ -83,6 +84,7 @@ export default function TicketCarousel() {
               <ChevronLeft size={20} />
             </button>
             <button
+              type="button"
               aria-label="Next ticket"
               onClick={() => emblaApi?.scrollNext()}
               className="rounded-full border border-zinc-800 bg-zinc-900/50 p-2.5 text-zinc-500 transition-all hover:border-teal-400 hover:text-teal-400 sm:p-3"
@@ -93,10 +95,12 @@ export default function TicketCarousel() {
         </div>
 
         <div className="cursor-grab overflow-visible active:cursor-grabbing" ref={emblaRef}>
-          <div className="-ml-3 flex sm:-ml-4">
+          <div role="list" aria-label="Recent flight bookings" className="-ml-3 flex sm:-ml-4">
             {TICKETS.map((ticket) => (
               <div
                 key={ticket.id}
+                role="listitem"
+                aria-label={`${ticket.from} to ${ticket.to} flight ${ticket.flight}`}
                 className="perspective-1000 flex-[0_0_100%] pl-3 sm:flex-[0_0_50%] sm:pl-4 lg:flex-[0_0_33.33%]"
               >
                 <div className="group relative flex h-[172px] w-full max-w-[360px] overflow-hidden rounded-2xl bg-white shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:rotate-x-6 sm:h-[180px]">
@@ -159,6 +163,18 @@ export default function TicketCarousel() {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="sr-only">
+        <h3>Recent flight bookings</h3>
+        <ul>
+          {TICKETS.map((ticket) => (
+            <li key={`seo-ticket-${ticket.id}`}>
+              Flight {ticket.flight} from {ticket.from} to {ticket.to}. Departure {ticket.timeStart}, arrival{" "}
+              {ticket.timeEnd}, gate {ticket.gate}, seat {ticket.seat}.
+            </li>
+          ))}
+        </ul>
       </div>
 
       <style jsx global>{`

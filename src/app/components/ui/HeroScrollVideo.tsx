@@ -35,7 +35,11 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
   }, [currentIndex, videoRefs]);
 
   return (
-    <section className="relative -mt-[72px] h-[100svh] w-full overflow-hidden bg-black md:-mt-[84px]">
+    <section
+      aria-labelledby="home-hero-heading"
+      aria-describedby="home-hero-description"
+      className="relative -mt-[72px] h-[100svh] w-full overflow-hidden bg-black md:-mt-[84px]"
+    >
       <div className="relative w-full h-full">
         {VIDEOS.map((video, index) => (
           <video
@@ -43,13 +47,16 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
             ref={(el) => {
               videoRefs.current[index] = el;
             }}
+            autoPlay
             onEnded={() => {
               setProgress(0);
               setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
             }}
-            muted 
+            muted
             playsInline
             preload="auto"
+            aria-hidden="true"
+            tabIndex={-1}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
               currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
@@ -58,13 +65,16 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
           </video>
         ))}
 
-        <div className="absolute bottom-6 left-1/2 z-30 flex w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 gap-1.5 sm:bottom-8 sm:w-[72%] md:bottom-10 md:gap-2">
+        <div
+          aria-hidden="true"
+          className="absolute bottom-6 left-1/2 z-30 flex w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 gap-1.5 sm:bottom-8 sm:w-[72%] md:bottom-10 md:gap-2"
+        >
           {VIDEOS.map((_, index) => (
             <div key={index} className="h-[2px] flex-1 bg-white/30 overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-white transition-all duration-100 ease-linear"
-                style={{ 
-                  width: currentIndex === index ? `${progress}%` : currentIndex > index ? "100%" : "0%" 
+                style={{
+                  width: currentIndex === index ? `${progress}%` : currentIndex > index ? "100%" : "0%",
                 }}
               />
             </div>
@@ -73,14 +83,17 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
 
         <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center overflow-hidden px-4 sm:px-8">
           <h1
+            id="home-hero-heading"
             className={`max-w-[20ch] text-balance text-center text-2xl font-light leading-[1.2] tracking-[0.08em] text-white transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-3xl sm:tracking-[0.12em] md:text-5xl md:tracking-[0.16em] lg:text-6xl ${
-              revealText
-                ? "translate-y-0 opacity-100 delay-[700ms]"
-                : "translate-y-6 opacity-0 md:translate-y-10"
+              revealText ? "delay-[700ms]" : ""
             }`}
           >
             The Art of Seamless, Luxury Air Travel
           </h1>
+          <p id="home-hero-description" className="sr-only">
+            Midline Airlines provides private jet charter, aircraft management, aircraft sales, MRO, and cargo
+            transportation worldwide.
+          </p>
         </div>
       </div>
     </section>

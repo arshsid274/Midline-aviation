@@ -53,13 +53,21 @@ export default function DesktopMenu() {
       <NavigationMenuList className="text-sm font-semibold lg:text-base">
         <NavigationMenuItem>
           <NavigationMenuLink asChild data-active={isActive("/") ? "true" : undefined}>
-            <Link href="/" className={navigationMenuTriggerStyle()}>Home</Link>
+            <Link href="/" aria-current={isActive("/") ? "page" : undefined} className={navigationMenuTriggerStyle()}>
+              Home
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild data-active={isActive("/fleet") ? "true" : undefined}>
-            <Link href="/fleet" className={navigationMenuTriggerStyle()}>Our Fleet</Link>
+            <Link
+              href="/fleet"
+              aria-current={isActive("/fleet") ? "page" : undefined}
+              className={navigationMenuTriggerStyle()}
+            >
+              Our Fleet
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
@@ -74,7 +82,7 @@ export default function DesktopMenu() {
                     className="rounded-lg border border-border/60 bg-card/80 p-3 transition-colors hover:bg-card"
                     data-active={isActive(service.href) ? "true" : undefined}
                   >
-                    <Link href={service.href}>
+                    <Link href={service.href} aria-current={isActive(service.href) ? "page" : undefined}>
                       <div className="text-sm font-semibold lg:text-base">{service.title}</div>
                       <p className="line-clamp-2 text-xs text-muted-foreground lg:text-sm">{service.description}</p>
                     </Link>
@@ -87,13 +95,25 @@ export default function DesktopMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild data-active={isActive("/about") ? "true" : undefined}>
-            <Link href="/about" className={navigationMenuTriggerStyle()}>About</Link>
+            <Link
+              href="/about"
+              aria-current={isActive("/about") ? "page" : undefined}
+              className={navigationMenuTriggerStyle()}
+            >
+              About
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild data-active={isActive("/contact") ? "true" : undefined}>
-            <Link href="/contact" className={navigationMenuTriggerStyle()}>Contact</Link>
+            <Link
+              href="/contact"
+              aria-current={isActive("/contact") ? "page" : undefined}
+              className={navigationMenuTriggerStyle()}
+            >
+              Contact
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

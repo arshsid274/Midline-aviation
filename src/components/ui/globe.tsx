@@ -42,12 +42,14 @@ export function Globe({
   rotationSpeed = 0.005,
   autoRotate = true,
   interactive = true,
+  ariaLabel = "Global route network map",
 }: {
   className?: string
   config?: Partial<COBEOptions>
   rotationSpeed?: number
   autoRotate?: boolean
   interactive?: boolean
+  ariaLabel?: string
 }) {
   const phiRef = useRef(GLOBE_CONFIG.phi ?? 0)
   const widthRef = useRef(0)
@@ -126,6 +128,8 @@ export function Globe({
           "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]"
         )}
         ref={canvasRef}
+        role="img"
+        aria-label={ariaLabel}
         onPointerDown={(e) => {
           if (!interactive) return
           pointerInteracting.current = e.clientX
@@ -143,7 +147,9 @@ export function Globe({
         onTouchMove={(e) =>
           e.touches[0] && updateMovement(e.touches[0].clientX)
         }
-      />
+      >
+        Global route network map
+      </canvas>
     </div>
   )
 }

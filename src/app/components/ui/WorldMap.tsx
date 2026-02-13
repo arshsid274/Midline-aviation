@@ -17,9 +17,9 @@ const mapInstance = new DottedMap({ height: 100, grid: "diagonal" });
 const staticMapData = `data:image/svg+xml;utf8,${encodeURIComponent(
   mapInstance.getSVG({
     radius: 0.22,
-    color: "#3a78b6",
+    color: "#01699a",
     shape: "circle",
-    backgroundColor: "#0a1628",
+    backgroundColor: "#0d1451",
   })
 )}`;
 
@@ -36,6 +36,16 @@ const getArcPath = (start: { x: number; y: number }, end: { x: number; y: number
 };
 
 export const WorldMap = memo(({ dots = [], lineColor = "#3a78b6" }: MapProps) => {
+  const mapSummary = useMemo(
+    () =>
+      dots.length
+        ? dots
+            .map((dot) => `Route from ${dot.start.lat.toFixed(2)}, ${dot.start.lng.toFixed(2)} to ${dot.end.lat.toFixed(2)}, ${dot.end.lng.toFixed(2)}`)
+            .join(". ")
+        : "Global route map",
+    [dots]
+  );
+
   const paths = useMemo(
     () =>
       dots.map((dot, index) => {
@@ -53,7 +63,11 @@ export const WorldMap = memo(({ dots = [], lineColor = "#3a78b6" }: MapProps) =>
   );
 
   return (
-    <div className="relative h-full min-h-[220px] w-full overflow-hidden rounded-lg border border-zinc-800 bg-[#0a1628]">
+    <div
+      role="img"
+      aria-label={mapSummary}
+      className="relative h-full min-h-[220px] w-full overflow-hidden rounded-lg border border-zinc-800 bg-[#0d1451]"
+    >
       <Image
         src={staticMapData}
         alt="Global route map"
@@ -63,7 +77,7 @@ export const WorldMap = memo(({ dots = [], lineColor = "#3a78b6" }: MapProps) =>
         className="select-none object-cover opacity-55"
       />
 
-      <svg viewBox="0 0 800 400" className="pointer-events-none absolute inset-0 h-full w-full">
+      <svg aria-hidden="true" viewBox="0 0 800 400" className="pointer-events-none absolute inset-0 h-full w-full">
         <AnimatePresence mode="wait">
           {paths.map(({ d, startPoint, endPoint, key }) => (
             <g key={key}>

@@ -572,6 +572,7 @@ function MembershipVisual() {
           autoRotate={false}
           rotationSpeed={0}
           interactive={false}
+          ariaLabel="Membership routes from Dubai to key destinations"
         />
 
         <svg
@@ -788,7 +789,10 @@ export default function ServicesMissionShowcase() {
   }, [activeTab]);
 
   return (
-    <section className="relative overflow-hidden bg-[#0d1451] py-14 sm:py-16 lg:py-20">
+    <section
+      aria-labelledby="services-mission-heading"
+      className="relative overflow-hidden bg-[#0d1451] py-14 sm:py-16 lg:py-20"
+    >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
       <div className="pointer-events-none absolute -bottom-24 right-0 h-[260px] w-[420px] opacity-35">
         <svg viewBox="0 0 420 260" className="h-full w-full text-white/30">
@@ -817,7 +821,10 @@ export default function ServicesMissionShowcase() {
         <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-end">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Services</p>
-            <h2 className="mt-3 max-w-[14ch] text-balance text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl">
+            <h2
+              id="services-mission-heading"
+              className="mt-3 max-w-[14ch] text-balance text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl"
+            >
               The Perfect Plane for Every Mission
             </h2>
           </div>
@@ -828,13 +835,17 @@ export default function ServicesMissionShowcase() {
         </div>
 
         <div className="mt-9 border-b border-white/30">
-          <div className="grid grid-cols-2 sm:grid-cols-4">
+          <div role="tablist" aria-label="Midline service categories" className="grid grid-cols-2 sm:grid-cols-4">
             {serviceTabs.map((tab) => {
               const isActive = tab.id === activeTab;
               return (
                 <button
                   key={tab.id}
                   type="button"
+                  id={`service-tab-${tab.id}`}
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`service-panel-${tab.id}`}
                   onMouseEnter={() => setActiveTab(tab.id)}
                   onFocus={() => setActiveTab(tab.id)}
                   onClick={() => setActiveTab(tab.id)}
@@ -854,7 +865,12 @@ export default function ServicesMissionShowcase() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-12">
+        <div
+          id={`service-panel-${activeConfig.id}`}
+          role="tabpanel"
+          aria-labelledby={`service-tab-${activeConfig.id}`}
+          className="mt-10 grid gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-12"
+        >
           <div className="max-w-lg">
             <h3 className="text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-[3.1rem]">
               {activeConfig.title}
@@ -873,6 +889,17 @@ export default function ServicesMissionShowcase() {
           </div>
 
           <div className="min-h-[320px] sm:min-h-[340px]">{activeVisual}</div>
+        </div>
+
+        <div className="sr-only">
+          <h3>All Midline services</h3>
+          <ul>
+            {serviceTabs.map((tab) => (
+              <li key={`seo-service-${tab.id}`}>
+                {tab.title}: {tab.description} Learn more at {tab.ctaHref}.
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

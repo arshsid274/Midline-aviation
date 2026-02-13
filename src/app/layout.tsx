@@ -17,6 +17,7 @@ import {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: BRAND_THEME_COLOR,
 };
 
 const defaultTitle = `${SITE_NAME} | Private Jet Charter and Aviation Services`;
@@ -65,7 +66,6 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  themeColor: BRAND_THEME_COLOR,
   title: {
     default: defaultTitle,
     template: `%s | ${SITE_NAME}`,

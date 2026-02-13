@@ -54,6 +54,7 @@ export default function MobileMenu() {
   return (
     <div className="flex items-center">
       <button
+        type="button"
         aria-controls="mobile-nav-panel"
         aria-expanded={open}
         aria-label={open ? "Close menu" : "Open menu"}
@@ -73,6 +74,7 @@ export default function MobileMenu() {
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/55">Navigation</p>
           <button
+            type="button"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
             className="rounded-lg p-2 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
@@ -84,12 +86,22 @@ export default function MobileMenu() {
         <nav className="mt-3 flex-1 overflow-y-auto px-1 pb-6">
           <ul className="flex flex-col gap-1.5">
             <li>
-              <Link href="/" onClick={() => setOpen(false)} className={itemClasses(isActive("/"))}>
+              <Link
+                href="/"
+                aria-current={isActive("/") ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={itemClasses(isActive("/"))}
+              >
                 Home
               </Link>
             </li>
             <li>
-              <Link href="/fleet" onClick={() => setOpen(false)} className={itemClasses(isActive("/fleet"))}>
+              <Link
+                href="/fleet"
+                aria-current={isActive("/fleet") ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={itemClasses(isActive("/fleet"))}
+              >
                 Our Fleet
               </Link>
             </li>
@@ -100,6 +112,7 @@ export default function MobileMenu() {
                   <li key={service.href}>
                     <Link
                       href={service.href}
+                      aria-current={isActive(service.href) ? "page" : undefined}
                       onClick={() => setOpen(false)}
                       className={itemClasses(isActive(service.href))}
                     >
@@ -110,12 +123,22 @@ export default function MobileMenu() {
               </ul>
             </li>
             <li>
-              <Link href="/about" onClick={() => setOpen(false)} className={itemClasses(isActive("/about"))}>
+              <Link
+                href="/about"
+                aria-current={isActive("/about") ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={itemClasses(isActive("/about"))}
+              >
                 About
               </Link>
             </li>
             <li>
-              <Link href="/contact" onClick={() => setOpen(false)} className={itemClasses(isActive("/contact"))}>
+              <Link
+                href="/contact"
+                aria-current={isActive("/contact") ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={itemClasses(isActive("/contact"))}
+              >
                 Contact
               </Link>
             </li>
@@ -125,6 +148,7 @@ export default function MobileMenu() {
 
       {open && (
         <button
+          type="button"
           aria-label="Close menu backdrop"
           className="fixed inset-0 z-40 bg-black/55 backdrop-blur-[2px]"
           onClick={() => setOpen(false)}

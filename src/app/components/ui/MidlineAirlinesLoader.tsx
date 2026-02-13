@@ -19,7 +19,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
   const step1TxtRef = useRef<HTMLParagraphElement>(null);
   const step2TxtRef = useRef<HTMLParagraphElement>(null);
   const maskBlankRef = useRef<HTMLDivElement>(null);
-  const skipBtnRef = useRef<HTMLDivElement>(null);
+  const skipBtnRef = useRef<HTMLButtonElement>(null);
 
   const finishIntro = useCallback(() => {
     mainVisualRef.current?.classList.remove(styles.intro);
@@ -151,6 +151,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
   return (
     <div
       data-home-loader="true"
+      aria-label="Loading intro"
       ref={mainVisualRef}
       className={`${styles.main_visual} ${styles.intro} ${introActiveClass}`}
       style={
@@ -182,7 +183,12 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
 
       <div className={styles.visual_wrap}></div>
 
-      <div ref={skipBtnRef} className={styles.intro_skip_btn}></div>
+      <button
+        type="button"
+        ref={skipBtnRef}
+        aria-label="Skip intro animation"
+        className={styles.intro_skip_btn}
+      />
     </div>
   );
 };
