@@ -128,7 +128,8 @@ const useAnimationLoop = (
   seqHeight: number,
   isHovered: boolean,
   hoverSpeed: number | undefined,
-  isVertical: boolean
+  isVertical: boolean,
+  isActive: boolean
 ) => {
   const rafRef = useRef<number | null>(null);
   const lastTimestampRef = useRef<number | null>(null);
@@ -153,7 +154,7 @@ const useAnimationLoop = (
         : `translate3d(${-offsetRef.current}px, 0, 0)`;
     }
 
-    if (prefersReducedMotion) {
+    if (!isActive || prefersReducedMotion) {
       track.style.transform = "translate3d(0, 0, 0)";
       return () => {
         lastTimestampRef.current = null;
@@ -194,7 +195,7 @@ const useAnimationLoop = (
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef]);
+  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef, isActive]);
 };
 
 const LogoLoop = React.memo<LogoLoopProps>(
@@ -223,6 +224,7 @@ const LogoLoop = React.memo<LogoLoopProps>(
     const [seqHeight, setSeqHeight] = useState(0);
     const [copyCount, setCopyCount] = useState<number>(ANIMATION_CONFIG.minCopies);
     const [isHovered, setIsHovered] = useState(false);
+    const [isInView, setIsInView] = useState(false);
 
     const isVertical = direction === "up" || direction === "down";
 
@@ -278,6 +280,23 @@ const LogoLoop = React.memo<LogoLoopProps>(
 
     useResizeObserver(updateDimensions, containerRef, seqRef);
     useImageLoader(seqRef, updateDimensions);
+
+    useEffect(() => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          setIsInView(Boolean(entry?.isIntersecting));
+        },
+        { threshold: 0.05, rootMargin: "160px 0px" }
+      );
+
+      observer.observe(container);
+      return () => observer.disconnect();
+    }, []);
+
     useAnimationLoop(
       trackRef,
       targetVelocity,
@@ -285,7 +304,8 @@ const LogoLoop = React.memo<LogoLoopProps>(
       seqHeight,
       isHovered,
       effectiveHoverSpeed,
-      isVertical
+      isVertical,
+      isInView
     );
 
     const cssVariables = useMemo(

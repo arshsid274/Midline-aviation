@@ -202,10 +202,14 @@ const FlightCard = React.memo(function FlightCard({
     };
 
     animatePlane();
-    window.addEventListener("resize", animatePlane);
+    if (isActive) {
+      window.addEventListener("resize", animatePlane);
+    }
 
     return () => {
-      window.removeEventListener("resize", animatePlane);
+      if (isActive) {
+        window.removeEventListener("resize", animatePlane);
+      }
       stopAnimation();
     };
   }, [isActive]);
@@ -346,7 +350,7 @@ export default function FlightMarketplaceHero() {
         </header>
 
         <figure className="mb-8 h-[230px] overflow-hidden rounded-2xl border border-[#3a78b6]/60 shadow-[0_12px_36px_rgba(1,8,20,0.45)] sm:mb-10 sm:h-[320px] md:h-[380px] lg:h-[460px]">
-          <WorldMap key={`map-route-${selectedIndex}`} dots={currentRoute} />
+          <WorldMap dots={currentRoute} />
           <figcaption className="sr-only">
             Route map highlighting flights between {activeDeal.fromCity} and {activeDeal.toCity}.
           </figcaption>

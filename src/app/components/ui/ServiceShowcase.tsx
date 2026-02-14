@@ -31,7 +31,7 @@ const showcaseItems: ShowcaseItem[] = [
     ctaLabel: "Explore Charter",
     imageSrc: "/assets/images/privatejet1.jpg",
     imageAlt: "Passengers boarding a private jet on the runway",
-    imageSizes: "(max-width: 1024px) 100vw, 70vw",
+    imageSizes: "(max-width: 1024px) 100vw, (max-width: 1536px) 50vw, 980px",
   },
   {
     id: "concierge-service",
@@ -43,7 +43,7 @@ const showcaseItems: ShowcaseItem[] = [
     ctaLabel: "Contact Concierge",
     imageSrc: "/assets/images/privatejet2.jpg",
     imageAlt: "Luxury concierge arrival with chauffeur and luggage handling",
-    imageSizes: "(max-width: 1024px) 100vw, 70vw",
+    imageSizes: "(max-width: 1024px) 100vw, (max-width: 1536px) 50vw, 980px",
     reverse: true,
   },
 ];
@@ -135,7 +135,6 @@ export default function ServiceShowcase() {
           );
       });
 
-      ScrollTrigger.refresh();
     }, section);
 
     return () => {
@@ -157,7 +156,7 @@ export default function ServiceShowcase() {
           <span>Discover</span>
           <RotatingText
             texts={["Midline", "Private Charter", "Concierge Service"]}
-            mainClassName="justify-center rounded-lg bg-[#0d1451] px-2 py-0.5 text-white sm:px-2 sm:py-1 md:px-3 md:py-2"
+            mainClassName="min-w-[17ch] justify-center rounded-lg bg-[#0d1451] px-2 py-0.5 text-white sm:px-2 sm:py-1 md:px-3 md:py-2"
             staggerFrom="last"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}

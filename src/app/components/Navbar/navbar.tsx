@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import DesktopMenu from "./DesktopMenu.client"
 import MobileMenu from "./MobileMenu.client"
+import BookFlightButton from "./BookFlightButton"
 
 export default function Navbar() {
   return (
@@ -21,6 +22,7 @@ export default function Navbar() {
             alt="Midline Aviation"
             width={150}
             height={40}
+            sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 150px"
             className="h-9 w-auto sm:h-10 md:h-12 lg:h-14"
             priority
           />
@@ -28,6 +30,10 @@ export default function Navbar() {
 
         <div className="hidden flex-1 justify-center md:flex">
           <DesktopMenu />
+        </div>
+
+        <div className="hidden md:flex md:items-center">
+          <BookFlightButton />
         </div>
 
         <div className="md:hidden">

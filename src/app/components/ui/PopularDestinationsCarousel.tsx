@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -232,15 +232,22 @@ export default function PopularDestinationsCarousel() {
                   role="listitem"
                   className="flex-[0_0_88%] pl-3 sm:flex-[0_0_62%] sm:pl-4 md:flex-[0_0_48%] lg:flex-[0_0_34%] xl:flex-[0_0_25%]"
                 >
-                  <div className="h-full">
+                  <div className="group h-full">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-3xl">
                       <Image
                         src={destination.imageSrc}
                         alt={destination.imageAlt}
                         fill
                         sizes="(max-width: 640px) 88vw, (max-width: 768px) 62vw, (max-width: 1024px) 48vw, (max-width: 1280px) 34vw, 25vw"
-                        className="object-cover"
+                        className="object-cover transition-transform duration-700 ease-out motion-reduce:transition-none group-hover:scale-105"
                       />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#495d75]/72 via-[#152239]/48 to-[#070e18]/92 opacity-0 transition-opacity duration-500 motion-reduce:transition-none group-hover:opacity-100" />
+                      <p className="pointer-events-none absolute left-5 top-1/2 z-[1] -translate-y-1/2 translate-x-3 text-2xl font-medium text-white opacity-0 transition-all duration-500 ease-out motion-reduce:transition-none group-hover:translate-x-0 group-hover:opacity-100 sm:left-7 sm:text-3xl">
+                        {destination.name}
+                      </p>
+                      <span className="pointer-events-none absolute bottom-5 left-5 z-[1] inline-flex translate-y-2 text-white/80 opacity-0 transition-all duration-500 ease-out motion-reduce:transition-none group-hover:translate-y-0 group-hover:opacity-100 sm:bottom-6 sm:left-7">
+                        <ArrowUpRight size={18} />
+                      </span>
                     </div>
                     <div className="mt-5 flex items-center justify-between gap-3">
                       <p className="text-xl font-semibold text-white sm:text-2xl">{destination.name}</p>

@@ -1,15 +1,32 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import TripsMapView from "@/app/components/ui/TripsMapView";
 import MidlineAirlinesLoader from "@/app/components/ui/MidlineAirlinesLoader";
 import HeroScrollVideo from "@/app/components/ui/HeroScrollVideo";
 import { VideoProvider } from "@/app/components/ui/VideoContext";
-import ServicesShowcase from "@/app/components/ui/ServiceShowcase";
-import ServiceMissionShowcase from "@/app/components/ui/ServicesMissionShowcase";
-import LogoLoopSection from "@/app/components/ui/LogoLoopSection";
-import PopularDestinationsCarousel from "@/app/components/ui/PopularDestinationsCarousel";
-import HomeAircraftCards from "@/app/components/ui/HomeAircraftCards";
+
+const ServicesShowcase = dynamic(() => import("@/app/components/ui/ServiceShowcase"), {
+  loading: () => null,
+});
+const PopularDestinationsCarousel = dynamic(
+  () => import("@/app/components/ui/PopularDestinationsCarousel"),
+  {
+    loading: () => null,
+  }
+);
+const TripsMapView = dynamic(() => import("@/app/components/ui/TripsMapView"), {
+  loading: () => null,
+});
+const LogoLoopSection = dynamic(() => import("@/app/components/ui/LogoLoopSection"), {
+  loading: () => null,
+});
+const HomeAircraftCards = dynamic(() => import("@/app/components/ui/HomeAircraftCards"), {
+  loading: () => null,
+});
+const ServiceMissionShowcase = dynamic(() => import("@/app/components/ui/ServicesMissionShowcase"), {
+  loading: () => null,
+});
 
 export default function HomePageClient() {
   const [loadingComplete, setLoadingComplete] = useState(false);
@@ -36,7 +53,6 @@ export default function HomePageClient() {
       <main aria-busy={!loadingComplete} className="relative z-[1] bg-black">
         <HeroScrollVideo revealText={loadingComplete} />
         <ServicesShowcase />
-        
         <PopularDestinationsCarousel />
         <TripsMapView />
         <LogoLoopSection />
