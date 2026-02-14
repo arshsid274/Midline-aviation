@@ -4,7 +4,9 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import MidlineAirlinesLoader from "@/app/components/ui/MidlineAirlinesLoader";
 import HeroScrollVideo from "@/app/components/ui/HeroScrollVideo";
+import HeroBookingForm from "@/app/components/ui/HeroBookingForm";
 import { VideoProvider } from "@/app/components/ui/VideoContext";
+import HomeFooter from "@/app/components/ui/HomeFooter";
 
 const ServicesShowcase = dynamic(() => import("@/app/components/ui/ServiceShowcase"), {
   loading: () => null,
@@ -33,6 +35,15 @@ export default function HomePageClient() {
 
   useEffect(() => {
     const body = document.body;
+    body.classList.add("home-page-active");
+
+    return () => {
+      body.classList.remove("home-page-active");
+    };
+  }, []);
+
+  useEffect(() => {
+    const body = document.body;
 
     if (loadingComplete) {
       body.classList.remove("home-loader-active");
@@ -50,14 +61,16 @@ export default function HomePageClient() {
 
   return (
     <VideoProvider>
-      <main aria-busy={!loadingComplete} className="relative z-[1] bg-black">
+      <main aria-busy={!loadingComplete} className="relative z-[1] bg-white">
         <HeroScrollVideo revealText={loadingComplete} />
+        <HeroBookingForm />
         <ServicesShowcase />
         <PopularDestinationsCarousel />
         <TripsMapView />
         <LogoLoopSection />
         <HomeAircraftCards />
         <ServiceMissionShowcase />
+        <HomeFooter />
       </main>
 
       <noscript>

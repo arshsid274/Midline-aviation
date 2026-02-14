@@ -194,3 +194,7 @@ body.home-loader-active [data-site-navbar="true"] {
 body.home-loader-complete [data-site-navbar="true"] {
   transform: translateY(0);
 }
+
+body.home-page-active [data-global-footer="true"] {
+  display: none;
+}

@@ -142,7 +142,10 @@ export default function RootLayout({
         />
         <Navbar />
         {children}
-        <footer className="border-t border-border/70 bg-background/95 px-4 py-6 text-center text-sm text-muted-foreground backdrop-blur-sm sm:px-6">
+        <footer
+          data-global-footer="true"
+          className="border-t border-border/70 bg-background/95 px-4 py-6 text-center text-sm text-muted-foreground backdrop-blur-sm sm:px-6"
+        >
           &copy; {new Date().getFullYear()} {SITE_NAME}
         </footer>
       </body>

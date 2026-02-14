@@ -1,6 +1,13 @@
 "use client";
+
+import { Comfortaa } from "next/font/google";
 import { useEffect, useState } from "react";
 import { useVideoContext } from "./VideoContext";
+
+const comfortaa = Comfortaa({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const VIDEOS = [
   { id: 1, src: "/assets/videos/Midline.mp4" },
@@ -14,10 +21,30 @@ interface HeroAutoVideoProps {
 export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps) {
   const { videoRefs, currentIndex, setCurrentIndex } = useVideoContext();
   const [progress, setProgress] = useState(0);
+  const videoCount = VIDEOS.length;
+
+  const goToVideo = (nextIndex: number) => {
+    if (nextIndex < 0 || nextIndex >= videoCount) return;
+
+    videoRefs.current.forEach((video, index) => {
+      if (!video || index === nextIndex) return;
+      video.pause();
+      video.currentTime = 0;
+    });
+
+    setProgress(0);
+    setCurrentIndex(nextIndex);
+  };
 
   useEffect(() => {
     const video = videoRefs.current[currentIndex];
     if (!video) return;
+
+    videoRefs.current.forEach((item, index) => {
+      if (!item || index === currentIndex) return;
+      item.pause();
+      item.currentTime = 0;
+    });
 
     const playPromise = video.play();
     if (playPromise !== undefined) {
@@ -26,12 +53,13 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
 
     const updateProgress = () => {
       if (!video.duration || Number.isNaN(video.duration)) return;
-      const p = (video.currentTime / video.duration) * 100;
-      setProgress(p);
+      setProgress((video.currentTime / video.duration) * 100);
     };
 
     video.addEventListener("timeupdate", updateProgress);
-    return () => video.removeEventListener("timeupdate", updateProgress);
+    return () => {
+      video.removeEventListener("timeupdate", updateProgress);
+    };
   }, [currentIndex, videoRefs]);
 
   return (
@@ -40,7 +68,7 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
       aria-describedby="home-hero-description"
       className="relative -mt-[72px] h-[100svh] w-full overflow-hidden bg-black md:-mt-[84px]"
     >
-      <div className="relative w-full h-full">
+      <div className="relative h-full w-full">
         {VIDEOS.map((video, index) => (
           <video
             key={video.id}
@@ -49,8 +77,7 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
             }}
             autoPlay
             onEnded={() => {
-              setProgress(0);
-              setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
+              goToVideo((currentIndex + 1) % videoCount);
             }}
             muted
             playsInline
@@ -58,7 +85,7 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
             aria-hidden="true"
             tabIndex={-1}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-              currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
+              currentIndex === index ? "z-10 opacity-100" : "z-0 opacity-0"
             }`}
           >
             <source src={video.src} type="video/mp4" />
@@ -66,30 +93,44 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
         ))}
 
         <div
-          aria-hidden="true"
-          className="absolute bottom-6 left-1/2 z-30 flex w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 gap-1.5 sm:bottom-8 sm:w-[72%] md:bottom-10 md:gap-2"
+          aria-label="Hero video timeline"
+          className="absolute bottom-6 left-4 z-40 flex w-[28vw] min-w-[130px] max-w-[240px] gap-2 sm:bottom-8 sm:left-7 sm:w-[23vw] md:bottom-10 md:left-10 md:w-[19vw]"
         >
-          {VIDEOS.map((_, index) => (
-            <div key={index} className="h-[2px] flex-1 bg-white/30 overflow-hidden">
-              <div
-                className="h-full bg-white transition-all duration-100 ease-linear"
+          {VIDEOS.map((video, index) => (
+            <button
+              key={video.id}
+              type="button"
+              onClick={() => goToVideo(index)}
+              aria-label={`Play hero video ${index + 1}`}
+              className={`group relative overflow-hidden rounded-full bg-white/35 transition-all duration-500 ease-out ${
+                currentIndex === index ? "h-[4px] flex-[1.2] bg-white/40" : "h-[2px] flex-1 hover:bg-white/50"
+              }`}
+            >
+              <span
+                className="block h-full bg-[#0d1451] transition-[width] duration-100 ease-linear"
                 style={{
                   width: currentIndex === index ? `${progress}%` : currentIndex > index ? "100%" : "0%",
                 }}
               />
-            </div>
+            </button>
           ))}
         </div>
 
         <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center overflow-hidden px-4 sm:px-8">
           <h1
             id="home-hero-heading"
-            className={`max-w-[20ch] text-balance text-center text-2xl font-light leading-[1.2] tracking-[0.08em] text-white transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-3xl sm:tracking-[0.12em] md:text-5xl md:tracking-[0.16em] lg:text-6xl ${
+            className={`max-w-none text-center text-2xl font-light leading-[1.2] tracking-[0.08em] text-white transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-3xl sm:tracking-[0.12em] md:text-5xl md:tracking-[0.16em] lg:text-6xl ${
               revealText ? "delay-[700ms]" : ""
             }`}
           >
-            <span className="block">The Art of Seamless, Luxury Air Travel</span>
-            <span className="mt-2 block">Excellence Above the Clouds</span>
+            <span className="block whitespace-nowrap">
+              The{" "}
+              <span className={`${comfortaa.className} text-[#00bcff] italic font-extrabold`}>
+                Art
+              </span>{" "}
+              of Seamless
+            </span>
+            <span className="mt-2 block whitespace-nowrap">Luxury Air Travel</span>
           </h1>
           <p id="home-hero-description" className="sr-only">
             Midline Aviation delivers private charter, aircraft management, aircraft sales, MRO, and cargo
