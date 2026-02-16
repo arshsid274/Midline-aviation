@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const AIRCRAFT_OPTIONS = [
   { code: "T7-MID", manufacturer: "Gulfstream", category: "Heavy", maxPax: 13 },
@@ -95,6 +95,463 @@ const buildAirportSuggestions = (query: string, airports: Airport[]) => {
 };
 
 const formatAirportFieldValue = (airport: Airport) => `${airport.city}, ${airport.country} (${airport.code})`;
+
+const MONTH_LABELS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+const padDatePart = (value: number) => value.toString().padStart(2, "0");
+
+const toIsoDate = (value: Date) =>
+  `${value.getFullYear()}-${padDatePart(value.getMonth() + 1)}-${padDatePart(value.getDate())}`;
+
+const parseIsoDate = (value: string) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+
+  const [yearText, monthText, dayText] = value.split("-");
+  const year = Number(yearText);
+  const month = Number(monthText);
+  const day = Number(dayText);
+
+  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) return null;
+
+  const parsedDate = new Date(year, month - 1, day);
+  const isValidDate =
+    parsedDate.getFullYear() === year && parsedDate.getMonth() === month - 1 && parsedDate.getDate() === day;
+
+  return isValidDate ? parsedDate : null;
+};
+
+const formatTimeLabel = (value: string) => {
+  if (!/^\d{2}:\d{2}$/.test(value)) return "";
+
+  const [hoursText, minutesText] = value.split(":");
+  const hours = Number(hoursText);
+  const minutes = Number(minutesText);
+
+  if (!Number.isInteger(hours) || !Number.isInteger(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+    return "";
+  }
+
+  const suffix = hours >= 12 ? "PM" : "AM";
+  const hours12 = hours % 12 === 0 ? 12 : hours % 12;
+  return `${hours12}:${minutesText} ${suffix}`;
+};
+
+const parseManualTimeValue = (value: string) => {
+  const normalizedValue = value.trim().toUpperCase();
+  if (!normalizedValue) return null;
+
+  const twentyFourHourMatch = normalizedValue.match(/^(\d{1,2}):(\d{2})$/);
+  if (twentyFourHourMatch) {
+    const hours = Number(twentyFourHourMatch[1]);
+    const minutes = Number(twentyFourHourMatch[2]);
+
+    if (Number.isInteger(hours) && Number.isInteger(minutes) && hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+      return `${padDatePart(hours)}:${padDatePart(minutes)}`;
+    }
+
+    return null;
+  }
+
+  const twelveHourMatch = normalizedValue.match(/^(\d{1,2}):(\d{2})\s*([AP]M)$/);
+  if (!twelveHourMatch) return null;
+
+  const hours12 = Number(twelveHourMatch[1]);
+  const minutes = Number(twelveHourMatch[2]);
+  const period = twelveHourMatch[3];
+
+  if (!Number.isInteger(hours12) || !Number.isInteger(minutes) || hours12 < 1 || hours12 > 12 || minutes < 0 || minutes > 59) {
+    return null;
+  }
+
+  const hours24 = period === "PM" ? (hours12 % 12) + 12 : hours12 % 12;
+  return `${padDatePart(hours24)}:${padDatePart(minutes)}`;
+};
+
+const TIME_OPTIONS = Array.from({ length: 96 }, (_, index) => {
+  const hours = Math.floor(index / 4);
+  const minutes = (index % 4) * 15;
+  const value = `${padDatePart(hours)}:${padDatePart(minutes)}`;
+
+  return {
+    value,
+    label: formatTimeLabel(value),
+  };
+});
+
+type CalendarDay = {
+  iso: string;
+  day: number;
+  inCurrentMonth: boolean;
+  isToday: boolean;
+};
+
+const buildCalendarDays = (monthStart: Date): CalendarDay[] => {
+  const start = new Date(monthStart.getFullYear(), monthStart.getMonth(), 1);
+  start.setDate(start.getDate() - start.getDay());
+
+  const today = new Date();
+
+  return Array.from({ length: 42 }, (_, index) => {
+    const dayDate = new Date(start);
+    dayDate.setDate(start.getDate() + index);
+
+    const iso = toIsoDate(dayDate);
+    const isToday =
+      dayDate.getFullYear() === today.getFullYear() &&
+      dayDate.getMonth() === today.getMonth() &&
+      dayDate.getDate() === today.getDate();
+
+    return {
+      iso,
+      day: dayDate.getDate(),
+      inCurrentMonth: dayDate.getMonth() === monthStart.getMonth(),
+      isToday,
+    };
+  });
+};
+
+type DatePickerFieldProps = {
+  value: string;
+  onChange: (nextValue: string) => void;
+  placeholder: string;
+  minDateValue?: string;
+};
+
+function DatePickerField({ value, onChange, placeholder, minDateValue }: DatePickerFieldProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [manualDateError, setManualDateError] = useState("");
+  const [monthCursor, setMonthCursor] = useState(() => {
+    const selected = parseIsoDate(value.trim());
+    const baseDate = selected ?? new Date();
+    return new Date(baseDate.getFullYear(), baseDate.getMonth(), 1);
+  });
+  const minDateCandidate = (minDateValue ?? "").trim();
+  const minimumIsoDate = parseIsoDate(minDateCandidate) ? minDateCandidate : null;
+  const calendarDays = useMemo(() => buildCalendarDays(monthCursor), [monthCursor]);
+
+  const applyManualDateValue = (rawValue: string) => {
+    const normalizedValue = rawValue.trim();
+
+    if (!normalizedValue) {
+      onChange("");
+      setManualDateError("");
+      return true;
+    }
+
+    const parsedDate = parseIsoDate(normalizedValue);
+    if (!parsedDate) {
+      setManualDateError("Use YYYY-MM-DD format.");
+      return false;
+    }
+
+    if (minimumIsoDate && normalizedValue < minimumIsoDate) {
+      setManualDateError(`Date must be on or after ${minimumIsoDate}.`);
+      return false;
+    }
+
+    onChange(normalizedValue);
+    setMonthCursor(new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1));
+    setManualDateError("");
+    return true;
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const closeIfOutside = (event: MouseEvent | TouchEvent) => {
+      const targetNode = event.target;
+      if (!(targetNode instanceof Node)) return;
+      if (!containerRef.current?.contains(targetNode)) {
+        setIsOpen(false);
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("mousedown", closeIfOutside);
+    window.addEventListener("touchstart", closeIfOutside);
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      window.removeEventListener("mousedown", closeIfOutside);
+      window.removeEventListener("touchstart", closeIfOutside);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isOpen]);
+
+  return (
+    <div ref={containerRef} className="relative">
+      <div className="flex h-11 w-full rounded-xl border border-white/40 bg-white/10 text-sm backdrop-blur-sm transition-colors focus-within:border-white hover:bg-white/15">
+        <input
+          type="text"
+          inputMode="numeric"
+          value={value}
+          placeholder="YYYY-MM-DD"
+          aria-label={placeholder}
+          onChange={(event) => {
+            onChange(event.target.value);
+            if (manualDateError) setManualDateError("");
+          }}
+          onBlur={() => {
+            applyManualDateValue(value);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              applyManualDateValue(value);
+            }
+          }}
+          className="h-full min-w-0 flex-1 bg-transparent px-3 text-sm text-white/95 placeholder:text-white/58 focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={() =>
+            setIsOpen((current) => {
+              const nextState = !current;
+
+              if (nextState) {
+                const selected = parseIsoDate(value.trim());
+                const baseDate = selected ?? new Date();
+                setMonthCursor(new Date(baseDate.getFullYear(), baseDate.getMonth(), 1));
+              }
+
+              return nextState;
+            })
+          }
+          className="h-full shrink-0 border-l border-white/22 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/75 transition-colors hover:bg-white/12"
+        >
+          Pick
+        </button>
+      </div>
+
+      {manualDateError && <p className="mt-1 px-1 text-[11px] text-[#ffd7d7]">{manualDateError}</p>}
+
+      {isOpen && (
+        <div className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border border-white/30 bg-[#0d1451]/94 p-3 shadow-2xl backdrop-blur-xl">
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setMonthCursor((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1))
+              }
+              className="rounded-lg border border-white/25 px-2 py-1 text-xs font-medium text-white/85 transition-colors hover:bg-white/10"
+            >
+              Prev
+            </button>
+            <p className="text-sm font-semibold text-white">
+              {MONTH_LABELS[monthCursor.getMonth()]} {monthCursor.getFullYear()}
+            </p>
+            <button
+              type="button"
+              onClick={() =>
+                setMonthCursor((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1))
+              }
+              className="rounded-lg border border-white/25 px-2 py-1 text-xs font-medium text-white/85 transition-colors hover:bg-white/10"
+            >
+              Next
+            </button>
+          </div>
+
+          <div className="mb-2 grid grid-cols-7 gap-1">
+            {WEEKDAY_LABELS.map((label) => (
+              <span
+                key={label}
+                className="text-center text-[10px] font-medium uppercase tracking-[0.16em] text-white/55"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-7 gap-1">
+            {calendarDays.map((day) => {
+              const isDisabled = minimumIsoDate ? day.iso < minimumIsoDate : false;
+              const isSelected = day.iso === value;
+
+              const dayClassName = [
+                "h-8 rounded-lg text-xs font-medium transition-colors",
+                day.inCurrentMonth ? "text-white/90" : "text-white/42",
+                day.isToday ? "border border-white/35" : "",
+                isSelected ? "border-none bg-[#41b3b5]/45 text-white" : "",
+                !isSelected && !isDisabled ? "hover:bg-white/12" : "",
+                isDisabled ? "cursor-not-allowed text-white/28" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+
+              return (
+                <button
+                  key={day.iso}
+                  type="button"
+                  disabled={isDisabled}
+                  onClick={() => {
+                    onChange(day.iso);
+                    setManualDateError("");
+                    setIsOpen(false);
+                  }}
+                  className={dayClassName}
+                >
+                  {day.day}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+type TimePickerFieldProps = {
+  value: string;
+  onChange: (nextValue: string) => void;
+  placeholder: string;
+};
+
+function TimePickerField({ value, onChange, placeholder }: TimePickerFieldProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [manualTimeError, setManualTimeError] = useState("");
+  const normalizedTimeValue = parseManualTimeValue(value);
+
+  const applyManualTimeValue = (rawValue: string) => {
+    const normalizedInput = rawValue.trim();
+
+    if (!normalizedInput) {
+      onChange("");
+      setManualTimeError("");
+      return true;
+    }
+
+    const parsedTime = parseManualTimeValue(normalizedInput);
+    if (!parsedTime) {
+      setManualTimeError("Use HH:MM or h:mm AM/PM.");
+      return false;
+    }
+
+    onChange(parsedTime);
+    setManualTimeError("");
+    return true;
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const closeIfOutside = (event: MouseEvent | TouchEvent) => {
+      const targetNode = event.target;
+      if (!(targetNode instanceof Node)) return;
+      if (!containerRef.current?.contains(targetNode)) {
+        setIsOpen(false);
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("mousedown", closeIfOutside);
+    window.addEventListener("touchstart", closeIfOutside);
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      window.removeEventListener("mousedown", closeIfOutside);
+      window.removeEventListener("touchstart", closeIfOutside);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isOpen]);
+
+  return (
+    <div ref={containerRef} className="relative">
+      <div className="flex h-11 w-full rounded-xl border border-white/40 bg-white/10 text-sm backdrop-blur-sm transition-colors focus-within:border-white hover:bg-white/15">
+        <input
+          type="text"
+          inputMode="text"
+          value={value}
+          placeholder="HH:MM or 2:30 PM"
+          aria-label={placeholder}
+          onChange={(event) => {
+            onChange(event.target.value);
+            if (manualTimeError) setManualTimeError("");
+          }}
+          onBlur={() => {
+            applyManualTimeValue(value);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              applyManualTimeValue(value);
+            }
+          }}
+          className="h-full min-w-0 flex-1 bg-transparent px-3 text-sm text-white/95 placeholder:text-white/58 focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={() => setIsOpen((current) => !current)}
+          className="h-full shrink-0 border-l border-white/22 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/75 transition-colors hover:bg-white/12"
+        >
+          Pick
+        </button>
+      </div>
+
+      {manualTimeError && <p className="mt-1 px-1 text-[11px] text-[#ffd7d7]">{manualTimeError}</p>}
+
+      {isOpen && (
+        <div className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border border-white/30 bg-[#0d1451]/94 p-2 shadow-2xl backdrop-blur-xl">
+          <div className="mb-2 px-1 text-[11px] font-medium uppercase tracking-[0.16em] text-white/60">
+            Select Time
+          </div>
+          <p className="mb-2 px-1 text-[11px] text-white/55">Or type manually: HH:MM or h:mm AM/PM</p>
+          <div className="max-h-56 overflow-y-auto pr-1">
+            <div className="grid grid-cols-2 gap-1">
+              {TIME_OPTIONS.map((option) => {
+                const isSelected = option.value === normalizedTimeValue;
+
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => {
+                      onChange(option.value);
+                      setManualTimeError("");
+                      setIsOpen(false);
+                    }}
+                    className={`rounded-lg px-2 py-1.5 text-left text-xs font-medium transition-colors ${
+                      isSelected ? "bg-[#41b3b5]/45 text-white" : "text-white/88 hover:bg-white/12"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function HeroBookingForm() {
   const [tripType, setTripType] = useState<TripType>("one-way");
@@ -192,12 +649,18 @@ export default function HeroBookingForm() {
     }, 100);
   };
 
+  const departureDateIsValid = parseIsoDate(departureDate.trim()) !== null;
+  const departureTimeIsValid = parseManualTimeValue(departureTime.trim()) !== null;
+  const returnDateIsValid = parseIsoDate(returnDate.trim()) !== null;
+  const returnTimeIsValid = parseManualTimeValue(returnTime.trim()) !== null;
+  const returnDateIsAfterDeparture = returnDate.trim() >= departureDate.trim();
+
   const primaryDetailsComplete =
     departureCity.trim().length > 0 &&
     arrivalCity.trim().length > 0 &&
-    departureDate.length > 0 &&
-    departureTime.length > 0 &&
-    (!isRoundTrip || (returnDate.length > 0 && returnTime.length > 0));
+    departureDateIsValid &&
+    departureTimeIsValid &&
+    (!isRoundTrip || (returnDateIsValid && returnTimeIsValid && returnDateIsAfterDeparture));
 
   const contactDetailsComplete =
     fullName.trim().length > 0 &&
@@ -220,7 +683,7 @@ export default function HeroBookingForm() {
   return (
     <section
       aria-label="Flight booking form"
-      className="relative z-40 -mt-20 px-4 sm:-mt-24 sm:px-6 md:-mt-28 md:px-10 lg:-mt-40"
+      className="relative z-40 -mt-20 px-4 sm:-mt-24 sm:px-6 md:-mt-28 md:px-10 lg:-mt-20"
     >
       <form
         className="mx-auto w-full max-w-6xl rounded-2xl border border-[#0d1451]/35 bg-[#0d1451]/16 p-4 text-white shadow-[0_22px_55px_rgba(13,20,81,0.26)] backdrop-blur-xl sm:p-5 md:p-6"
@@ -328,38 +791,19 @@ export default function HeroBookingForm() {
               </ul>
             )}
           </div>
-          <input
-            type="date"
-            value={departureDate}
-            onChange={(event) => setDepartureDate(event.target.value)}
-            className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] focus:border-[#0d1451] focus:outline-none"
-            required
-          />
-          <input
-            type="time"
-            value={departureTime}
-            onChange={(event) => setDepartureTime(event.target.value)}
-            className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] focus:border-[#0d1451] focus:outline-none"
-            required
-          />
+          <DatePickerField value={departureDate} onChange={setDepartureDate} placeholder="Departure Date" />
+          <TimePickerField value={departureTime} onChange={setDepartureTime} placeholder="Departure Time" />
         </div>
 
         {isRoundTrip && (
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <input
-              type="date"
+            <DatePickerField
               value={returnDate}
-              onChange={(event) => setReturnDate(event.target.value)}
-              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] focus:border-[#0d1451] focus:outline-none"
-              required={isRoundTrip}
+              onChange={setReturnDate}
+              placeholder="Return Date"
+              minDateValue={departureDate}
             />
-            <input
-              type="time"
-              value={returnTime}
-              onChange={(event) => setReturnTime(event.target.value)}
-              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] focus:border-[#0d1451] focus:outline-none"
-              required={isRoundTrip}
-            />
+            <TimePickerField value={returnTime} onChange={setReturnTime} placeholder="Return Time" />
           </div>
         )}
 

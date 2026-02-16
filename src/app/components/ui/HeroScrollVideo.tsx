@@ -94,7 +94,7 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
 
         <div
           aria-label="Hero video timeline"
-          className="absolute bottom-6 left-4 z-40 flex w-[28vw] min-w-[130px] max-w-[240px] gap-2 sm:bottom-8 sm:left-7 sm:w-[23vw] md:bottom-10 md:left-10 md:w-[19vw]"
+          className="absolute bottom-6 left-4 z-40 flex w-[20vw] min-w-[96px] max-w-[170px] gap-2 sm:bottom-8 sm:left-7 sm:w-[16vw] md:bottom-10 md:left-10 md:w-[13vw]"
         >
           {VIDEOS.map((video, index) => (
             <button
