@@ -22,22 +22,28 @@ export default function ServicePageShell({
   columns = 3,
 }: ServicePageShellProps) {
   return (
-    <main className="bg-slate-950/35 py-10 sm:py-12 md:py-16">
-      <div className="page-shell">
-        <section className="page-hero">
-          <h1 className="page-title">{title}</h1>
-          <p className="page-lead">{description}</p>
-        </section>
+    <main className="midline-page">
+      <section className="midline-section">
+        <div className="midline-shell">
+          <div className="rounded-3xl border border-[#0d1451]/20 bg-gradient-to-br from-[#0d1451] via-[#111f72] to-[#0d1451] px-6 py-10 text-white shadow-[0_20px_56px_rgba(13,20,81,0.3)] sm:px-8 md:px-10 md:py-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/75">Aviation Services</p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">{title}</h1>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-blue-100/90 sm:text-lg">{description}</p>
+          </div>
 
-        <section className={gridClassByColumnCount[columns]}>
-          {features.map((feature) => (
-            <article key={feature.title} className="feature-card">
-              <h2 className="text-lg font-semibold sm:text-xl">{feature.title}</h2>
-              <p className="mt-2 text-sm text-muted-foreground sm:text-base">{feature.description}</p>
-            </article>
-          ))}
-        </section>
-      </div>
+          <section className={`${gridClassByColumnCount[columns]} mt-8 sm:mt-10`}>
+            {features.map((feature) => (
+              <article
+                key={feature.title}
+                className="midline-card h-full rounded-2xl border border-[#0d1451]/10 bg-white p-5 sm:p-6"
+              >
+                <h2 className="text-lg font-semibold text-[#0d1451] sm:text-xl">{feature.title}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-[#0d1451]/78 sm:text-base">{feature.description}</p>
+              </article>
+            ))}
+          </section>
+        </div>
+      </section>
     </main>
   );
 }

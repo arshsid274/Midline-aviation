@@ -120,7 +120,7 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
           <h1
             id="home-hero-heading"
             className={`max-w-none text-center text-2xl font-light leading-[1.2] tracking-[0.08em] text-white transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-3xl sm:tracking-[0.12em] md:text-5xl md:tracking-[0.16em] lg:text-6xl ${
-              revealText ? "delay-[700ms]" : ""
+              revealText ? "translate-y-0 opacity-100 delay-[120ms]" : "translate-y-14 opacity-0"
             }`}
           >
             <span className="block whitespace-nowrap">

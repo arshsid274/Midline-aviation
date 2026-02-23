@@ -96,6 +96,10 @@ const buildAirportSuggestions = (query: string, airports: Airport[]) => {
 
 const formatAirportFieldValue = (airport: Airport) => `${airport.city}, ${airport.country} (${airport.code})`;
 
+type HeroBookingFormProps = {
+  revealFromBelow?: boolean;
+};
+
 const MONTH_LABELS = [
   "January",
   "February",
@@ -553,7 +557,7 @@ function TimePickerField({ value, onChange, placeholder }: TimePickerFieldProps)
   );
 }
 
-export default function HeroBookingForm() {
+export default function HeroBookingForm({ revealFromBelow = false }: HeroBookingFormProps) {
   const [tripType, setTripType] = useState<TripType>("one-way");
   const [departureCity, setDepartureCity] = useState("");
   const [arrivalCity, setArrivalCity] = useState("");
@@ -686,7 +690,9 @@ export default function HeroBookingForm() {
       className="relative z-40 -mt-20 px-4 sm:-mt-24 sm:px-6 md:-mt-28 md:px-10 lg:-mt-20"
     >
       <form
-        className="mx-auto w-full max-w-6xl rounded-2xl border border-[#0d1451]/35 bg-[#0d1451]/16 p-4 text-white shadow-[0_22px_55px_rgba(13,20,81,0.26)] backdrop-blur-xl sm:p-5 md:p-6"
+        className={`mx-auto w-full max-w-6xl rounded-2xl border border-[#0d1451]/35 bg-[#0d1451]/16 p-4 text-white shadow-[0_22px_55px_rgba(13,20,81,0.26)] backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-5 md:p-6 ${
+          revealFromBelow ? "translate-y-0 opacity-100 delay-[180ms]" : "translate-y-16 opacity-0"
+        }`}
         onSubmit={(event) => {
           event.preventDefault();
           if (!canSubmit) return;
@@ -879,7 +885,7 @@ export default function HeroBookingForm() {
             />
           </div>
           {paxErrorMessage && (
-            <p className={`mt-2 text-xs ${paxOverGlobalLimit ? "font-semibold text-[#ff1f1f]" : "text-[#ffd7d7]"}`}>
+            <p className={`mt-2 text-xs ${paxOverGlobalLimit ? "font-semibold text-[#ff1f1f]" : "font-semibold text-[#b91c1c]"}`}>
               {paxErrorMessage}
             </p>
           )}

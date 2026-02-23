@@ -1,144 +1,273 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight, Plane, Users } from "lucide-react";
 import gsap from "gsap";
 import { WorldMap } from "./WorldMap";
 
+const JET_VISUALS = {
+  "gulfstream-heavy": {
+    exteriorSrc: "/assets/images/available-flights/gulfstream-heavy-exterior.jpg",
+    exteriorAlt: "Gulfstream heavy jet exterior on runway",
+    interiorSrc: "/assets/images/available-flights/gulfstream-heavy-interior.jpg",
+    interiorAlt: "Gulfstream heavy jet luxury cabin interior",
+  },
+  "gulfstream-mid-size": {
+    exteriorSrc: "/assets/images/available-flights/gulfstream-mid-size-exterior.jpg",
+    exteriorAlt: "Gulfstream mid-size jet exterior on tarmac",
+    interiorSrc: "/assets/images/available-flights/gulfstream-mid-size-interior.jpg",
+    interiorAlt: "Gulfstream mid-size jet cabin interior",
+  },
+  "embraer-heavy": {
+    exteriorSrc: "/assets/images/available-flights/embraer-heavy-exterior.jpg",
+    exteriorAlt: "Embraer heavy private jet exterior",
+    interiorSrc: "/assets/images/available-flights/embraer-heavy-interior.jpg",
+    interiorAlt: "Embraer heavy private jet interior cabin",
+  },
+} as const;
+
+type JetVisualKey = keyof typeof JET_VISUALS;
+
 export const JET_DATA = [
   {
     id: 1,
-    jet: "Embraer Legacy 650",
-    capacity: 14,
+    tail: "T7-MID",
+    jet: "Gulfstream (Heavy)",
+    visualKey: "gulfstream-heavy",
+    capacity: 13,
+    cruiseSpeed: "533 kts",
+    rangeNm: 3900,
+    baggage: "12-14 Bags",
+    interior: "VIP/Bed",
+    year: 2013,
+
+    fromICAO: "OMDB",
+    toICAO: "EGLL",
+    fromCity: "Dubai",
+    toCity: "London",
+    distanceNm: 2950,
+    duration: "6h 10m",
+
+    price: "AED 320k",
+    marketRange: "AED 290k - 380k",
+    operator: "Private Fleet",
+    lat1: 25.2532,
+    lng1: 55.3657,
+    lat2: 51.4700,
+    lng2: -0.4543,
+  },
+
+  {
+    id: 2,
+    tail: "T7-MIDA",
+    jet: "Gulfstream (Mid Size)",
+    visualKey: "gulfstream-mid-size",
+    capacity: 8,
+    cruiseSpeed: "459 kts",
+    rangeNm: 3100,
+    baggage: "12-14 Bags",
+    interior: "VIP",
+    year: 2011,
+
+    fromICAO: "OMDB",
+    toICAO: "VIDP",
+    fromCity: "Dubai",
+    toCity: "Delhi",
+    distanceNm: 1180,
+    duration: "2h 40m",
+
+    price: "AED 135k",
+    marketRange: "AED 110k - 165k",
+    operator: "Private Fleet",
+    lat1: 25.2532,
+    lng1: 55.3657,
+    lat2: 28.5562,
+    lng2: 77.1000,
+  },
+
+  {
+    id: 3,
+    tail: "T7-MIDB",
+    jet: "Embraer (Heavy)",
+    visualKey: "embraer-heavy",
+    capacity: 13,
+    cruiseSpeed: "460 kts",
+    rangeNm: 3900,
+    baggage: "Up to 20 Bags",
+    interior: "VIP/Bed",
+    year: 2015,
+
+    fromICAO: "OMDB",
+    toICAO: "LSZH",
+    fromCity: "Dubai",
+    toCity: "Zurich",
+    distanceNm: 2550,
+    duration: "5h 40m",
+
+    price: "AED 285k",
+    marketRange: "AED 250k - 340k",
+    operator: "Private Fleet",
+    lat1: 25.2532,
+    lng1: 55.3657,
+    lat2: 47.4581,
+    lng2: 8.5555,
+  },
+
+  {
+    id: 4,
+    tail: "T7-MID",
+    jet: "Gulfstream (Heavy)",
+    visualKey: "gulfstream-heavy",
+    capacity: 13,
+    cruiseSpeed: "533 kts",
+    rangeNm: 3900,
+    baggage: "12-14 Bags",
+    interior: "VIP/Bed",
+    year: 2013,
+
     fromICAO: "OMDB",
     toICAO: "KJFK",
     fromCity: "Dubai",
     toCity: "New York",
-    price: "AED 610k",
-    marketRange: "AED 500k - 770k",
-    operator: "ExecuJet",
+    distanceNm: 5900,
+    duration: "12h 10m",
+
+    price: "AED 620k",
+    marketRange: "AED 560k - 720k",
+    operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
     lat2: 40.6413,
     lng2: -73.7781,
   },
-  {
-    id: 2,
-    jet: "Gulfstream G450",
-    capacity: 16,
-    fromICAO: "OMDW",
-    toICAO: "EGLL",
-    fromCity: "Dubai",
-    toCity: "London",
-    price: "AED 275k",
-    marketRange: "AED 190k - 360k",
-    operator: "Jet Aviation",
-    lat1: 24.8964,
-    lng1: 55.1614,
-    lat2: 51.47,
-    lng2: -0.4543,
-  },
-  {
-    id: 3,
-    jet: "Gulfstream G200",
-    capacity: 10,
-    fromICAO: "OMSJ",
-    toICAO: "VIDP",
-    fromCity: "Sharjah",
-    toCity: "New Delhi",
-    price: "AED 130k",
-    marketRange: "AED 95k - 170k",
-    operator: "Abu Dhabi Aviation",
-    lat1: 25.3286,
-    lng1: 55.5172,
-    lat2: 28.5562,
-    lng2: 77.1,
-  },
-  {
-    id: 4,
-    jet: "Bombardier Global 6000",
-    capacity: 13,
-    fromICAO: "OMDB",
-    toICAO: "LSZH",
-    fromCity: "Dubai",
-    toCity: "Zurich",
-    price: "AED 250k",
-    marketRange: "AED 200k - 330k",
-    operator: "VistaJet",
-    lat1: 25.2532,
-    lng1: 55.3657,
-    lat2: 47.4582,
-    lng2: 8.5555,
-  },
+
   {
     id: 5,
-    jet: "Dassault Falcon 7X",
-    capacity: 12,
+    tail: "T7-MIDA",
+    jet: "Gulfstream (Mid Size)",
+    visualKey: "gulfstream-mid-size",
+    capacity: 8,
+    cruiseSpeed: "459 kts",
+    rangeNm: 3100,
+    baggage: "12-14 Bags",
+    interior: "VIP",
+    year: 2011,
+
     fromICAO: "OMDB",
-    toICAO: "LFPG",
+    toICAO: "LTFM",
     fromCity: "Dubai",
-    toCity: "Paris",
-    price: "AED 265k",
-    marketRange: "AED 210k - 350k",
-    operator: "Falcon Ops",
+    toCity: "Istanbul",
+    distanceNm: 1850,
+    duration: "4h 25m",
+
+    price: "AED 210k",
+    marketRange: "AED 180k - 250k",
+    operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
-    lat2: 49.0097,
-    lng2: 2.5479,
+    lat2: 41.2753,
+    lng2: 28.7519,
   },
+
   {
     id: 6,
-    jet: "Cessna Citation Latitude",
-    capacity: 9,
-    fromICAO: "OMDB",
-    toICAO: "VABB",
-    fromCity: "Dubai",
-    toCity: "Mumbai",
-    price: "AED 120k",
-    marketRange: "AED 90k - 160k",
-    operator: "Empire Aviation",
-    lat1: 25.2532,
-    lng1: 55.3657,
-    lat2: 19.0896,
-    lng2: 72.8656,
-  },
-  {
-    id: 7,
-    jet: "Airbus ACJ319",
-    capacity: 19,
+    tail: "T7-MIDB",
+    jet: "Embraer (Heavy)",
+    visualKey: "embraer-heavy",
+    capacity: 13,
+    cruiseSpeed: "460 kts",
+    rangeNm: 3900,
+    baggage: "Up to 20 Bags",
+    interior: "VIP/Bed",
+    year: 2015,
+
     fromICAO: "OMDB",
     toICAO: "WSSS",
     fromCity: "Dubai",
     toCity: "Singapore",
-    price: "AED 320k",
-    marketRange: "AED 240k - 410k",
-    operator: "Global Jet",
+    distanceNm: 3150,
+    duration: "7h 15m",
+
+    price: "AED 355k",
+    marketRange: "AED 310k - 420k",
+    operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
     lat2: 1.3644,
     lng2: 103.9915,
   },
+
   {
-    id: 8,
-    jet: "Learjet 75",
-    capacity: 8,
-    fromICAO: "OMDB",
+    id: 7,
+    tail: "T7-MID",
+    jet: "Gulfstream (Heavy)",
+    visualKey: "gulfstream-heavy",
+    capacity: 13,
+    cruiseSpeed: "533 kts",
+    rangeNm: 3900,
+    baggage: "12-14 Bags",
+    interior: "VIP/Bed",
+    year: 2013,
+
+    fromICAO: "OMAA",
     toICAO: "HECA",
-    fromCity: "Dubai",
+    fromCity: "Abu Dhabi",
     toCity: "Cairo",
-    price: "AED 165k",
-    marketRange: "AED 120k - 220k",
-    operator: "EgyptAir",
-    lat1: 25.2532,
-    lng1: 55.3657,
+    distanceNm: 1300,
+    duration: "2h 50m",
+
+    price: "AED 160k",
+    marketRange: "AED 135k - 190k",
+    operator: "Private Fleet",
+    lat1: 24.4330,
+    lng1: 54.6511,
     lat2: 30.1219,
     lng2: 31.4056,
   },
+
+  {
+    id: 8,
+    tail: "T7-MIDA",
+    jet: "Gulfstream (Mid Size)",
+    visualKey: "gulfstream-mid-size",
+    capacity: 8,
+    cruiseSpeed: "459 kts",
+    rangeNm: 3100,
+    baggage: "12-14 Bags",
+    interior: "VIP",
+    year: 2011,
+
+    fromICAO: "OMDW",
+    toICAO: "OOMS",
+    fromCity: "Dubai",
+    toCity: "Muscat",
+    distanceNm: 190,
+    duration: "50m",
+
+    price: "AED 68k",
+    marketRange: "AED 55k - 85k",
+    operator: "Private Fleet",
+    lat1: 24.8964,
+    lng1: 55.1614,
+    lat2: 23.5933,
+    lng2: 58.2844,
+  }
 ];
 
+
 type JetDeal = (typeof JET_DATA)[number];
+
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+const getJetVisuals = (visualKey: string) => {
+  if (visualKey in JET_VISUALS) {
+    return JET_VISUALS[visualKey as JetVisualKey];
+  }
+  return JET_VISUALS["gulfstream-heavy"];
+};
 
 const FlightCard = React.memo(function FlightCard({
   deal,
@@ -150,6 +279,7 @@ const FlightCard = React.memo(function FlightCard({
   const routeTrackRef = React.useRef<HTMLDivElement>(null);
   const planeRef = React.useRef<HTMLDivElement>(null);
   const planeTweenRef = React.useRef<gsap.core.Tween | null>(null);
+  const visuals = getJetVisuals(deal.visualKey);
 
   useEffect(() => {
     const track = routeTrackRef.current;
@@ -218,7 +348,7 @@ const FlightCard = React.memo(function FlightCard({
     <article
       role="listitem"
       aria-label={`${deal.jet} from ${deal.fromCity} to ${deal.toCity}`}
-      className="min-w-0 flex-[0_0_100%] px-2 py-4 sm:flex-[0_0_62%] sm:px-2.5 md:flex-[0_0_45%] lg:flex-[0_0_33.333%] xl:flex-[0_0_26%] 2xl:flex-[0_0_22%]"
+      className="min-w-0 flex-[0_0_100%] px-2 py-4 sm:flex-[0_0_74%] sm:px-2.5 md:flex-[0_0_62%] lg:flex-[0_0_74%] xl:flex-[0_0_58%] 2xl:flex-[0_0_52%]"
     >
       <div
         className={`h-full rounded-2xl border p-2 transition-all duration-500 sm:p-2.5 ${
@@ -228,11 +358,31 @@ const FlightCard = React.memo(function FlightCard({
         }`}
       >
         <div className="mb-3 grid grid-cols-2 gap-2">
-          <div className="flex h-20 items-center justify-center rounded-lg bg-[#0d1451]/70 text-[11px] text-blue-100/45 sm:h-24">
-            Exterior
+          <div className="relative h-20 overflow-hidden rounded-lg sm:h-24">
+            <Image
+              src={visuals.exteriorSrc}
+              alt={visuals.exteriorAlt}
+              fill
+              sizes="(max-width: 640px) 42vw, 220px"
+              className="object-cover"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050b2a]/86 via-[#050b2a]/30 to-transparent" />
+            <p className="absolute bottom-1.5 left-2 text-[10px] font-medium uppercase tracking-[0.12em] text-blue-100/90">
+              Exterior
+            </p>
           </div>
-          <div className="flex h-20 items-center justify-center rounded-lg bg-[#0d1451]/70 text-[11px] text-blue-100/45 sm:h-24">
-            Interior
+          <div className="relative h-20 overflow-hidden rounded-lg sm:h-24">
+            <Image
+              src={visuals.interiorSrc}
+              alt={visuals.interiorAlt}
+              fill
+              sizes="(max-width: 640px) 42vw, 220px"
+              className="object-cover"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050b2a]/86 via-[#050b2a]/30 to-transparent" />
+            <p className="absolute bottom-1.5 left-2 text-[10px] font-medium uppercase tracking-[0.12em] text-blue-100/90">
+              Interior
+            </p>
           </div>
         </div>
 
@@ -325,23 +475,45 @@ export default function FlightMarketplaceHero() {
     [activeDeal]
   );
 
+  const mapFocus = useMemo(() => {
+    const latDelta = Math.abs(activeDeal.lat1 - activeDeal.lat2);
+    const lngDelta = Math.abs(activeDeal.lng1 - activeDeal.lng2);
+    const routeSpan = Math.max(latDelta, lngDelta);
+
+    const destinationBiasedLat = activeDeal.lat1 * 0.3 + activeDeal.lat2 * 0.7;
+    const destinationBiasedLng = activeDeal.lng1 * 0.3 + activeDeal.lng2 * 0.7;
+    const zoom = clamp(2.2 - routeSpan / 24, 1.25, 2.15);
+
+    return {
+      lat: destinationBiasedLat,
+      lng: destinationBiasedLng,
+      zoom,
+    };
+  }, [activeDeal]);
+
   return (
     <section
       aria-labelledby="flight-marketplace-heading"
-      className="overflow-hidden bg-white py-14 sm:py-16 lg:py-20"
+      className="relative overflow-hidden bg-white py-14 sm:py-16 lg:py-20"
     >
-      <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-[43%] bg-white lg:block" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-[43%] hidden w-28 bg-gradient-to-r from-transparent to-white lg:block"
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <header className="mb-8 sm:mb-10 lg:mb-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#0d1451]">Live Marketplace</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#0c134d]/72">Live Marketplace</p>
           <h2
             id="flight-marketplace-heading"
-            className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight text-[#0d1451] sm:text-3xl md:text-4xl"
+            className="mt-3 max-w-3xl text-2xl font-semibold tracking-tight text-[#0c134d] sm:text-3xl md:text-4xl"
           >
-            Midline Airlines designed for mobile-first booking experiences
+            Regional private jet routes, split view booking and map intelligence
           </h2>
-          <p className="mt-3 max-w-3xl text-sm text-[#0d1451] sm:text-base">
-            Explore active private jet routes with responsive cards and smooth carousel transitions optimized for phone
-            and tablet.
+          <p className="mt-3 max-w-3xl text-sm text-[#0c134d]/82 sm:text-base">
+            View active route deals in the left carousel and follow each selected route on the right interactive map,
+            optimized for short-to-mid-range regional flights.
           </p>
           <p className="sr-only" aria-live="polite">
             Active marketplace route: {activeDeal.fromCity} ({activeDeal.fromICAO}) to {activeDeal.toCity} (
@@ -349,63 +521,101 @@ export default function FlightMarketplaceHero() {
           </p>
         </header>
 
-        <figure className="mb-8 h-[230px] overflow-hidden rounded-2xl border border-[#3a78b6]/60 shadow-[0_12px_36px_rgba(1,8,20,0.45)] sm:mb-10 sm:h-[320px] md:h-[380px] lg:h-[460px]">
-          <WorldMap dots={currentRoute} />
-          <figcaption className="sr-only">
-            Route map highlighting flights between {activeDeal.fromCity} and {activeDeal.toCity}.
-          </figcaption>
-        </figure>
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-stretch lg:gap-7">
+          <div className="relative rounded-2xl border border-white/12 bg-[#070f35]/82 p-3 shadow-[0_18px_46px_rgba(0,6,26,0.45)] sm:p-4">
+            <div className="mb-3">
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#7ec8ff]/82">Available Flights</p>
+              <p className="mt-1 text-xs text-blue-100/70 sm:text-sm">
+                Browse live route cards on the left while the map updates on the right.
+              </p>
+            </div>
 
-        <div className="relative pb-16 sm:pb-0">
-          <div className="relative mx-auto w-full">
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div
-                role="list"
-                aria-label="Available private jet routes"
-                className="flex cursor-grab active:cursor-grabbing"
-              >
-                {JET_DATA.map((deal, index) => (
-                  <FlightCard key={deal.id} deal={deal} isActive={index === selectedIndex} />
-                ))}
+            <div className="relative pb-16 sm:pb-0">
+              <div className="relative mx-auto w-full">
+                <div className="overflow-hidden" ref={emblaRef}>
+                  <div
+                    role="list"
+                    aria-label="Available private jet routes"
+                    className="flex cursor-grab active:cursor-grabbing"
+                  >
+                    {JET_DATA.map((deal, index) => (
+                      <FlightCard key={deal.id} deal={deal} isActive={index === selectedIndex} />
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  aria-label="Previous route"
+                  onClick={() => emblaApi?.scrollPrev()}
+                  className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/95 text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next route"
+                  onClick={() => emblaApi?.scrollNext()}
+                  className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/95 text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-3 sm:hidden">
+                <button
+                  type="button"
+                  aria-label="Previous route"
+                  onClick={() => emblaApi?.scrollPrev()}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/90 text-white shadow"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next route"
+                  onClick={() => emblaApi?.scrollNext()}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/90 text-white shadow"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <aside className="relative flex min-h-[320px] flex-col overflow-hidden rounded-2xl border border-[#3a78b6]/45 bg-[#0d1451]/86 p-4 shadow-[0_20px_50px_rgba(0,8,28,0.55)] sm:min-h-[360px] sm:p-5">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#070f35]/88 to-transparent"
+            />
+            <p className="relative text-[11px] font-medium uppercase tracking-[0.18em] text-[#7ec8ff]/82">
+              Interactive Map
+            </p>
+            <h3 className="relative mt-2 text-lg font-semibold text-white sm:text-xl">
+              {activeDeal.fromCity} to {activeDeal.toCity}
+            </h3>
+            <p className="relative mt-1 text-xs text-blue-100/72 sm:text-sm">
+              {activeDeal.fromICAO} to {activeDeal.toICAO} - {activeDeal.operator}
+            </p>
+
+            <div className="relative mt-3 grid grid-cols-2 gap-2 text-xs">
+              <div className="rounded-lg border border-[#3a78b6]/35 bg-[#070f35]/55 p-2.5">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-blue-100/58">Listed Price</p>
+                <p className="mt-1 text-sm font-semibold text-white">{activeDeal.price}</p>
+              </div>
+              <div className="rounded-lg border border-[#3a78b6]/35 bg-[#070f35]/55 p-2.5">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-blue-100/58">Market Band</p>
+                <p className="mt-1 text-sm font-semibold text-white">{activeDeal.marketRange}</p>
               </div>
             </div>
 
-            <button
-              type="button"
-              aria-label="Previous route"
-              onClick={() => emblaApi?.scrollPrev()}
-              className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow-lg transition hover:scale-105 hover:bg-slate-100 sm:inline-flex"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              type="button"
-              aria-label="Next route"
-              onClick={() => emblaApi?.scrollNext()}
-              className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow-lg transition hover:scale-105 hover:bg-slate-100 sm:inline-flex"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-3 sm:hidden">
-            <button
-              type="button"
-              aria-label="Previous route"
-              onClick={() => emblaApi?.scrollPrev()}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              type="button"
-              aria-label="Next route"
-              onClick={() => emblaApi?.scrollNext()}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#3a78b6] bg-white text-[#123a67] shadow"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
+            <figure className="relative mt-4 flex-1 overflow-hidden rounded-xl border border-[#3a78b6]/35 shadow-inner">
+              <WorldMap dots={currentRoute} lineColor="#41b3b5" focus={mapFocus} />
+              <figcaption className="sr-only">
+                Route map highlighting flights between {activeDeal.fromCity} and {activeDeal.toCity}.
+              </figcaption>
+            </figure>
+          </aside>
         </div>
 
         <div className="sr-only">
@@ -420,7 +630,6 @@ export default function FlightMarketplaceHero() {
           </ul>
         </div>
       </div>
-
     </section>
   );
 }

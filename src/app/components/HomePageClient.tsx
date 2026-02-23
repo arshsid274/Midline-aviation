@@ -63,7 +63,7 @@ export default function HomePageClient() {
     <VideoProvider>
       <main aria-busy={!loadingComplete} className="relative z-[1] bg-white">
         <HeroScrollVideo revealText={loadingComplete} />
-        <HeroBookingForm />
+        <HeroBookingForm revealFromBelow={loadingComplete} />
         <ServicesShowcase />
         <PopularDestinationsCarousel />
         <TripsMapView />
