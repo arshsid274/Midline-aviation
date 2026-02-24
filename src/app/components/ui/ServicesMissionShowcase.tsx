@@ -634,8 +634,8 @@ function MembershipVisual() {
               />
 
               <motion.circle
-                cx={route.destinationPoint.x}
-                cy={route.destinationPoint.y}
+                cx={Number(route.destinationPoint.x.toFixed(4))}
+                cy={Number(route.destinationPoint.y.toFixed(4))}
                 r="2.5"
                 fill="rgba(149,211,255,0.96)"
                 initial={{ scale: 0 }}
@@ -651,8 +651,8 @@ function MembershipVisual() {
           ))}
           {hubPoint && (
             <motion.circle
-              cx={hubPoint.x}
-              cy={hubPoint.y}
+              cx={Number(hubPoint.x.toFixed(4))}
+              cy={Number(hubPoint.y.toFixed(4))}
               r="3.2"
               fill="#ffffff"
               initial={{ scale: 0.9, opacity: 0.9 }}
@@ -668,8 +668,8 @@ function MembershipVisual() {
             className="absolute rounded-[2px] border border-white/25 bg-white px-2 py-0.5 text-[10px] font-semibold text-[#192663] shadow-[0_6px_16px_rgba(0,0,0,0.25)]"
             title={route.city}
             style={{
-              left: `${(route.labelPoint.x / MEMBERSHIP_VIEWBOX) * 100}%`,
-              top: `${(route.labelPoint.y / MEMBERSHIP_VIEWBOX) * 100}%`,
+              left: `${((route.labelPoint.x / MEMBERSHIP_VIEWBOX) * 100).toFixed(4)}%`,
+              top: `${((route.labelPoint.y / MEMBERSHIP_VIEWBOX) * 100).toFixed(4)}%`,
               transform: "translate(-50%, -50%)",
             }}
           >
@@ -681,8 +681,8 @@ function MembershipVisual() {
           <div
             className="absolute rounded-[2px] border border-white/80 bg-white px-2 py-0.5 text-[10px] font-semibold text-[#17308f] shadow-[0_8px_18px_rgba(220,232,255,0.45)]"
             style={{
-              left: `${(hubPoint.x / MEMBERSHIP_VIEWBOX) * 100}%`,
-              top: `${(hubPoint.y / MEMBERSHIP_VIEWBOX) * 100}%`,
+              left: `${((hubPoint.x / MEMBERSHIP_VIEWBOX) * 100).toFixed(4)}%`,
+              top: `${((hubPoint.y / MEMBERSHIP_VIEWBOX) * 100).toFixed(4)}%`,
               transform: "translate(-50%, -130%)",
             }}
           >
