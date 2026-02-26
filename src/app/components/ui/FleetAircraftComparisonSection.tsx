@@ -1,0 +1,276 @@
+import Image from "next/image";
+import type { LucideIcon } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  ChevronDown,
+  Download,
+  Gauge,
+  Globe2,
+  Ruler,
+  SlidersHorizontal,
+  Star,
+  Users2,
+} from "lucide-react";
+import { playfairDisplay } from "@/lib/fonts";
+
+interface AircraftOption {
+  label: string;
+  value: string;
+}
+
+interface AircraftColumn {
+  code: string;
+  name: string;
+  image: string;
+  badge: string;
+  options: AircraftOption[];
+}
+
+interface MetricCell {
+  value: string;
+  note: string;
+}
+
+interface MetricRow {
+  label: string;
+  icon: LucideIcon;
+  values: MetricCell[];
+  bestIndex: number;
+}
+
+const aircraftColumns: AircraftColumn[] = [
+  {
+    code: "EMBRAER LEGACY 650",
+    name: "Embraer Legacy 650",
+    image: "/assets/images/available-flights/embraer-heavy-exterior.jpg",
+    badge: "HEAVY JET",
+    options: [
+      { label: "Embraer Legacy 650", value: "legacy-650" },
+      { label: "Citation X", value: "citation-x" },
+      { label: "Challenger 350", value: "challenger-350" },
+    ],
+  },
+  {
+    code: "GULFSTREAM G450",
+    name: "Gulfstream G450",
+    image: "/assets/images/available-flights/gulfstream-heavy-exterior.jpg",
+    badge: "LARGE JET",
+    options: [
+      { label: "Gulfstream G450", value: "g450" },
+      { label: "Global 6000", value: "global-6000" },
+      { label: "Falcon 900LX", value: "falcon-900lx" },
+    ],
+  },
+  {
+    code: "GULFSTREAM G200",
+    name: "Gulfstream G200",
+    image: "/assets/images/available-flights/gulfstream-mid-size-exterior.jpg",
+    badge: "SUPER MIDSIZE",
+    options: [
+      { label: "Gulfstream G200", value: "g200" },
+      { label: "Hawker 900XP", value: "hawker-900xp" },
+      { label: "Citation Latitude", value: "citation-latitude" },
+    ],
+  },
+];
+
+const metricRows: MetricRow[] = [
+  {
+    label: "Max Range",
+    icon: Globe2,
+    values: [
+      { value: "3,900 nm", note: "Intercontinental" },
+      { value: "4,350 nm", note: "Transoceanic" },
+      { value: "3,400 nm", note: "Cross-country" },
+    ],
+    bestIndex: 1,
+  },
+  {
+    label: "Cruising Speed",
+    icon: Gauge,
+    values: [
+      { value: "459 kts", note: "Mach 0.80" },
+      { value: "476 kts", note: "Mach 0.88" },
+      { value: "459 kts", note: "Mach 0.80" },
+    ],
+    bestIndex: 1,
+  },
+  {
+    label: "Seating Capacity",
+    icon: Users2,
+    values: [
+      { value: "13", note: "Passengers" },
+      { value: "14", note: "Passengers" },
+      { value: "9", note: "Passengers" },
+    ],
+    bestIndex: 1,
+  },
+  {
+    label: "Cabin Height",
+    icon: Ruler,
+    values: [
+      { value: "6' 0\"", note: "Stand-up Cabin" },
+      { value: "6' 2\"", note: "Stand-up Cabin" },
+      { value: "6' 3\"", note: "Stand-up Cabin" },
+    ],
+    bestIndex: 2,
+  },
+  {
+    label: "Baggage Volume",
+    icon: BriefcaseBusiness,
+    values: [
+      { value: "240", note: "Cu. Ft." },
+      { value: "169", note: "Cu. Ft." },
+      { value: "150", note: "Cu. Ft." },
+    ],
+    bestIndex: 0,
+  },
+];
+
+export default function FleetAircraftComparisonSection() {
+  return (
+    <section className="mt-12 sm:mt-14">
+      <div className="flex flex-col gap-6 border-b border-[#0d1451]/10 pb-8 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-3xl">
+          <p className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#144bb8]">Fleet Analysis</p>
+          <h2 className={`${playfairDisplay.className} mt-3 text-4xl font-bold tracking-tight text-[#0f1f43] sm:text-5xl`}>
+            Compare Aircraft
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-slate-500">
+            Analyze performance, comfort, and specifications side-by-side to find the perfect jet for your next
+            journey.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-200"
+          >
+            <SlidersHorizontal className="h-4 w-4" />
+            Filters
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-200"
+          >
+            <Download className="h-4 w-4" />
+            Export PDF
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_6px_22px_rgba(15,31,67,0.08)]">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[1000px] border-collapse">
+            <thead>
+              <tr>
+                <th className="h-[280px] min-w-[210px] w-[22%] border-b border-r border-slate-200 bg-slate-50/80 p-6 text-left align-bottom">
+                  <span className="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Specifications</span>
+                  <span className={`${playfairDisplay.className} mt-2 block text-3xl font-bold text-slate-900`}>Metrics</span>
+                </th>
+
+                {aircraftColumns.map((aircraft, columnIndex) => (
+                  <th
+                    key={aircraft.code}
+                    className={`h-[280px] min-w-[260px] w-[26%] border-b border-slate-200 bg-white p-6 align-top ${
+                      columnIndex < aircraftColumns.length - 1 ? "border-r border-slate-200" : ""
+                    }`}
+                  >
+                    <div className="flex h-full flex-col gap-4 text-left">
+                      <div className="relative">
+                        <select
+                          defaultValue={aircraft.options[0]?.value}
+                          className="w-full appearance-none rounded-md border border-[#144bb8]/20 bg-[#144bb8]/6 py-1.5 pl-3 pr-8 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#144bb8]"
+                          aria-label={`${aircraft.name} options`}
+                        >
+                          {aircraft.options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#144bb8]" />
+                      </div>
+
+                      <div className="relative aspect-video overflow-hidden rounded-lg bg-slate-100">
+                        <Image
+                          src={aircraft.image}
+                          alt={`${aircraft.name} private jet exterior`}
+                          fill
+                          sizes="260px"
+                          className="object-cover transition-transform duration-500 hover:scale-[1.04]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+                        <span className="absolute bottom-2 left-2 rounded bg-[#144bb8] px-2 py-0.5 text-[10px] font-bold text-white">
+                          {aircraft.badge}
+                        </span>
+                      </div>
+
+                      <h3 className={`${playfairDisplay.className} text-[1.35rem] font-bold text-slate-900`}>{aircraft.name}</h3>
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+
+            <tbody>
+              {metricRows.map((metric) => {
+                const Icon = metric.icon;
+                return (
+                  <tr key={metric.label}>
+                    <td className="h-[88px] border-b border-r border-slate-100 bg-slate-50/55 px-6 py-4">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                        <Icon className="h-4 w-4 text-[#144bb8]/75" />
+                        <span>{metric.label}</span>
+                      </div>
+                    </td>
+
+                    {metric.values.map((cell, index) => {
+                      const isBest = index === metric.bestIndex;
+                      return (
+                        <td
+                          key={`${metric.label}-${index}-${cell.value}`}
+                          className={`relative h-[88px] border-b border-slate-100 px-4 py-3 text-center ${
+                            index < metric.values.length - 1 ? "border-r border-slate-100" : ""
+                          } ${isBest ? "bg-[#144bb8]/5" : "bg-[#144bb8]/[0.03]"}`}
+                        >
+                          {isBest ? <Star className="absolute right-2 top-2 h-3.5 w-3.5 fill-[#144bb8] text-[#144bb8]" /> : null}
+                          <div className="flex h-full flex-col items-center justify-center">
+                            <span className={`text-lg font-bold ${isBest ? "text-[#144bb8]" : "text-slate-800"}`}>
+                              {cell.value}
+                            </span>
+                            <span className="text-xs text-slate-500">{cell.note}</span>
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+
+            <tfoot>
+              <tr>
+                <td className="border-r border-t border-slate-200 p-6" />
+                {aircraftColumns.map((aircraft, index) => (
+                  <td
+                    key={`${aircraft.code}-details`}
+                    className={`border-t border-slate-200 bg-slate-50/55 p-6 ${index < aircraftColumns.length - 1 ? "border-r border-slate-200" : ""}`}
+                  >
+                    <button
+                      type="button"
+                      className="w-full rounded-lg border-2 border-[#144bb8] px-4 py-2.5 text-sm font-bold text-[#144bb8] transition-colors hover:bg-[#144bb8] hover:text-white"
+                    >
+                      View Details
+                    </button>
+                  </td>
+                ))}
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+}

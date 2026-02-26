@@ -1,14 +1,41 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import DesktopMenu from "./DesktopMenu.client"
 import MobileMenu from "./MobileMenu.client"
 import BookFlightButton from "./BookFlightButton"
 
 export default function Navbar() {
+  const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 16)
+    }
+
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+    }
+  }, [pathname])
+
+  const isHome = pathname === "/"
+  const useBlueTint = !isHome || isScrolled
+
   return (
     <header
       data-site-navbar="true"
-      className="fixed top-0 left-0 z-50 w-full border-b border-white/15  backdrop-blur-xl transition-all duration-500"
+      className={`fixed top-0 left-0 z-50 w-full backdrop-blur-xl transition-all duration-500 ${
+        useBlueTint
+          ? "border-b border-[#88adf8]/25 bg-[#0d1451]/74 shadow-[0_14px_36px_rgba(13,20,81,0.36)]"
+          : "border-b border-white/15 bg-white/[0.06] shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+      }`}
     >
       <nav
         aria-label="Primary navigation"

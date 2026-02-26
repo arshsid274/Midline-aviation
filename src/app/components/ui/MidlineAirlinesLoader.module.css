@@ -3,7 +3,7 @@
    Next.js CSS Module
    ============================================ */
 
-:root {
+.main_visual {
   --maskL: 50%;
   --maskB: 0;
   --maskR: 50%;
