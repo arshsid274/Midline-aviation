@@ -129,146 +129,192 @@ const metricRows: MetricRow[] = [
 
 export default function FleetAircraftComparisonSection() {
   return (
-    <section className="mt-12 sm:mt-14">
-      <div className="flex flex-col gap-6 border-b border-[#0d1451]/10 pb-8 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-[#144bb8]">Fleet Analysis</p>
-          <h2 className={`${playfairDisplay.className} mt-3 text-4xl font-bold tracking-tight text-[#0f1f43] sm:text-5xl`}>
-            Compare Aircraft
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-500">
-            Analyze performance, comfort, and specifications side-by-side to find the perfect jet for your next
-            journey.
-          </p>
+    <section className="relative w-full overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
+      {/* Subtle navy grid texture */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(to right, rgba(13,20,81,1) 1px, transparent 1px, transparent 64px), repeating-linear-gradient(to bottom, rgba(13,20,81,1) 1px, transparent 1px, transparent 64px)",
+        }}
+      />
+      {/* Soft top glow */}
+      <div
+        className="pointer-events-none absolute -top-32 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full opacity-[0.06]"
+        style={{ background: "radial-gradient(ellipse, #0d1451 0%, transparent 70%)" }}
+      />
+
+      <div className="relative mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
+        {/* Section header */}
+        <div className="mb-10 flex flex-col gap-6 border-b border-[#0d1451]/10 pb-8 sm:mb-12 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#0d1451]/55">
+              Fleet Analysis
+            </p>
+            <h2
+              className={`${playfairDisplay.className} mt-3 text-4xl font-medium tracking-[-0.02em] text-[#0d1451] sm:text-5xl`}
+            >
+              Compare Aircraft
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-[#0d1451]/58">
+              Analyze performance, comfort, and specifications side-by-side to find the perfect jet for your next
+              journey.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-lg border border-[#0d1451]/16 bg-[#0d1451]/5 px-4 py-2.5 text-sm font-semibold text-[#0d1451]/70 transition-colors hover:bg-[#0d1451]/10 hover:text-[#0d1451]"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              Filters
+            </button>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-lg border border-[#0d1451]/16 bg-[#0d1451]/5 px-4 py-2.5 text-sm font-semibold text-[#0d1451]/70 transition-colors hover:bg-[#0d1451]/10 hover:text-[#0d1451]"
+            >
+              <Download className="h-4 w-4" />
+              Export PDF
+            </button>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-200"
-          >
-            <SlidersHorizontal className="h-4 w-4" />
-            Filters
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-200"
-          >
-            <Download className="h-4 w-4" />
-            Export PDF
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_6px_22px_rgba(15,31,67,0.08)]">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[1000px] border-collapse">
-            <thead>
-              <tr>
-                <th className="h-[280px] min-w-[210px] w-[22%] border-b border-r border-slate-200 bg-slate-50/80 p-6 text-left align-bottom">
-                  <span className="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Specifications</span>
-                  <span className={`${playfairDisplay.className} mt-2 block text-3xl font-bold text-slate-900`}>Metrics</span>
-                </th>
-
-                {aircraftColumns.map((aircraft, columnIndex) => (
-                  <th
-                    key={aircraft.code}
-                    className={`h-[280px] min-w-[260px] w-[26%] border-b border-slate-200 bg-white p-6 align-top ${
-                      columnIndex < aircraftColumns.length - 1 ? "border-r border-slate-200" : ""
-                    }`}
-                  >
-                    <div className="flex h-full flex-col gap-4 text-left">
-                      <div className="relative">
-                        <select
-                          defaultValue={aircraft.options[0]?.value}
-                          className="w-full appearance-none rounded-md border border-[#144bb8]/20 bg-[#144bb8]/6 py-1.5 pl-3 pr-8 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#144bb8]"
-                          aria-label={`${aircraft.name} options`}
-                        >
-                          {aircraft.options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#144bb8]" />
-                      </div>
-
-                      <div className="relative aspect-video overflow-hidden rounded-lg bg-slate-100">
-                        <Image
-                          src={aircraft.image}
-                          alt={`${aircraft.name} private jet exterior`}
-                          fill
-                          sizes="260px"
-                          className="object-cover transition-transform duration-500 hover:scale-[1.04]"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-                        <span className="absolute bottom-2 left-2 rounded bg-[#144bb8] px-2 py-0.5 text-[10px] font-bold text-white">
-                          {aircraft.badge}
-                        </span>
-                      </div>
-
-                      <h3 className={`${playfairDisplay.className} text-[1.35rem] font-bold text-slate-900`}>{aircraft.name}</h3>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {metricRows.map((metric) => {
-                const Icon = metric.icon;
-                return (
-                  <tr key={metric.label}>
-                    <td className="h-[88px] border-b border-r border-slate-100 bg-slate-50/55 px-6 py-4">
-                      <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-                        <Icon className="h-4 w-4 text-[#144bb8]/75" />
-                        <span>{metric.label}</span>
-                      </div>
-                    </td>
-
-                    {metric.values.map((cell, index) => {
-                      const isBest = index === metric.bestIndex;
-                      return (
-                        <td
-                          key={`${metric.label}-${index}-${cell.value}`}
-                          className={`relative h-[88px] border-b border-slate-100 px-4 py-3 text-center ${
-                            index < metric.values.length - 1 ? "border-r border-slate-100" : ""
-                          } ${isBest ? "bg-[#144bb8]/5" : "bg-[#144bb8]/[0.03]"}`}
-                        >
-                          {isBest ? <Star className="absolute right-2 top-2 h-3.5 w-3.5 fill-[#144bb8] text-[#144bb8]" /> : null}
-                          <div className="flex h-full flex-col items-center justify-center">
-                            <span className={`text-lg font-bold ${isBest ? "text-[#144bb8]" : "text-slate-800"}`}>
-                              {cell.value}
-                            </span>
-                            <span className="text-xs text-slate-500">{cell.note}</span>
-                          </div>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-
-            <tfoot>
-              <tr>
-                <td className="border-r border-t border-slate-200 p-6" />
-                {aircraftColumns.map((aircraft, index) => (
-                  <td
-                    key={`${aircraft.code}-details`}
-                    className={`border-t border-slate-200 bg-slate-50/55 p-6 ${index < aircraftColumns.length - 1 ? "border-r border-slate-200" : ""}`}
-                  >
-                    <button
-                      type="button"
-                      className="w-full rounded-lg border-2 border-[#144bb8] px-4 py-2.5 text-sm font-bold text-[#144bb8] transition-colors hover:bg-[#144bb8] hover:text-white"
+        {/* Glass table card */}
+        <div className="overflow-hidden rounded-3xl border border-[#0d1451]/10 bg-white/80 shadow-[0_24px_64px_rgba(13,20,81,0.1)] backdrop-blur-xl">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[1000px] border-collapse">
+              <thead>
+                <tr>
+                  {/* Metrics label header cell */}
+                  <th className="h-[290px] min-w-[210px] w-[22%] border-b border-r border-[#0d1451]/8 bg-[#f5f7fd] p-6 text-left align-bottom">
+                    <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-[#0d1451]/40">
+                      Specifications
+                    </span>
+                    <span
+                      className={`${playfairDisplay.className} mt-2 block text-3xl font-medium text-[#0d1451]`}
                     >
-                      View Details
-                    </button>
-                  </td>
-                ))}
-              </tr>
-            </tfoot>
-          </table>
+                      Metrics
+                    </span>
+                  </th>
+
+                  {/* Aircraft columns */}
+                  {aircraftColumns.map((aircraft, columnIndex) => (
+                    <th
+                      key={aircraft.code}
+                      className={`h-[290px] min-w-[260px] w-[26%] border-b border-[#0d1451]/8 bg-white p-5 align-top ${
+                        columnIndex < aircraftColumns.length - 1 ? "border-r border-[#0d1451]/8" : ""
+                      }`}
+                    >
+                      <div className="flex h-full flex-col gap-3.5 text-left">
+                        {/* Dropdown */}
+                        <div className="relative">
+                          <select
+                            defaultValue={aircraft.options[0]?.value}
+                            className="w-full appearance-none rounded-lg border border-[#0d1451]/18 bg-[#f5f7fd] py-1.5 pl-3 pr-8 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0d1451]"
+                            aria-label={`${aircraft.name} options`}
+                          >
+                            {aircraft.options.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#0d1451]/60" />
+                        </div>
+
+                        {/* Aircraft image */}
+                        <div className="relative aspect-video overflow-hidden rounded-xl border border-[#0d1451]/10">
+                          <Image
+                            src={aircraft.image}
+                            alt={`${aircraft.name} private jet exterior`}
+                            fill
+                            sizes="260px"
+                            className="object-cover transition-transform duration-500 hover:scale-[1.05]"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                          {/* Glass badge */}
+                          <span className="absolute bottom-2.5 left-2.5 rounded-md border border-white/30 bg-[#0d1451]/75 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-md">
+                            {aircraft.badge}
+                          </span>
+                        </div>
+
+                        <h3 className={`${playfairDisplay.className} text-[1.2rem] font-medium text-[#0d1451]`}>
+                          {aircraft.name}
+                        </h3>
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+
+              <tbody>
+                {metricRows.map((metric, rowIndex) => {
+                  const Icon = metric.icon;
+                  const isEven = rowIndex % 2 === 0;
+                  return (
+                    <tr key={metric.label} className={isEven ? "bg-[#f8faff]" : "bg-white"}>
+                      {/* Metric label cell */}
+                      <td className="h-[86px] border-b border-r border-[#0d1451]/8 px-6 py-4">
+                        <div className="flex items-center gap-2.5 text-sm font-semibold text-[#0d1451]/70">
+                          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#0d1451]/8">
+                            <Icon className="h-3.5 w-3.5 text-[#0d1451]/60" />
+                          </span>
+                          <span>{metric.label}</span>
+                        </div>
+                      </td>
+
+                      {/* Value cells */}
+                      {metric.values.map((cell, index) => {
+                        const isBest = index === metric.bestIndex;
+                        return (
+                          <td
+                            key={`${metric.label}-${index}-${cell.value}`}
+                            className={`relative h-[86px] border-b border-[#0d1451]/8 px-4 py-3 text-center transition-colors ${
+                              index < metric.values.length - 1 ? "border-r border-[#0d1451]/8" : ""
+                            } ${isBest ? "bg-[#0d1451]/[0.04]" : ""}`}
+                          >
+                            {isBest && (
+                              <Star className="absolute right-2.5 top-2.5 h-3.5 w-3.5 fill-[#0d1451] text-[#0d1451] opacity-30" />
+                            )}
+                            <div className="flex h-full flex-col items-center justify-center">
+                              <span
+                                className={`text-xl font-semibold ${isBest ? "text-[#0d1451]" : "text-[#0d1451]/70"}`}
+                              >
+                                {cell.value}
+                              </span>
+                              <span className="mt-0.5 text-[11px] text-[#0d1451]/42">{cell.note}</span>
+                            </div>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <td className="border-r border-t border-[#0d1451]/8 bg-[#f5f7fd] p-6" />
+                  {aircraftColumns.map((aircraft, index) => (
+                    <td
+                      key={`${aircraft.code}-cta`}
+                      className={`border-t border-[#0d1451]/8 bg-white p-5 ${
+                        index < aircraftColumns.length - 1 ? "border-r border-[#0d1451]/8" : ""
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        className="w-full rounded-xl border-2 border-[#0d1451]/30 px-4 py-2.5 text-sm font-semibold text-[#0d1451] transition-all hover:border-[#0d1451] hover:bg-[#0d1451] hover:text-white"
+                      >
+                        View Details
+                      </button>
+                    </td>
+                  ))}
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
       </div>
     </section>

@@ -12,9 +12,17 @@ export default function Navbar() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
 
+  const isHome = pathname === "/"
+  const isContact = pathname === "/contact"
+
   useEffect(() => {
+    const getThreshold = () => {
+      if (isHome) return window.innerHeight * 0.85
+      return 16
+    }
+
     const onScroll = () => {
-      setIsScrolled(window.scrollY > 16)
+      setIsScrolled(window.scrollY > getThreshold())
     }
 
     onScroll()
@@ -23,10 +31,9 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", onScroll)
     }
-  }, [pathname])
+  }, [pathname, isHome])
 
-  const isHome = pathname === "/"
-  const useBlueTint = !isHome || isScrolled
+  const useBlueTint = !isContact && (!isHome || isScrolled)
 
   return (
     <header

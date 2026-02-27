@@ -20,9 +20,7 @@ export default function FleetPage() {
     <main className="midline-page">
       <FleetExceptionalHero />
 
-      <div className="mx-auto w-full max-w-[1400px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 md:py-14">
-        <FleetAircraftComparisonSection />
-      </div>
+      <FleetAircraftComparisonSection />
 
       <ServicesMissionShowcase />
 

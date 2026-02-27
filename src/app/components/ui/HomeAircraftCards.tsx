@@ -184,12 +184,17 @@ export default function HomeAircraftCards() {
                     className="object-cover"
                     priority={aircraft.id === "legacy-650"}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3">
+                    <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3.5 py-2 backdrop-blur-md">
+                      <h3 className="text-[1.05rem] font-semibold tracking-tight text-white">{aircraft.name}</h3>
+                    </div>
+                  </div>
                 </CardItem>
 
                 <div data-aircraft-text className="mt-4 space-y-4">
                   <CardItem translateZ={28}>
-                    <h3 className="text-xl font-semibold text-white">{aircraft.name}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-blue-100/85">{aircraft.description}</p>
+                    <p className="text-sm leading-relaxed text-blue-100/85">{aircraft.description}</p>
                   </CardItem>
 
                   <CardItem translateZ={24}>
