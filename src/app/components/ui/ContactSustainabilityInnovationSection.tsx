@@ -34,7 +34,7 @@ export default function ContactSustainabilityInnovationSection() {
             className="object-cover object-[center_62%]"
           />
 
-          <article className="absolute left-4 right-4 top-4 z-10 rounded-md border border-white/28 bg-[#192f67]/54 p-4 text-white shadow-[0_14px_30px_rgba(13,20,81,0.24)] backdrop-blur-[2px] sm:left-10 sm:right-auto sm:top-8 sm:max-w-[20.5rem] sm:p-5">
+          <article className="absolute left-4 right-4 top-4 z-10 rounded-md border border-white/28 bg-[#192f67]/54 p-4 text-white shadow-[0_14px_30px_rgba(13,20,81,0.24)] backdrop-blur-xl sm:left-10 sm:right-auto sm:top-8 sm:max-w-[20.5rem] sm:p-5">
             <h3 className="text-lg font-medium tracking-tight text-white">Eco-Conscious Travel</h3>
             <p className="mt-2 text-[0.66rem] leading-[1.65] text-white/86">
               We are committed to reducing our environmental footprint through disciplined Carbon Offsetting and

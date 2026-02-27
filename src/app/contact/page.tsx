@@ -41,23 +41,23 @@ export default function ContactPage() {
           </p>
 
           <div className="mt-8 space-y-4">
-            <div className="flex items-start gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3">
+            <div className="flex items-start gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3 backdrop-blur-xl">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#c5a059]" />
               <p className="text-sm text-white/86">Office 213, Building A5, Business Park, Dubai South, UAE</p>
             </div>
-            <div className="flex items-center gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3">
+            <div className="flex items-center gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3 backdrop-blur-xl">
               <Mail className="h-4 w-4 shrink-0 text-[#c5a059]" />
               <a className="text-sm text-white/86 transition-colors hover:text-white" href="mailto:info@midlineaviation.com">
                 info@midlineaviation.com
               </a>
             </div>
-            <div className="flex items-center gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3">
+            <div className="flex items-center gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3 backdrop-blur-xl">
               <Phone className="h-4 w-4 shrink-0 text-[#c5a059]" />
               <a className="text-sm text-white/86 transition-colors hover:text-white" href="tel:+97145533430">
                 +971 455 334 30
               </a>
             </div>
-            <div className="flex items-center gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3">
+            <div className="flex items-center gap-3 rounded-xl border border-white/16 bg-white/6 px-4 py-3 backdrop-blur-xl">
               <Clock3 className="h-4 w-4 shrink-0 text-[#c5a059]" />
               <p className="text-sm text-white/86">24/7 Client Support and Flight Coordination</p>
             </div>
@@ -65,7 +65,7 @@ export default function ContactPage() {
         </section>
 
         <section className="mt-8 flex items-center lg:mt-0">
-          <div className="w-full rounded-3xl border border-white/20 bg-white/10 p-6 shadow-[0_18px_46px_rgba(0,0,0,0.35)] sm:p-8">
+          <div className="w-full rounded-3xl border border-white/20 bg-white/10 p-6 shadow-[0_18px_46px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8">
             <div className="mb-8 text-center">
               <h2 className={`${playfairDisplay.className} text-3xl font-semibold text-white sm:text-4xl`}>
                 Inquire About Your Journey
@@ -84,7 +84,7 @@ export default function ContactPage() {
                     name="fullName"
                     type="text"
                     placeholder="John Doe"
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -96,7 +96,7 @@ export default function ContactPage() {
                     name="email"
                     type="email"
                     placeholder="john@example.com"
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function ContactPage() {
                     name="phone"
                     type="tel"
                     placeholder="+1 (555) 000-0000"
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -123,7 +123,7 @@ export default function ContactPage() {
                       id="aircraftType"
                       name="aircraftType"
                       defaultValue=""
-                      className="w-full appearance-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 pr-11 text-sm text-white focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                      className="w-full appearance-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 pr-11 text-sm text-white backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                     >
                       <option value="" disabled className="bg-[#101420]">
                         Select Preferred Aircraft Type
@@ -159,7 +159,7 @@ export default function ContactPage() {
                     name="destination"
                     type="text"
                     placeholder="E.g. London, Teterboro..."
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -170,7 +170,7 @@ export default function ContactPage() {
                     id="departureDate"
                     name="departureDate"
                     type="date"
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white [color-scheme:dark] focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white backdrop-blur-xl [color-scheme:dark] focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export default function ContactPage() {
                     id="passengers"
                     name="passengers"
                     defaultValue="1-4"
-                    className="w-full appearance-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 pr-11 text-sm text-white focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full appearance-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 pr-11 text-sm text-white backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   >
                     <option value="1-4" className="bg-[#101420]">
                       1-4 Passengers
@@ -212,7 +212,7 @@ export default function ContactPage() {
                   name="message"
                   rows={4}
                   placeholder="Tell us your route, timing, and service preferences..."
-                  className="w-full resize-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                  className="w-full resize-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                 />
               </div>
 

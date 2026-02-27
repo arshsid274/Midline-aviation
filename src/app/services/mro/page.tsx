@@ -1,6 +1,9 @@
-import ServicePageShell from "@/app/components/ui/ServicePageShell";
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seo";
+import MROHeroSection from "@/app/components/ui/MROHeroSection";
+import MROFoundationSection from "@/app/components/ui/MROFoundationSection";
+import MROServiceCardsSection from "@/app/components/ui/MROServiceCardsSection";
+import MROOptimizeFleetSection from "@/app/components/ui/MROOptimizeFleetSection";
 
 export const dynamic = "force-static";
 
@@ -14,24 +17,11 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function MROPage() {
   return (
-    <ServicePageShell
-      title="Aircraft MRO Services"
-      description="Our certified engineers keep your aircraft in optimal condition and ready to fly anytime."
-      columns={3}
-      features={[
-        {
-          title: "Line & Base Maintenance",
-          description: "Certified technicians deliver scheduled and unscheduled maintenance using approved procedures.",
-        },
-        {
-          title: "Component Repair",
-          description: "Specialized repair and overhaul programs designed for long-term reliability and performance.",
-        },
-        {
-          title: "Regulatory Compliance",
-          description: "Structured documentation and audit readiness aligned with aviation authority requirements.",
-        },
-      ]}
-    />
+    <main className="midline-page">
+      <MROHeroSection />
+      <MROFoundationSection />
+      <MROServiceCardsSection />
+      <MROOptimizeFleetSection />
+    </main>
   );
 }
