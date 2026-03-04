@@ -1,26 +1,27 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const STEPS = [
   {
-    number: "01",
-    title: "Choose Your Route",
+    id: "request",
+    title: "Request",
     description:
-      "Share your departure, destination, and preferred travel dates. Our specialists are available around the clock to guide every detail.",
+      "Fill out the short form (or call us) with your requirements.",
   },
   {
-    number: "02",
-    title: "Customize Your Experience",
+    id: "quote",
+    title: "Quote",
     description:
-      "Select your aircraft, configure cabin preferences, and add curated services crafted exclusively for your journey.",
+      "Receive a comprehensive, competitive quote from your dedicated specialist.",
   },
   {
-    number: "03",
-    title: "Depart in Style",
+    id: "fly",
+    title: "Fly",
     description:
-      "Arrive at a private terminal, board your jet at your leisure, and experience the pinnacle of luxury air travel.",
+      "Confirm and fly with guaranteed support and execution.",
   },
 ];
 
@@ -35,6 +36,7 @@ export default function CharterStepsComponent() {
     const plane = planeRef.current;
     const track = trackRef.current;
     if (!plane || !track) return;
+
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -60,74 +62,66 @@ export default function CharterStepsComponent() {
   }, []);
 
   return (
-    <section className="overflow-hidden bg-white py-20 sm:py-24">
-      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-16 text-center sm:mb-20">
-          <span className="mb-5 inline-block rounded-full border border-[#111a5a]/20 bg-[#111a5a]/5 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#111a5a]">
-            How It Works
-          </span>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#111a5a] sm:text-4xl md:text-5xl">
-            Chartering Your Flight in{" "}
-            <span className="bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] bg-clip-text text-transparent">
-              3 Simple Steps
-            </span>
+    <section className="overflow-hidden bg-[linear-gradient(135deg,#0d1451_0%,#0a5a8c_100%)] py-16 sm:py-20">
+      <div className="mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-14">
+
+        {/* Heading row */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+            Chartering your flight in 3 simple steps
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[#111a5a]/60 sm:text-base">
-            From the first call to wheels up — we handle every detail so you
-            can focus on what matters most.
-          </p>
+          <Link
+            href="/contact"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/50 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-white/10"
+          >
+            Talk To Us
+            <span aria-hidden="true">↗</span>
+          </Link>
         </div>
 
-        {/* Step cards */}
-        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-3">
-          {STEPS.map((step) => (
-            <div
-              key={step.number}
-              className="flex flex-col rounded-2xl border border-[#111a5a]/10 bg-[#f7f8fc] p-7 sm:p-8"
-            >
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#111a5a_0%,#0a6ea4_100%)]">
-                <span className="text-sm font-bold text-white">
-                  {step.number}
-                </span>
-              </div>
-              <h3 className="mb-3 text-lg font-semibold text-[#111a5a]">
-                {step.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-[#111a5a]/65">
-                {step.description}
-              </p>
-            </div>
-          ))}
-        </div>
+        {/* Divider */}
+        <div className="mt-6 border-t border-white/20" />
 
-        {/* Flight track — desktop only */}
-        <div ref={trackRef} className="relative mt-10 hidden h-14 md:block">
-          {/* Dashed runway */}
-          <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 border-t-2 border-dashed border-[#111a5a]/15" />
+        {/* Cards + flight track combined — plane flies behind cards */}
+        <div ref={trackRef} className="relative mt-10">
 
-          {/* Milestone dots aligned with card centers */}
-          <div className="absolute top-1/2 flex w-full -translate-y-1/2">
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="flex flex-1 justify-center">
-                <div className="h-3 w-3 rounded-full bg-[#0a6ea4] ring-4 ring-[#0a6ea4]/15" />
+          {/* Dashed runway line running through card area — behind cards */}
+          <div className="pointer-events-none absolute inset-0 z-0 hidden items-center md:flex">
+            <div className="w-full border-t-2 border-dashed border-white/25" />
+          </div>
+
+          {/* Animated plane — behind cards */}
+          <svg
+            ref={planeRef}
+            viewBox="0 0 13 13"
+            width="32"
+            height="32"
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 z-0 hidden -translate-y-1/2 drop-shadow md:block"
+          >
+            <path fill="white" d={PLANE_PATH} />
+            <path fill="white" d={PLANE_PATH} />
+          </svg>
+
+          {/* Step cards — above the runway line, narrower than track so plane is visible on sides */}
+          <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {STEPS.map((step) => (
+              <div
+                key={step.id}
+                className="rounded-xl border border-dashed border-[#00bcff]/40 bg-[#0a1245]/80 px-8 py-12 backdrop-blur-sm"
+              >
+                <h3 className="mb-4 text-2xl font-bold text-[#00bcff]">
+                  {step.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-white/75">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
 
-          {/* Animated plane */}
-          <svg
-            ref={planeRef}
-            viewBox="0 0 13 13"
-            width="34"
-            height="34"
-            aria-hidden="true"
-            className="absolute top-1/2 -translate-y-1/2 drop-shadow"
-            style={{ color: "#111a5a" }}
-          >
-            <path fill="currentColor" d={PLANE_PATH} />
-          </svg>
         </div>
+
       </div>
     </section>
   );

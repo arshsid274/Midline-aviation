@@ -24,7 +24,7 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     description:
       "The flagship of luxury aviation delivers ultra-long-range performance, cutting-edge design, and unmatched speed. The Embraer Legacy 650 redefines private air travel with elegance and power.",
     comingSoon: true,
-    imageSrc: "/assets/images/privatejet1.jpg",
+    imageSrc: "/assets/images/charter/charter-runway-jet.png",
     imageAlt: "Embraer Legacy 650 parked on runway",
     href: "/fleet",
   },
@@ -33,7 +33,7 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     name: "Gulfstream G450",
     description:
       "A long-range business jet known for its advanced technology, quiet cabin, and superior reliability. Perfect for intercontinental travel with unmatched comfort and safety.",
-    imageSrc: "/assets/images/privatejet2.jpg",
+    imageSrc: "/assets/images/charter/charter-corporate-travel.png",
     imageAlt: "Gulfstream G450 near terminal",
     href: "/fleet",
   },
@@ -42,7 +42,7 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     name: "Gulfstream G200",
     description:
       "A versatile midsize jet offering exceptional comfort and performance for regional and medium-haul flights. The G200 combines spacious seating with impressive range and efficiency.",
-    imageSrc: "/assets/images/privatejet.jpg",
+    imageSrc: "/assets/images/charter/charter-hero-cabin.png",
     imageAlt: "Gulfstream G200 in flight line",
     href: "/fleet",
   },

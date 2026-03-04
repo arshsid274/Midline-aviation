@@ -63,10 +63,11 @@
   }
 }
 
-/* Title Wrap - Contains animated text */
+/* Title Wrap - Contains logo loader */
 .title_wrap {
   width: 100%;
-  height: clamp(120px, 18vw, 260px);
+  min-height: 240px;
+  height: auto;
   position: relative;
   display: flex;
   align-items: center;

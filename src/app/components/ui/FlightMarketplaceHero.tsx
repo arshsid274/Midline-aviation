@@ -10,21 +10,21 @@ import { WorldMap } from "./WorldMap";
 
 const JET_VISUALS = {
   "gulfstream-heavy": {
-    exteriorSrc: "/assets/images/available-flights/gulfstream-heavy-exterior.jpg",
+    exteriorSrc: "/assets/images/charter/charter-runway-jet.png",
     exteriorAlt: "Gulfstream heavy jet exterior on runway",
-    interiorSrc: "/assets/images/available-flights/gulfstream-heavy-interior.jpg",
+    interiorSrc: "/assets/images/charter/charter-hero-cabin.png",
     interiorAlt: "Gulfstream heavy jet luxury cabin interior",
   },
   "gulfstream-mid-size": {
-    exteriorSrc: "/assets/images/available-flights/gulfstream-mid-size-exterior.jpg",
+    exteriorSrc: "/assets/images/charter/charter-corporate-travel.png",
     exteriorAlt: "Gulfstream mid-size jet exterior on tarmac",
-    interiorSrc: "/assets/images/available-flights/gulfstream-mid-size-interior.jpg",
+    interiorSrc: "/assets/images/charter/charter-leisure-journeys.png",
     interiorAlt: "Gulfstream mid-size jet cabin interior",
   },
   "embraer-heavy": {
-    exteriorSrc: "/assets/images/available-flights/embraer-heavy-exterior.jpg",
+    exteriorSrc: "/assets/images/charter/charter-runway-jet.png",
     exteriorAlt: "Embraer heavy private jet exterior",
-    interiorSrc: "/assets/images/available-flights/embraer-heavy-interior.jpg",
+    interiorSrc: "/assets/images/charter/charter-special-occasions.png",
     interiorAlt: "Embraer heavy private jet interior cabin",
   },
 } as const;

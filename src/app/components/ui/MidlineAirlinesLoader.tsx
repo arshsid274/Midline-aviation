@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import gsap from "gsap";
 import styles from "./MidlineAirlinesLoader.module.css";
+import MidlineLogoLoader from "./MidlineLogoLoader";
 
 interface MidlineAirlinesLoaderProps {
   onLoadingComplete?: () => void;
@@ -16,8 +17,6 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
   const introActiveClass = "home-loader-intro-active";
   const mainVisualRef = useRef<HTMLDivElement>(null);
   const introWrapRef = useRef<HTMLDivElement>(null);
-  const step1TxtRef = useRef<HTMLParagraphElement>(null);
-  const step2TxtRef = useRef<HTMLParagraphElement>(null);
   const maskBlankRef = useRef<HTMLDivElement>(null);
   const skipBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -45,52 +44,15 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
       setTimeout(() => {
         mainVisualRef.current?.classList.add(styles["active-1"]);
 
-        animateLetters(step1TxtRef.current, () => {
-          setTimeout(() => {
-            gsap.to(step1TxtRef.current, {
-              autoAlpha: 0,
-              duration: 0.5,
-              ease: "power2.out"
-            });
+        // Logo loader runs for ~4s — then trigger exit transition
+        setTimeout(() => {
+          mainVisualRef.current?.classList.add(styles["active-2"]);
+        }, 4000);
 
-            gsap.to(step2TxtRef.current, {
-              autoAlpha: 1,
-              duration: 0.5,
-              ease: "power2.out",
-              onComplete: () => {
-                animateLetters(step2TxtRef.current, () => {
-                  setTimeout(() => {
-                    mainVisualRef.current?.classList.add(styles["active-2"]);
-                  }, 400);
-
-                  setTimeout(() => {
-                    finishIntro();
-                  }, 1200);
-                });
-              }
-            });
-          }, 600);
-        });
+        setTimeout(() => {
+          finishIntro();
+        }, 4800);
       }, 100);
-    }
-
-    function animateLetters(
-      textElement: HTMLElement | null,
-      callback?: () => void
-    ) {
-      if (!textElement) return;
-      const spans = textElement.querySelectorAll('span');
-
-      gsap.to(spans, {
-        delay: 0.2,
-        opacity: 1,
-        x: 0,
-        scaleX: 1,
-        duration: 1,
-        ease: "power2.out",
-        stagger: 0.025,
-        onComplete: callback
-      });
     }
 
     function getMaskOffsetRelativeToSection(): Record<string, string> {
@@ -165,13 +127,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
     >
       <div ref={introWrapRef} className={styles.intro_wrap}>
         <div className={styles.title_wrap}>
-          <p ref={step1TxtRef} className={styles.step1}>
-            <span>W</span><span>E</span><span>L</span><span>C</span><span>O</span><span>M</span><span>E</span><span> </span>
-            <span>A</span><span>B</span><span>O</span><span>A</span><span>R</span><span>D</span>
-          </p>
-          <p ref={step2TxtRef} className={styles.step2}>
-            <span>M</span><span>I</span><span>D</span><span>L</span><span>I</span><span>N</span><span>E</span>
-          </p>
+          <MidlineLogoLoader />
         </div>
 
         <div className={styles.bot_wrap}>
