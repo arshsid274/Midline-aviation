@@ -15,7 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function ContactPage() {
   return (
-    <main className="relative isolate min-h-[calc(100svh-72px)] overflow-hidden md:min-h-[calc(100svh-84px)]">
+    <main className="relative isolate -mt-[72px] min-h-[100svh] overflow-hidden md:-mt-[84px]">
       <video
         autoPlay
         loop
@@ -29,7 +29,7 @@ export default function ContactPage() {
       <div className="absolute inset-0 bg-black/22" />
       <div className="absolute inset-0 bg-gradient-to-l from-black/72 via-black/40 to-black/18" />
 
-      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-72px)] w-full max-w-7xl px-4 py-8 sm:px-6 md:min-h-[calc(100svh-84px)] md:py-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:px-8">
+      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-7xl px-4 pb-8 pt-[96px] sm:px-6 md:pb-10 md:pt-[114px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:px-8">
         <section className="flex flex-col justify-center text-white">
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#c5a059]">Midline Aviation</p>
           <h1 className={`${playfairDisplay.className} mt-4 text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl`}>

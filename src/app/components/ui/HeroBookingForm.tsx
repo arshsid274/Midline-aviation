@@ -687,7 +687,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
   return (
     <section
       aria-label="Flight booking form"
-      className="relative z-40 -mt-20 px-4 sm:-mt-24 sm:px-6 md:-mt-28 md:px-10 lg:-mt-20"
+      className="relative z-40 -mt-[40vh] px-4 sm:px-6 md:px-10"
     >
       <form
         className={`mx-auto w-full max-w-6xl rounded-2xl border border-[#111a5a]/35 bg-[linear-gradient(90deg,rgba(17,26,90,0.16)_0%,rgba(10,110,164,0.16)_100%)] p-4 text-white shadow-[0_22px_55px_rgba(17,26,90,0.26)] backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-5 md:p-6 ${

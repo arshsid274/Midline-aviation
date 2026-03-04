@@ -86,6 +86,7 @@ function ShowcaseContent({
 
 export default function ServiceShowcase() {
   const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -99,6 +100,25 @@ export default function ServiceShowcase() {
     const yOffset = isMobile ? 44 : 72;
 
     const ctx = gsap.context(() => {
+      // ── Heading magic reveal ────────────────────────────────────────────
+      const heading = headingRef.current;
+      if (heading && !prefersReducedMotion) {
+        gsap.fromTo(
+          heading,
+          { y: 56, autoAlpha: 0, scale: 0.97 },
+          {
+            y: 0, autoAlpha: 1, scale: 1,
+            duration: 1.0, ease: "power3.out",
+            scrollTrigger: {
+              trigger: heading,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      // ── Row animations ──────────────────────────────────────────────────
       const rows = gsap.utils.toArray<HTMLElement>("[data-service-row]");
 
       rows.forEach((row) => {
@@ -150,6 +170,7 @@ export default function ServiceShowcase() {
     >
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <h2
+          ref={headingRef}
           id="service-showcase-heading"
           className="flex flex-wrap items-center justify-center gap-2 text-center text-3xl font-semibold tracking-tight text-[#111a5a] sm:text-4xl"
         >

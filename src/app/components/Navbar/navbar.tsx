@@ -17,7 +17,10 @@ export default function Navbar() {
 
   useEffect(() => {
     const getThreshold = () => {
-      if (isHome) return window.innerHeight * 0.85
+      // On home page the animation section is 1200vh tall.
+      // scrollableHeight = 1200vh − 1vh = 1199 × innerHeight.
+      // Only switch colour after the user has scrolled through the full animation.
+      if (isHome) return window.innerHeight * 1199
       return 16
     }
 

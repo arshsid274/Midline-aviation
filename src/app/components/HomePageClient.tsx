@@ -3,9 +3,8 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import MidlineAirlinesLoader from "@/app/components/ui/MidlineAirlinesLoader";
-import HeroScrollVideo from "@/app/components/ui/HeroScrollVideo";
+import AircraftScroll from "@/app/components/ui/AircraftScroll";
 import HeroBookingForm from "@/app/components/ui/HeroBookingForm";
-import { VideoProvider } from "@/app/components/ui/VideoContext";
 import HomeFooter from "@/app/components/ui/HomeFooter";
 
 const ServicesShowcase = dynamic(() => import("@/app/components/ui/ServiceShowcase"), {
@@ -60,9 +59,9 @@ export default function HomePageClient() {
   }, [loadingComplete]);
 
   return (
-    <VideoProvider>
+    <>
       <main aria-busy={!loadingComplete} className="relative z-[1] bg-white">
-        <HeroScrollVideo revealText={loadingComplete} />
+        <AircraftScroll />
         <HeroBookingForm revealFromBelow={loadingComplete} />
         <ServicesShowcase />
         <PopularDestinationsCarousel />
@@ -80,6 +79,6 @@ export default function HomePageClient() {
       {!loadingComplete && (
         <MidlineAirlinesLoader onLoadingComplete={() => setLoadingComplete(true)} />
       )}
-    </VideoProvider>
+    </>
   );
 }
