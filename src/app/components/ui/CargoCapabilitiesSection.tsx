@@ -33,20 +33,20 @@ export default function CargoCapabilitiesSection() {
         {/* Header row */}
         <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:mb-12 sm:flex-row sm:items-end">
           <div>
-            <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#0d1451]/60">Capabilities</p>
+            <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#111a5a]/60">Capabilities</p>
             <h2
-              className={`${playfairDisplay.className} mt-3 text-3xl font-medium tracking-[-0.02em] text-[#0d1451] sm:text-4xl`}
+              className={`${playfairDisplay.className} mt-3 text-3xl font-medium tracking-[-0.02em] text-[#111a5a] sm:text-4xl`}
             >
               Our Operations
             </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#0d1451]/68 sm:text-base">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#111a5a]/68 sm:text-base">
               From express packages to mission-critical oversized freight — Midline Cargo operates across every
               spectrum of air logistics.
             </p>
           </div>
           <a
             href="#"
-            className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#0d1451] underline-offset-4 hover:underline"
+            className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#111a5a] underline-offset-4 hover:underline"
           >
             View All Operations
             <ArrowUpRight className="h-4 w-4" />
@@ -58,7 +58,7 @@ export default function CargoCapabilitiesSection() {
           {operations.map((op) => (
             <article
               key={op.title}
-              className="group relative overflow-hidden rounded-2xl border border-[#0d1451]/12 shadow-[0_16px_36px_rgba(13,20,81,0.10)]"
+              className="group relative overflow-hidden rounded-2xl border border-[#111a5a]/12 shadow-[0_16px_36px_rgba(17,26,90,0.10)]"
             >
               {/* Image */}
               <div className="relative aspect-[4/3] overflow-hidden">
@@ -70,10 +70,10 @@ export default function CargoCapabilitiesSection() {
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0d1451]/82 via-[#0d1451]/28 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111a5a]/82 via-[#0b5f95]/28 to-transparent" />
 
                 {/* Tag badge */}
-                <span className="absolute left-4 top-4 rounded-full border border-[#00bcff]/40 bg-[#0d1451]/70 px-3 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.16em] text-[#00bcff] backdrop-blur-sm">
+                <span className="absolute left-4 top-4 rounded-full border border-[#00bcff]/40 bg-[linear-gradient(90deg,rgba(17,26,90,0.70)_0%,rgba(10,110,164,0.70)_100%)] px-3 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.16em] text-[#00bcff] backdrop-blur-sm">
                   {op.tag}
                 </span>
 
@@ -85,10 +85,10 @@ export default function CargoCapabilitiesSection() {
 
               {/* Description panel */}
               <div className="bg-white p-5">
-                <p className="text-sm leading-relaxed text-[#0d1451]/70">{op.description}</p>
+                <p className="text-sm leading-relaxed text-[#111a5a]/70">{op.description}</p>
                 <button
                   type="button"
-                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#0d1451] underline-offset-4 hover:underline"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#111a5a] underline-offset-4 hover:underline"
                 >
                   Learn more
                   <ArrowUpRight className="h-3.5 w-3.5" />
@@ -99,7 +99,7 @@ export default function CargoCapabilitiesSection() {
         </div>
 
         {/* Bottom metrics bar */}
-        <div className="mt-12 grid grid-cols-2 gap-4 rounded-2xl border border-[#0d1451]/10 bg-[#f8faff] p-6 sm:grid-cols-4 sm:p-8">
+        <div className="mt-12 grid grid-cols-2 gap-4 rounded-2xl border border-[#111a5a]/10 bg-[#f8faff] p-6 sm:grid-cols-4 sm:p-8">
           {[
             { value: "500+", label: "Tonnes/Day Capacity" },
             { value: "180+", label: "Global Destinations" },
@@ -107,8 +107,8 @@ export default function CargoCapabilitiesSection() {
             { value: "100%", label: "Compliance Rate" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <p className="text-3xl font-semibold text-[#0d1451] sm:text-4xl">{stat.value}</p>
-              <p className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-[#0d1451]/54">
+              <p className="text-3xl font-semibold text-[#111a5a] sm:text-4xl">{stat.value}</p>
+              <p className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-[#111a5a]/54">
                 {stat.label}
               </p>
             </div>

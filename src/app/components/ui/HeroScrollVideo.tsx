@@ -107,7 +107,7 @@ export default function HeroAutoVideo({ revealText = false }: HeroAutoVideoProps
               }`}
             >
               <span
-                className="block h-full bg-[#0d1451] transition-[width] duration-100 ease-linear"
+                className="block h-full bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] transition-[width] duration-100 ease-linear"
                 style={{
                   width: currentIndex === index ? `${progress}%` : currentIndex > index ? "100%" : "0%",
                 }}

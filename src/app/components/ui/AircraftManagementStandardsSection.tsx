@@ -17,7 +17,7 @@ const standards = [
 
 export default function AircraftManagementStandardsSection() {
   return (
-    <section className="bg-[#0d1451] py-14 sm:py-16 lg:py-20">
+    <section className="bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-14 sm:py-16 lg:py-20">
       <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.86fr)] lg:gap-16 lg:px-8">
         <div className="max-w-[38rem] space-y-7">
           <div>

@@ -81,7 +81,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --hover-link: #02a0dd;
   --active-link: #0f2e53;
-  --midline-navy: #0d1451;
+  --midline-navy: #111a5a;
   --midline-cyan: #00bcff;
   --midline-cyan-strong: #016291;
   --midline-bg-soft: #f5f8ff;
@@ -121,7 +121,7 @@
   --sidebar-ring: oklch(0.556 0 0);
   --hover-link: #02a0dd;
   --active-link: #0f2e53;
-  --midline-navy: #0d1451;
+  --midline-navy: #111a5a;
   --midline-cyan: #00bcff;
   --midline-cyan-strong: #016291;
   --midline-bg-soft: #f5f8ff;
@@ -368,4 +368,36 @@ body.home-loader-complete [data-site-navbar="true"] {
 
 body.home-page-active [data-global-footer="true"] {
   display: none;
+}
+
+.journey-plane {
+  left: 22%;
+  animation: journeyPlaneGlide 8s linear infinite;
+}
+
+@keyframes journeyPlaneGlide {
+  0% {
+    left: 22%;
+    opacity: 0.9;
+  }
+
+  45% {
+    left: 48%;
+    opacity: 1;
+  }
+
+  50% {
+    left: 48%;
+    opacity: 0.35;
+  }
+
+  55% {
+    left: 52%;
+    opacity: 0.35;
+  }
+
+  100% {
+    left: 76%;
+    opacity: 1;
+  }
 }

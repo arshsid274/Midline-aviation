@@ -34,7 +34,7 @@ const cards: SafetyCard[] = [
 
 export default function AircraftManagementSafetyCardsSection() {
   return (
-    <section className="bg-[#0d1451] py-14 sm:py-16 lg:py-20">
+    <section className="bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-14 sm:py-16 lg:py-20">
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-12">
           <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#00bcff]">Operational Core</p>

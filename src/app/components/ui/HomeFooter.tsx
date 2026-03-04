@@ -34,7 +34,7 @@ const aboutLinks: FooterLink[] = [
 
 function FooterLinkItem({ item }: { item: FooterLink }) {
   const baseClasses =
-    "inline-flex items-center gap-2 text-lg text-[#0d1451]/88 transition hover:text-[#016291]";
+    "inline-flex items-center gap-2 text-lg text-[#111a5a]/88 transition hover:text-[#016291]";
 
   if (item.external) {
     return (
@@ -55,7 +55,7 @@ function FooterLinkItem({ item }: { item: FooterLink }) {
 function FooterGroup({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div>
-      <h3 className="text-3xl font-semibold uppercase tracking-[0.14em] text-[#0d1451]">{title}</h3>
+      <h3 className="text-3xl font-semibold uppercase tracking-[0.14em] text-[#111a5a]">{title}</h3>
       <ul className="mt-7 space-y-6">
         {links.map((item) => (
           <li key={`${title}-${item.label}`}>
@@ -71,7 +71,7 @@ export default function HomeFooter() {
   return (
     <footer
       aria-label="Site footer"
-      className="overflow-hidden border-t border-[#0d1451]/15 bg-white text-[#0d1451]"
+      className="overflow-hidden border-t border-[#111a5a]/15 bg-white text-[#111a5a]"
     >
       <div className="mx-auto w-full max-w-[1440px] px-6 pb-10 pt-16 sm:px-10 lg:px-12 lg:pt-20">
         <div className="mb-16 flex items-center justify-center gap-4 lg:mb-20">
@@ -95,13 +95,13 @@ export default function HomeFooter() {
             <div className="mt-10 space-y-8">
               <Link
                 href="/contact"
-                className="block text-3xl font-semibold uppercase tracking-[0.14em] text-[#0d1451] transition hover:text-[#016291]"
+                className="block text-3xl font-semibold uppercase tracking-[0.14em] text-[#111a5a] transition hover:text-[#016291]"
               >
                 Careers
               </Link>
               <Link
                 href="/contact"
-                className="block text-3xl font-semibold uppercase tracking-[0.14em] text-[#0d1451] transition hover:text-[#016291]"
+                className="block text-3xl font-semibold uppercase tracking-[0.14em] text-[#111a5a] transition hover:text-[#016291]"
               >
                 Contact
               </Link>
@@ -109,9 +109,9 @@ export default function HomeFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-6 border-t border-[#0d1451]/15 pt-8 sm:flex-row sm:items-center">
-          <p className="text-sm text-[#0d1451]/70">&copy; {new Date().getFullYear()} Midline Aviation. All rights reserved.</p>
-          <div className="flex items-center gap-5 text-[#0d1451]/70">
+        <div className="mt-14 flex flex-col items-start justify-between gap-6 border-t border-[#111a5a]/15 pt-8 sm:flex-row sm:items-center">
+          <p className="text-sm text-[#111a5a]/70">&copy; {new Date().getFullYear()} Midline Aviation. All rights reserved.</p>
+          <div className="flex items-center gap-5 text-[#111a5a]/70">
             <a
               href="https://x.com/midlineaviation"
               target="_blank"

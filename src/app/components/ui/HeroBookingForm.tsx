@@ -351,7 +351,7 @@ function DatePickerField({ value, onChange, placeholder, minDateValue }: DatePic
       {manualDateError && <p className="mt-1 px-1 text-[11px] text-[#ffd7d7]">{manualDateError}</p>}
 
       {isOpen && (
-        <div className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border border-white/30 bg-[#0d1451]/94 p-3 shadow-2xl backdrop-blur-xl">
+        <div className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.94)_0%,rgba(10,110,164,0.94)_100%)] p-3 shadow-2xl backdrop-blur-xl">
           <div className="mb-3 flex items-center justify-between gap-2">
             <button
               type="button"
@@ -522,7 +522,7 @@ function TimePickerField({ value, onChange, placeholder }: TimePickerFieldProps)
       {manualTimeError && <p className="mt-1 px-1 text-[11px] text-[#ffd7d7]">{manualTimeError}</p>}
 
       {isOpen && (
-        <div className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border border-white/30 bg-[#0d1451]/94 p-2 shadow-2xl backdrop-blur-xl">
+        <div className="absolute left-0 right-0 z-50 mt-2 rounded-2xl border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.94)_0%,rgba(10,110,164,0.94)_100%)] p-2 shadow-2xl backdrop-blur-xl">
           <div className="mb-2 px-1 text-[11px] font-medium uppercase tracking-[0.16em] text-white/60">
             Select Time
           </div>
@@ -690,7 +690,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
       className="relative z-40 -mt-20 px-4 sm:-mt-24 sm:px-6 md:-mt-28 md:px-10 lg:-mt-20"
     >
       <form
-        className={`mx-auto w-full max-w-6xl rounded-2xl border border-[#0d1451]/35 bg-[#0d1451]/16 p-4 text-white shadow-[0_22px_55px_rgba(13,20,81,0.26)] backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-5 md:p-6 ${
+        className={`mx-auto w-full max-w-6xl rounded-2xl border border-[#111a5a]/35 bg-[linear-gradient(90deg,rgba(17,26,90,0.16)_0%,rgba(10,110,164,0.16)_100%)] p-4 text-white shadow-[0_22px_55px_rgba(17,26,90,0.26)] backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-5 md:p-6 ${
           revealFromBelow ? "translate-y-0 opacity-100 delay-[180ms]" : "translate-y-16 opacity-0"
         }`}
         onSubmit={(event) => {
@@ -737,12 +737,12 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               onChange={(event) => setDepartureCity(event.target.value)}
               onFocus={() => setActiveAirportField("departure")}
               onBlur={() => closeSuggestionsAfterBlur("departure")}
-              className="h-11 w-full rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] placeholder:text-[#0d1451]/60 focus:border-[#0d1451] focus:outline-none"
+              className="h-11 w-full rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               autoComplete="off"
               required
             />
             {activeAirportField === "departure" && departureSuggestions.length > 0 && (
-              <ul className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-xl border border-[#0d1451]/20 bg-white shadow-xl">
+              <ul className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-xl border border-[#111a5a]/20 bg-white shadow-xl">
                 {departureSuggestions.map((airport) => (
                   <li key={`${airport.code}-${airport.name}`}>
                     <button
@@ -753,10 +753,10 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
                       }}
                       className="w-full px-3 py-2 text-left hover:bg-[#ebf4fa] focus:bg-[#ebf4fa]"
                     >
-                      <span className="block truncate text-sm font-medium text-[#0d1451]">
+                      <span className="block truncate text-sm font-medium text-[#111a5a]">
                         {airport.city}, {airport.country} ({airport.code})
                       </span>
-                      <span className="block truncate text-xs text-[#0d1451]/70">{airport.name}</span>
+                      <span className="block truncate text-xs text-[#111a5a]/70">{airport.name}</span>
                     </button>
                   </li>
                 ))}
@@ -771,12 +771,12 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               onChange={(event) => setArrivalCity(event.target.value)}
               onFocus={() => setActiveAirportField("arrival")}
               onBlur={() => closeSuggestionsAfterBlur("arrival")}
-              className="h-11 w-full rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] placeholder:text-[#0d1451]/60 focus:border-[#0d1451] focus:outline-none"
+              className="h-11 w-full rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               autoComplete="off"
               required
             />
             {activeAirportField === "arrival" && arrivalSuggestions.length > 0 && (
-              <ul className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-xl border border-[#0d1451]/20 bg-white shadow-xl">
+              <ul className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-xl border border-[#111a5a]/20 bg-white shadow-xl">
                 {arrivalSuggestions.map((airport) => (
                   <li key={`${airport.code}-${airport.name}`}>
                     <button
@@ -787,10 +787,10 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
                       }}
                       className="w-full px-3 py-2 text-left hover:bg-[#ebf4fa] focus:bg-[#ebf4fa]"
                     >
-                      <span className="block truncate text-sm font-medium text-[#0d1451]">
+                      <span className="block truncate text-sm font-medium text-[#111a5a]">
                         {airport.city}, {airport.country} ({airport.code})
                       </span>
-                      <span className="block truncate text-xs text-[#0d1451]/70">{airport.name}</span>
+                      <span className="block truncate text-xs text-[#111a5a]/70">{airport.name}</span>
                     </button>
                   </li>
                 ))}
@@ -826,7 +826,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               placeholder="Full Name"
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
-              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] placeholder:text-[#0d1451]/60 focus:border-[#0d1451] focus:outline-none"
+              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               required={primaryDetailsComplete}
             />
             <input
@@ -834,7 +834,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               placeholder="Email Address"
               value={emailAddress}
               onChange={(event) => setEmailAddress(event.target.value)}
-              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] placeholder:text-[#0d1451]/60 focus:border-[#0d1451] focus:outline-none"
+              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               required={primaryDetailsComplete}
             />
             <input
@@ -842,7 +842,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               placeholder="Phone Number"
               value={phoneNumber}
               onChange={(event) => setPhoneNumber(event.target.value)}
-              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] placeholder:text-[#0d1451]/60 focus:border-[#0d1451] focus:outline-none"
+              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               required={primaryDetailsComplete}
             />
             <select
@@ -851,14 +851,14 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
                 setSelectedAircraft(event.target.value);
                 setPaxCount("");
               }}
-              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] focus:border-[#0d1451] focus:outline-none"
+              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] focus:border-[#111a5a] focus:outline-none"
               required={primaryDetailsComplete}
             >
-              <option value="" className="text-[#0d1451]">
+              <option value="" className="text-[#111a5a]">
                 Select Jet
               </option>
               {AIRCRAFT_OPTIONS.map((aircraft) => (
-                <option key={aircraft.code} value={aircraft.code} className="text-[#0d1451]">
+                <option key={aircraft.code} value={aircraft.code} className="text-[#111a5a]">
                   {`${aircraft.code} - ${aircraft.manufacturer} - ${aircraft.category} - Max ${aircraft.maxPax}`}
                 </option>
               ))}
@@ -876,7 +876,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
                 if (!/^\d+$/.test(nextValue)) return;
                 setPaxCount(nextValue);
               }}
-              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#0d1451] placeholder:text-[#0d1451]/60 focus:border-[#0d1451] focus:outline-none disabled:cursor-not-allowed disabled:opacity-55"
+              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none disabled:cursor-not-allowed disabled:opacity-55"
               min={1}
               max={selectedAircraftMaxPax}
               step={1}
@@ -893,7 +893,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
             <button
               type="submit"
               disabled={!canSubmit}
-              className="inline-flex h-11 items-center justify-center rounded-xl bg-[#0d1451] px-5 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-[#016291] disabled:cursor-not-allowed disabled:opacity-55"
+              className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] px-5 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-[#016291] disabled:cursor-not-allowed disabled:opacity-55"
             >
               Request Flight
             </button>

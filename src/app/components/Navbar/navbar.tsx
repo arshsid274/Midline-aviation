@@ -40,7 +40,7 @@ export default function Navbar() {
       data-site-navbar="true"
       className={`fixed top-0 left-0 z-50 w-full backdrop-blur-xl transition-all duration-500 ${
         useBlueTint
-          ? "border-b border-[#88adf8]/25 bg-[#0d1451]/74 shadow-[0_14px_36px_rgba(13,20,81,0.36)]"
+          ? "border-b border-[#88adf8]/25 bg-[linear-gradient(90deg,rgba(17,26,90,0.74)_0%,rgba(10,110,164,0.74)_100%)] shadow-[0_14px_36px_rgba(17,26,90,0.36)]"
           : "border-b border-white/15 bg-white/[0.06] shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
       }`}
     >

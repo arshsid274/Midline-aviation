@@ -85,7 +85,7 @@ export default function LogoLoopSection() {
     <section
       ref={sectionRef}
       aria-labelledby="logo-loop-heading"
-      className="bg-[#0d1451] py-12 sm:py-16"
+      className="bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-12 sm:py-16"
     >
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <h2
@@ -113,7 +113,7 @@ export default function LogoLoopSection() {
             hoverSpeed={0}
             scaleOnHover
             fadeOut
-            fadeOutColor="#0d1451"
+            fadeOutColor="#111a5a"
             ariaLabel="Technology partners"
             className="text-white/95"
           />

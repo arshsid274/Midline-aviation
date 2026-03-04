@@ -63,20 +63,20 @@ function ShowcaseContent({
 }) {
   return (
     <div className="mx-auto w-full max-w-[360px] text-left">
-      <h3 itemProp="name" className="text-3xl font-medium leading-tight text-[#0d1451] sm:text-[2rem]">
+      <h3 itemProp="name" className="text-3xl font-medium leading-tight text-[#111a5a] sm:text-[2rem]">
         {title}
       </h3>
-      <p itemProp="serviceType" className="mt-3 text-sm font-medium tracking-wide text-[#0d1451]/75">
+      <p itemProp="serviceType" className="mt-3 text-sm font-medium tracking-wide text-[#111a5a]/75">
         {subtitle}
       </p>
-      <div className="mt-4 h-px w-full bg-[#0d1451]/30" />
-      <p itemProp="description" className="mt-5 text-sm leading-relaxed text-[#0d1451]/75">
+      <div className="mt-4 h-px w-full bg-[linear-gradient(90deg,rgba(17,26,90,0.30)_0%,rgba(10,110,164,0.30)_100%)]" />
+      <p itemProp="description" className="mt-5 text-sm leading-relaxed text-[#111a5a]/75">
         {description}
       </p>
       <Link
         href={href}
         itemProp="url"
-        className="mt-6 inline-flex min-h-10 items-center border-b border-[#0d1451]/70 pb-0.5 text-sm text-[#0d1451] transition-opacity hover:opacity-80"
+        className="mt-6 inline-flex min-h-10 items-center border-b border-[#111a5a]/70 pb-0.5 text-sm text-[#111a5a] transition-opacity hover:opacity-80"
       >
         {ctaLabel}
       </Link>
@@ -151,12 +151,12 @@ export default function ServiceShowcase() {
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <h2
           id="service-showcase-heading"
-          className="flex flex-wrap items-center justify-center gap-2 text-center text-3xl font-semibold tracking-tight text-[#0d1451] sm:text-4xl"
+          className="flex flex-wrap items-center justify-center gap-2 text-center text-3xl font-semibold tracking-tight text-[#111a5a] sm:text-4xl"
         >
           <span>Discover</span>
           <RotatingText
             texts={["Midline", "Private Charter", "Concierge Service"]}
-            mainClassName="min-w-[17ch] justify-center rounded-lg bg-[#0d1451] px-2 py-0.5 text-white sm:px-2 sm:py-1 md:px-3 md:py-2"
+            mainClassName="min-w-[17ch] justify-center rounded-lg bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] px-2 py-0.5 text-white sm:px-2 sm:py-1 md:px-3 md:py-2"
             staggerFrom="last"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}

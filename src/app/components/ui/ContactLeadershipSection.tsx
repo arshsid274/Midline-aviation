@@ -45,7 +45,7 @@ export default function ContactLeadershipSection() {
         <h2 className={`${playfairDisplay.className} mt-3 text-[2rem] font-medium tracking-[-0.025em] text-[#1f2f67] sm:text-[2.2rem]`}>
           The Minds Behind the Excellence
         </h2>
-        <p className="mx-auto mt-2 max-w-xl text-[0.7rem] leading-[1.7] text-[#0d1451]/60 sm:text-[0.72rem]">
+        <p className="mx-auto mt-2 max-w-xl text-[0.7rem] leading-[1.7] text-[#111a5a]/60 sm:text-[0.72rem]">
           Guiding Midline Aviation with decades of experience and a shared commitment to precision.
         </p>
       </div>
@@ -54,7 +54,7 @@ export default function ContactLeadershipSection() {
         {leadershipMembers.map((member) => (
           <article
             key={member.name}
-            className="rounded-lg border border-[#12235d]/14 bg-white p-2 shadow-[0_8px_20px_rgba(13,20,81,0.08)]"
+            className="rounded-lg border border-[#12235d]/14 bg-white p-2 shadow-[0_8px_20px_rgba(17,26,90,0.08)]"
           >
             <div className="relative aspect-[5/6] overflow-hidden rounded-md bg-[#0f1f4f]">
               <Image
@@ -70,7 +70,7 @@ export default function ContactLeadershipSection() {
             <div className="px-1 pb-2 pt-3 text-center">
               <h3 className="text-[0.9rem] font-medium tracking-[-0.01em] text-[#253970]">{member.name}</h3>
               <p className="mt-1 text-[0.53rem] font-semibold uppercase tracking-[0.18em] text-[#b1914b]">{member.title}</p>
-              <p className="mt-2 text-[0.64rem] leading-[1.65] text-[#0d1451]/68">{member.bio}</p>
+              <p className="mt-2 text-[0.64rem] leading-[1.65] text-[#111a5a]/68">{member.bio}</p>
             </div>
           </article>
         ))}

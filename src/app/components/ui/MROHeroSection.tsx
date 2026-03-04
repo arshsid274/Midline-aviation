@@ -44,7 +44,7 @@ export default function MROHeroSection() {
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <button
               type="button"
-              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#00bcff] px-6 py-3 text-sm font-semibold text-[#0d1451] transition-colors hover:bg-[#33cbff]"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#00bcff] px-6 py-3 text-sm font-semibold text-[#111a5a] transition-colors hover:bg-[#33cbff]"
             >
               View Capabilities
             </button>

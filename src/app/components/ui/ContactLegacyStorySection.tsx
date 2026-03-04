@@ -1,55 +1,178 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { playfairDisplay } from "@/lib/fonts";
 
+type FeatureKey = "charters" | "emptyLegs" | "experiences";
+
+interface FeatureSlide {
+  key: FeatureKey;
+  label: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  ctaHref: string;
+  imageSrc: string;
+  imageAlt: string;
+  imagePosition: string;
+}
+
+const featureSlides: FeatureSlide[] = [
+  {
+    key: "charters",
+    label: "Charters",
+    eyebrow: "Charters",
+    title: "Travel the way you want",
+    description:
+      "With just a few taps, book private charters for business trips, personal travel, or urgent departures. Access thousands of airports closer to your starting point and arrive with less friction, with dependable service designed around your schedule.",
+    ctaHref: "/services/aircraft-charter",
+    imageSrc: "/assets/images/contact/contact-hero.jpg",
+    imageAlt: "Passenger boarding a private jet",
+    imagePosition: "center 56%",
+  },
+  {
+    key: "emptyLegs",
+    label: "Empty legs",
+    eyebrow: "Empty legs",
+    title: "Luxury flights with smarter pricing",
+    description:
+      "Empty-leg flights happen when aircraft reposition without passengers. That opens access to private aviation at significantly lower rates, while keeping the same premium cabin experience, safety standards, and service quality.",
+    ctaHref: "/fleet",
+    imageSrc: "/assets/images/available-flights/gulfstream-heavy-exterior.jpg",
+    imageAlt: "Private jet parked on runway",
+    imagePosition: "center 62%",
+  },
+  {
+    key: "experiences",
+    label: "Experiences",
+    eyebrow: "Experiences",
+    title: "Go beyond traditional itineraries",
+    description:
+      "Our curated aviation experiences unlock scenic destinations and unique journeys, from coastal escapes to remote luxury retreats. Every route is crafted to blend seamless flight logistics with memorable, destination-first travel.",
+    ctaHref: "/contact",
+    imageSrc: "/assets/images/charter/charter-leisure-journeys.png",
+    imageAlt: "Leisure private aviation experience",
+    imagePosition: "center 58%",
+  },
+];
+
 export default function ContactLegacyStorySection() {
+  const [activeFeature, setActiveFeature] = useState<FeatureKey>("charters");
+
+  const activeSlide = useMemo(
+    () => featureSlides.find((slide) => slide.key === activeFeature) ?? featureSlides[0],
+    [activeFeature],
+  );
+
   return (
-    <section className="bg-white py-2 sm:py-4">
-      <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_27rem] lg:gap-6">
-        <div className="max-w-[34rem] pt-2 lg:pt-4">
-          <p className="inline-flex items-center gap-2 text-[0.55rem] font-semibold uppercase tracking-[0.24em] text-[#b1914b]">
-            <span aria-hidden className="h-px w-8 bg-[#c8a85d]" />
-            Our History
-          </p>
-
-          <h2
-            className={`${playfairDisplay.className} mt-3 text-[2rem] font-medium leading-[1.06] tracking-[-0.025em] text-[#1f2f67] sm:text-[2.25rem]`}
-          >
-            A Legacy of <span className="italic font-medium">Timeless</span> Luxury
+    <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-[var(--midline-bg-soft)] py-10 sm:py-12">
+      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className={`${playfairDisplay.className} text-[2.2rem] font-medium tracking-[-0.025em] text-[var(--midline-navy)] sm:text-[2.6rem]`}>
+            What we do
           </h2>
-
-          <p className="mt-5 max-w-[31rem] text-[0.71rem] leading-[1.7] text-[#0d1451]/70 sm:text-[0.73rem]">
-            Founded in 1985, Midline Aviation began with a singular commitment: delivering private aviation with
-            uncompromising standards of safety, service, and discretion.
+          <p className="mx-auto mt-2 max-w-[34rem] text-[0.77rem] leading-[1.72] text-[color:color-mix(in_srgb,var(--midline-navy)_70%,white_30%)] sm:text-[0.82rem]">
+            We are the one-stop-shop you need to book a business flight, plan a relaxing getaway, or discover your
+            next adventure.
           </p>
-          <p className="mt-3 max-w-[31rem] text-[0.71rem] leading-[1.7] text-[#0d1451]/70 sm:text-[0.73rem]">
-            Today, our legacy spans charter, management, and mission-critical support worldwide. Every journey reflects
-            the same principle that shaped our beginnings, seamless excellence at every altitude.
-          </p>
-
-          <Link
-            href="/about"
-            className="mt-6 inline-flex items-center gap-2 text-[0.52rem] font-semibold uppercase tracking-[0.19em] text-[#1f3f91] transition-colors hover:text-[#0d1451]"
-          >
-            Read Our Full Story
-            <span aria-hidden>&rarr;</span>
-          </Link>
         </div>
 
-        <figure className="relative mx-auto w-full max-w-[27rem] overflow-hidden rounded-xl border border-[#12235d]/14 shadow-[0_14px_28px_rgba(13,20,81,0.18)]">
-          <Image
-            src="/assets/images/contact/contact-hero.jpg"
-            alt="Private jet cabin interior"
-            width={1050}
-            height={1400}
-            sizes="(max-width: 1024px) 100vw, 376px"
-            className="h-auto w-full object-cover grayscale brightness-[0.58] contrast-[1.16]"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/62 via-black/18 to-black/30" />
-          <figcaption className="absolute bottom-3 left-3 text-[0.56rem] font-medium tracking-[0.08em] text-white/92">
-            Est. 1985
-          </figcaption>
-        </figure>
+        <div className="mt-4 flex justify-center sm:mt-5">
+          <div className="inline-flex items-center rounded-full border border-[color:color-mix(in_srgb,var(--midline-navy)_10%,white_90%)] bg-white p-1 shadow-[0_8px_20px_rgba(17,26,90,0.08)]">
+            {featureSlides.map((slide) => (
+              <button
+                key={slide.key}
+                type="button"
+                onClick={() => setActiveFeature(slide.key)}
+                aria-pressed={activeFeature === slide.key}
+                className={`rounded-full px-3 py-1.5 text-[0.63rem] font-medium tracking-[0.01em] transition-colors sm:px-4 ${
+                  activeFeature === slide.key
+                    ? "bg-[var(--midline-navy)] text-white"
+                    : "text-[var(--midline-navy)] hover:bg-[color:color-mix(in_srgb,var(--midline-bg-soft)_65%,white_35%)] hover:text-[var(--midline-cyan-strong)]"
+                }`}
+              >
+                {slide.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <article className="mt-10">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:gap-10">
+            <div>
+              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-[var(--midline-cyan-strong)]">
+                {activeSlide.eyebrow}
+              </p>
+              <h3
+                className={`${playfairDisplay.className} mt-2 text-[2rem] font-medium leading-[1.08] tracking-[-0.02em] text-[var(--midline-navy)] sm:text-[2.3rem]`}
+              >
+                {activeSlide.title}
+              </h3>
+              <p className="mt-3 text-[0.77rem] leading-[1.72] text-[color:color-mix(in_srgb,var(--midline-navy)_74%,white_26%)] sm:text-[0.82rem]">
+                {activeSlide.description}
+              </p>
+              <Link href={activeSlide.ctaHref} className="midline-btn-primary mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.72rem]">
+                Book now
+                <span aria-hidden>&rarr;</span>
+              </Link>
+            </div>
+
+            <figure className="relative h-[340px] overflow-hidden rounded-[1rem] bg-[color:color-mix(in_srgb,var(--midline-navy)_12%,white_88%)] sm:h-[420px] lg:h-[450px]">
+              <Image
+                key={activeSlide.key}
+                src={activeSlide.imageSrc}
+                alt={activeSlide.imageAlt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 56vw"
+                className="object-cover"
+                style={{ objectPosition: activeSlide.imagePosition }}
+                priority
+              />
+            </figure>
+          </div>
+        </article>
+
+        <article className="mt-12 sm:mt-14">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10">
+            <figure className="relative h-[280px] overflow-hidden rounded-[1rem] bg-[color:color-mix(in_srgb,var(--midline-navy)_12%,white_88%)] sm:h-[320px] lg:h-[360px]">
+              <Image
+                src="/assets/images/charter/charter-runway-jet.png"
+                alt="Private jet on a runway"
+                fill
+                sizes="(max-width: 1024px) 100vw, 52vw"
+                className="object-cover"
+                style={{ objectPosition: "center 62%" }}
+              />
+            </figure>
+
+            <div>
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[color:color-mix(in_srgb,var(--midline-cyan)_30%,white_70%)]">
+                <span aria-hidden className="h-3.5 w-3.5 rounded-sm bg-[var(--midline-navy)]" />
+              </span>
+              <h3
+                className={`${playfairDisplay.className} mt-3 text-[2.05rem] font-medium leading-[1.08] tracking-[-0.02em] text-[var(--midline-navy)] sm:text-[2.35rem]`}
+              >
+                Our story
+              </h3>
+              <div className="mt-3 space-y-3">
+                <p className="text-[0.77rem] leading-[1.72] text-[color:color-mix(in_srgb,var(--midline-navy)_74%,white_26%)] sm:text-[0.82rem]">
+                  Since 2019, Midline has modernized private aviation by making booking more transparent and efficient,
+                  with live aircraft availability, clear pricing, and faster confirmations.
+                </p>
+                <p className="text-[0.77rem] leading-[1.72] text-[color:color-mix(in_srgb,var(--midline-navy)_74%,white_26%)] sm:text-[0.82rem]">
+                  Our journey began by supporting regional operators with advanced aviation tools while improving
+                  aircraft utilization through shared opportunities and empty-leg visibility.
+                </p>
+                <p className="text-[0.77rem] leading-[1.72] text-[color:color-mix(in_srgb,var(--midline-navy)_74%,white_26%)] sm:text-[0.82rem]">
+                  Today, we serve clients across multiple markets and continue to scale with a clear mission: seamless,
+                  reliable, and experience-first private flight.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   );

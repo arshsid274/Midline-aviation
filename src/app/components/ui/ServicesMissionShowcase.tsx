@@ -791,7 +791,7 @@ export default function ServicesMissionShowcase() {
   return (
     <section
       aria-labelledby="services-mission-heading"
-      className="relative overflow-hidden bg-[#0d1451] py-14 sm:py-16 lg:py-20"
+      className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-16 sm:py-20 lg:py-24"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
       <div className="pointer-events-none absolute -bottom-24 right-0 h-[260px] w-[420px] opacity-35">

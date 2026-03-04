@@ -145,20 +145,20 @@ export default function HomeAircraftCards() {
         <header ref={headerRef} className="mb-8 text-center sm:mb-10 lg:mb-12">
           <p
             data-aircraft-heading-line
-            className="text-xs font-semibold uppercase tracking-[0.24em] text-[#0d1451]/70"
+            className="text-xs font-semibold uppercase tracking-[0.24em] text-[#111a5a]/70"
           >
             Fleet
           </p>
           <h2
             id="home-aircraft-heading"
             data-aircraft-heading-line
-            className="mt-3 text-3xl font-semibold tracking-tight text-[#0d1451] sm:text-4xl"
+            className="mt-3 text-3xl font-semibold tracking-tight text-[#111a5a] sm:text-4xl"
           >
             Our Fleet
           </h2>
           <p
             data-aircraft-heading-line
-            className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[#0d1451]/80 sm:text-base"
+            className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[#111a5a]/80 sm:text-base"
           >
             Explore three signature aircraft from the Midline fleet, built for comfort, range, and performance.
           </p>
@@ -173,7 +173,7 @@ export default function HomeAircraftCards() {
             >
               <CardBody
                 data-aircraft-card
-                className="h-full rounded-2xl border border-white/15 bg-[#0d1451] p-4 sm:p-5"
+                className="h-full rounded-2xl border border-white/15 bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] p-4 sm:p-5"
               >
                 <CardItem translateZ={50} className="relative aspect-[16/10] overflow-hidden rounded-xl">
                   <Image

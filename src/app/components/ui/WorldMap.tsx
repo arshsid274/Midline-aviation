@@ -24,7 +24,7 @@ const staticMapData = `data:image/svg+xml;utf8,${encodeURIComponent(
     radius: 0.22,
     color: "#01699a",
     shape: "circle",
-    backgroundColor: "#0d1451",
+    backgroundColor: "#111a5a",
   })
 )}`;
 
@@ -80,7 +80,7 @@ export const WorldMap = memo(({ dots = [], lineColor = "#3a78b6", focus }: MapPr
     <div
       role="img"
       aria-label={mapSummary}
-      className="relative h-full min-h-[220px] w-full overflow-hidden rounded-lg border border-zinc-800 bg-[#0d1451]"
+      className="relative h-full min-h-[220px] w-full overflow-hidden rounded-lg border border-zinc-800 bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)]"
     >
       <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" style={mapTransformStyle}>
         <Image

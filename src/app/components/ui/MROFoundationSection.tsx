@@ -26,17 +26,17 @@ export default function MROFoundationSection() {
       <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-14 lg:px-8">
         <div className="space-y-7">
           <div>
-            <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#0d1451]/72">
+            <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#111a5a]/72">
               Operational Integrity
             </p>
             <h2
-              className={`${playfairDisplay.className} mt-3 text-3xl font-medium leading-[1.12] tracking-[-0.02em] text-[#0d1451] sm:text-4xl lg:text-[2.8rem]`}
+              className={`${playfairDisplay.className} mt-3 text-3xl font-medium leading-[1.12] tracking-[-0.02em] text-[#111a5a] sm:text-4xl lg:text-[2.8rem]`}
             >
               The Foundation of Safe Travel
             </h2>
           </div>
 
-          <p className="max-w-2xl text-base leading-relaxed text-[#0d1451]/74">
+          <p className="max-w-2xl text-base leading-relaxed text-[#111a5a]/74">
             Our MRO framework is built on strict process control, transparent reporting, and engineering precision.
             Every check, repair, and overhaul is executed to elevate safety and long-term reliability.
           </p>
@@ -47,15 +47,15 @@ export default function MROFoundationSection() {
               return (
                 <article
                   key={item.title}
-                  className="rounded-xl border border-[#0d1451]/12 bg-[#f8faff] p-4 shadow-[0_10px_22px_rgba(13,20,81,0.08)]"
+                  className="rounded-xl border border-[#111a5a]/12 bg-[#f8faff] p-4 shadow-[0_10px_22px_rgba(17,26,90,0.08)]"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#0d1451]/10 text-[#0d1451]">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[linear-gradient(90deg,rgba(17,26,90,0.10)_0%,rgba(10,110,164,0.10)_100%)] text-[#111a5a]">
                       <Icon className="h-5 w-5" />
                     </span>
                     <div>
-                      <h3 className="text-base font-semibold text-[#0d1451]">{item.title}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-[#0d1451]/70">{item.description}</p>
+                      <h3 className="text-base font-semibold text-[#111a5a]">{item.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-[#111a5a]/70">{item.description}</p>
                     </div>
                   </div>
                 </article>
@@ -64,7 +64,7 @@ export default function MROFoundationSection() {
           </div>
         </div>
 
-        <figure className="relative isolate mx-auto w-full max-w-[32rem] overflow-hidden rounded-2xl border border-[#0d1451]/14 shadow-[0_22px_46px_rgba(13,20,81,0.14)]">
+        <figure className="relative isolate mx-auto w-full max-w-[32rem] overflow-hidden rounded-2xl border border-[#111a5a]/14 shadow-[0_22px_46px_rgba(17,26,90,0.14)]">
           <div className="relative aspect-[4/5] min-h-[420px]">
             <Image
               src="/assets/images/available-flights/gulfstream-heavy-interior.jpg"

@@ -1,6 +1,12 @@
-import ServicePageShell from "@/app/components/ui/ServicePageShell";
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seo";
+import AircraftCharterHeroComponent from "@/app/components/ui/AircraftCharterHeroComponent";
+import OurPhilosophyComponent from "@/app/components/ui/OurPhilosophyComponent";
+import CharterStepsComponent from "@/app/components/ui/CharterStepsComponent";
+import WhyChooseUsComponent from "@/app/components/ui/WhyChooseUsComponent";
+import BespokeTravelCategoriesComponent from "@/app/components/ui/BespokeTravelCategoriesComponent";
+import JourneyStartsHereComponent from "@/app/components/ui/JourneyStartsHereComponent";
+import ClientTestimonialsComponent from "@/app/components/ui/ClientTestimonialsComponent";
 
 export const dynamic = "force-static";
 
@@ -14,24 +20,14 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function CharterPage() {
   return (
-    <ServicePageShell
-      title="Private Jet Charter"
-      description="Experience the freedom of personalized travel with tailored private jet charter designed for comfort, flexibility, and privacy."
-      columns={3}
-      features={[
-        {
-          title: "On-Demand Scheduling",
-          description: "Fly when you need with flexible departure windows and rapid trip planning support.",
-        },
-        {
-          title: "Global Route Access",
-          description: "Reach major and secondary airports worldwide through trusted operational partnerships.",
-        },
-        {
-          title: "Cabin Personalization",
-          description: "Enjoy customized catering, comfort preferences, and concierge-grade in-flight service.",
-        },
-      ]}
-    />
+    <main className="midline-page bg-white">
+      <AircraftCharterHeroComponent />
+      <OurPhilosophyComponent />
+      <CharterStepsComponent />
+      <WhyChooseUsComponent />
+      <BespokeTravelCategoriesComponent />
+      <JourneyStartsHereComponent />
+      <ClientTestimonialsComponent />
+    </main>
   );
 }

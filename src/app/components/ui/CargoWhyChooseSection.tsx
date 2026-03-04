@@ -30,7 +30,7 @@ const advantages = [
 
 export default function CargoWhyChooseSection() {
   return (
-    <section className="bg-[#0d1451] py-16 sm:py-20 lg:py-24">
+    <section className="bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-16 sm:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-14">

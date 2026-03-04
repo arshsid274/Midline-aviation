@@ -353,8 +353,8 @@ const FlightCard = React.memo(function FlightCard({
       <div
         className={`h-full rounded-2xl border p-2 transition-all duration-500 sm:p-2.5 ${
           isActive
-            ? "border-[#41b3b5] bg-[#0d1451] shadow-[0_12px_30px_rgba(65,179,181,0.26)] sm:scale-[1.02]"
-            : "border-white/15 bg-[#0d1451]/90 opacity-80"
+            ? "border-[#41b3b5] bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] shadow-[0_12px_30px_rgba(65,179,181,0.26)] sm:scale-[1.02]"
+            : "border-white/15 bg-[linear-gradient(90deg,rgba(17,26,90,0.90)_0%,rgba(10,110,164,0.90)_100%)] opacity-80"
         }`}
       >
         <div className="mb-3 grid grid-cols-2 gap-2">
@@ -386,17 +386,17 @@ const FlightCard = React.memo(function FlightCard({
           </div>
         </div>
 
-        <div className="rounded-xl bg-[#0d1451]/65 p-3.5 sm:p-4">
+        <div className="rounded-xl bg-[linear-gradient(90deg,rgba(17,26,90,0.65)_0%,rgba(10,110,164,0.65)_100%)] p-3.5 sm:p-4">
           <div className="mb-4 flex items-center justify-between gap-3">
             <h3 className="truncate text-sm font-semibold text-white sm:text-base">{deal.jet}</h3>
-            <div className="flex items-center rounded-full border border-white/15 bg-[#0d1451]/80 px-2 py-0.5 text-[11px] text-blue-50">
+            <div className="flex items-center rounded-full border border-white/15 bg-[linear-gradient(90deg,rgba(17,26,90,0.80)_0%,rgba(10,110,164,0.80)_100%)] px-2 py-0.5 text-[11px] text-blue-50">
               <Users size={12} className="mr-1" />
               <span>{deal.capacity}</span>
             </div>
           </div>
 
           <div className="mb-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-2.5">
-            <div className="min-w-0 bg-[#0d1451] pr-1.5">
+            <div className="min-w-0 bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] pr-1.5">
               <p className="truncate whitespace-nowrap font-mono text-xs font-semibold text-[#41b3b5]">{deal.fromICAO}</p>
               <p className="truncate text-[11px] text-zinc-400">{deal.fromCity}</p>
             </div>
@@ -405,7 +405,7 @@ const FlightCard = React.memo(function FlightCard({
               <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-dashed border-[#3a78b6]/45" />
               <div
                 ref={planeRef}
-                className={`absolute top-1/2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#0d1451] transition-colors duration-300 ${
+                className={`absolute top-1/2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] transition-colors duration-300 ${
                   isActive ? "text-[#41b3b5] drop-shadow-[0_0_8px_rgba(65,179,181,0.4)]" : "text-zinc-600"
                 }`}
               >
@@ -413,7 +413,7 @@ const FlightCard = React.memo(function FlightCard({
               </div>
             </div>
 
-            <div className="min-w-0 bg-[#0d1451] pl-1.5 text-right">
+            <div className="min-w-0 bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] pl-1.5 text-right">
               <p className="truncate whitespace-nowrap font-mono text-xs font-semibold text-[#41b3b5]">{deal.toICAO}</p>
               <p className="truncate text-[11px] text-zinc-400">{deal.toCity}</p>
             </div>
@@ -548,7 +548,7 @@ export default function FlightMarketplaceHero() {
                   type="button"
                   aria-label="Previous route"
                   onClick={() => emblaApi?.scrollPrev()}
-                  className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/95 text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
+                  className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.95)_0%,rgba(10,110,164,0.95)_100%)] text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
                 >
                   <ChevronLeft size={20} />
                 </button>
@@ -556,7 +556,7 @@ export default function FlightMarketplaceHero() {
                   type="button"
                   aria-label="Next route"
                   onClick={() => emblaApi?.scrollNext()}
-                  className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/95 text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
+                  className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.95)_0%,rgba(10,110,164,0.95)_100%)] text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
                 >
                   <ChevronRight size={20} />
                 </button>
@@ -567,7 +567,7 @@ export default function FlightMarketplaceHero() {
                   type="button"
                   aria-label="Previous route"
                   onClick={() => emblaApi?.scrollPrev()}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/90 text-white shadow"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.90)_0%,rgba(10,110,164,0.90)_100%)] text-white shadow"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -575,7 +575,7 @@ export default function FlightMarketplaceHero() {
                   type="button"
                   aria-label="Next route"
                   onClick={() => emblaApi?.scrollNext()}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[#0d1451]/90 text-white shadow"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.90)_0%,rgba(10,110,164,0.90)_100%)] text-white shadow"
                 >
                   <ChevronRight size={18} />
                 </button>
@@ -583,7 +583,7 @@ export default function FlightMarketplaceHero() {
             </div>
           </div>
 
-          <aside className="relative flex min-h-[320px] flex-col overflow-hidden rounded-2xl border border-[#3a78b6]/45 bg-[#0d1451]/86 p-4 shadow-[0_20px_50px_rgba(0,8,28,0.55)] sm:min-h-[360px] sm:p-5">
+          <aside className="relative flex min-h-[320px] flex-col overflow-hidden rounded-2xl border border-[#3a78b6]/45 bg-[linear-gradient(90deg,rgba(17,26,90,0.86)_0%,rgba(10,110,164,0.86)_100%)] p-4 shadow-[0_20px_50px_rgba(0,8,28,0.55)] sm:min-h-[360px] sm:p-5">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#070f35]/88 to-transparent"

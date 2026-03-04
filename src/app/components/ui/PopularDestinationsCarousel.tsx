@@ -183,7 +183,7 @@ export default function PopularDestinationsCarousel() {
     <section
       ref={sectionRef}
       aria-labelledby="popular-destinations-heading"
-      className="overflow-hidden bg-[#0d1451] py-14 sm:py-16 lg:py-20"
+      className="overflow-hidden bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-14 sm:py-16 lg:py-20"
     >
       <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-start justify-between gap-5 sm:mb-10 lg:mb-12">
