@@ -42,7 +42,7 @@ const aircraftColumns: AircraftColumn[] = [
   {
     code: "EMBRAER LEGACY 650",
     name: "Embraer Legacy 650",
-    image: "/assets/images/available-flights/embraer-heavy-exterior.jpg",
+    image: "/assets/images/Embrar_Legasy_650.png",
     badge: "HEAVY JET",
     options: [
       { label: "Embraer Legacy 650", value: "legacy-650" },
@@ -53,7 +53,7 @@ const aircraftColumns: AircraftColumn[] = [
   {
     code: "GULFSTREAM G450",
     name: "Gulfstream G450",
-    image: "/assets/images/available-flights/gulfstream-heavy-exterior.jpg",
+    image: "/assets/images/gallery/g450_Exterior_Final.png",
     badge: "LARGE JET",
     options: [
       { label: "Gulfstream G450", value: "g450" },
@@ -64,7 +64,7 @@ const aircraftColumns: AircraftColumn[] = [
   {
     code: "GULFSTREAM G200",
     name: "Gulfstream G200",
-    image: "/assets/images/available-flights/gulfstream-mid-size-exterior.jpg",
+    image: "/assets/images/gallery/G200_Exterior_final.png",
     badge: "SUPER MIDSIZE",
     options: [
       { label: "Gulfstream G200", value: "g200" },

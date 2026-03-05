@@ -10,6 +10,7 @@ import { CardBody, CardContainer, CardItem } from "./ThreeDCard";
 type AircraftCard = {
   id: string;
   name: string;
+  registration: string;
   description: string;
   comingSoon?: boolean;
   imageSrc: string;
@@ -21,28 +22,31 @@ const HOME_AIRCRAFT: AircraftCard[] = [
   {
     id: "legacy-650",
     name: "Embraer Legacy 650",
+    registration: "T7-MIDB",
     description:
       "The flagship of luxury aviation delivers ultra-long-range performance, cutting-edge design, and unmatched speed. The Embraer Legacy 650 redefines private air travel with elegance and power.",
     comingSoon: true,
-    imageSrc: "/assets/images/charter/charter-runway-jet.png",
+    imageSrc: "/assets/images/Embrar_Legasy_Final.png",
     imageAlt: "Embraer Legacy 650 parked on runway",
     href: "/fleet",
   },
   {
     id: "g450",
     name: "Gulfstream G450",
+    registration: "T7-MID",
     description:
       "A long-range business jet known for its advanced technology, quiet cabin, and superior reliability. Perfect for intercontinental travel with unmatched comfort and safety.",
-    imageSrc: "/assets/images/charter/charter-corporate-travel.png",
+    imageSrc: "/assets/images/g450_Final.png",
     imageAlt: "Gulfstream G450 near terminal",
     href: "/fleet",
   },
   {
     id: "g200",
     name: "Gulfstream G200",
+    registration: "T7-MIDA",
     description:
       "A versatile midsize jet offering exceptional comfort and performance for regional and medium-haul flights. The G200 combines spacious seating with impressive range and efficiency.",
-    imageSrc: "/assets/images/charter/charter-hero-cabin.png",
+    imageSrc: "/assets/images/g200_Final.png",
     imageAlt: "Gulfstream G200 in flight line",
     href: "/fleet",
   },
@@ -185,9 +189,12 @@ export default function HomeAircraftCards() {
                     priority={aircraft.id === "legacy-650"}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3">
+                  <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
                     <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3.5 py-2 backdrop-blur-md">
                       <h3 className="text-[1.05rem] font-semibold tracking-tight text-white">{aircraft.name}</h3>
+                    </div>
+                    <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3 py-2 backdrop-blur-md">
+                      <span className="font-mono text-xs font-semibold tracking-widest text-white/90">{aircraft.registration}</span>
                     </div>
                   </div>
                 </CardItem>

@@ -112,8 +112,6 @@ export default function LogoLoopSection() {
             gap={56}
             hoverSpeed={0}
             scaleOnHover
-            fadeOut
-            fadeOutColor="#111a5a"
             ariaLabel="Technology partners"
             className="text-white/95"
           />

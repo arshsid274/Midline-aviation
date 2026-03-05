@@ -22,8 +22,8 @@ export default function FleetInteriorGallerySection() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-[11.5rem_11.5rem]">
         <article className="group relative overflow-hidden rounded-xl md:col-span-2 lg:row-span-2">
           <Image
-            src="/assets/images/available-flights/embraer-heavy-interior.jpg"
-            alt="Luxury private jet cabin interior with premium leather seats"
+            src="/assets/images/Embrar_Legasy_Interior_Final.png"
+            alt="Embraer Legacy 650 luxury cabin interior"
             fill
             sizes="(max-width: 1024px) 100vw, 52vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -37,8 +37,8 @@ export default function FleetInteriorGallerySection() {
 
         <article className="group relative h-56 overflow-hidden rounded-xl md:h-[11.5rem]">
           <Image
-            src="/assets/images/available-flights/gulfstream-heavy-interior.jpg"
-            alt="Private jet window seating detail"
+            src="/assets/images/gallery/Embrara_Legasy_Exterior_Final.png"
+            alt="Embraer Legacy 650 exterior"
             fill
             sizes="(max-width: 1024px) 50vw, 24vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -48,8 +48,8 @@ export default function FleetInteriorGallerySection() {
 
         <article className="group relative h-56 overflow-hidden rounded-xl md:h-[11.5rem]">
           <Image
-            src="/assets/images/contact/contact-profile.jpg"
-            alt="In-cabin premium hospitality and seating"
+            src="/assets/images/gallery/g450_Exterior_Final.png"
+            alt="Gulfstream G450 exterior"
             fill
             sizes="(max-width: 1024px) 50vw, 24vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -59,8 +59,8 @@ export default function FleetInteriorGallerySection() {
 
         <article className="group relative h-56 overflow-hidden rounded-xl md:col-span-2 md:h-[11.5rem]">
           <Image
-            src="/assets/images/charter/charter-corporate-travel.png"
-            alt="Private jet cockpit and executive flight deck view"
+            src="/assets/images/gallery/g450_Exterior_Final.png"
+            alt="Gulfstream G450 exterior view"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"

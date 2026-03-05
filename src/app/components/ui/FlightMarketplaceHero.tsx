@@ -10,22 +10,22 @@ import { WorldMap } from "./WorldMap";
 
 const JET_VISUALS = {
   "gulfstream-heavy": {
-    exteriorSrc: "/assets/images/charter/charter-runway-jet.png",
-    exteriorAlt: "Gulfstream heavy jet exterior on runway",
-    interiorSrc: "/assets/images/charter/charter-hero-cabin.png",
-    interiorAlt: "Gulfstream heavy jet luxury cabin interior",
+    exteriorSrc: "/assets/images/g450_Exterior_Final2.png",
+    exteriorAlt: "Gulfstream G450 exterior on runway",
+    interiorSrc: "/assets/images/g450_Interior_Final.png",
+    interiorAlt: "Gulfstream G450 luxury cabin interior",
   },
   "gulfstream-mid-size": {
-    exteriorSrc: "/assets/images/charter/charter-corporate-travel.png",
-    exteriorAlt: "Gulfstream mid-size jet exterior on tarmac",
-    interiorSrc: "/assets/images/charter/charter-leisure-journeys.png",
-    interiorAlt: "Gulfstream mid-size jet cabin interior",
+    exteriorSrc: "/assets/images/g200_Final_Exterior.png",
+    exteriorAlt: "Gulfstream G200 exterior on tarmac",
+    interiorSrc: "/assets/images/g200_Interior.png",
+    interiorAlt: "Gulfstream G200 cabin interior",
   },
   "embraer-heavy": {
-    exteriorSrc: "/assets/images/charter/charter-runway-jet.png",
-    exteriorAlt: "Embraer heavy private jet exterior",
-    interiorSrc: "/assets/images/charter/charter-special-occasions.png",
-    interiorAlt: "Embraer heavy private jet interior cabin",
+    exteriorSrc: "/assets/images/Legasy_650_Exterior_Final.png",
+    exteriorAlt: "Embraer Legacy 650 exterior",
+    interiorSrc: "/assets/images/Embrar_Legasy_Interior_Final.png",
+    interiorAlt: "Embraer Legacy 650 interior cabin",
   },
 } as const;
 
@@ -36,6 +36,7 @@ export const JET_DATA = [
     id: 1,
     tail: "T7-MID",
     jet: "Gulfstream (Heavy)",
+    model: "Gulfstream G450",
     visualKey: "gulfstream-heavy",
     capacity: 13,
     cruiseSpeed: "533 kts",
@@ -64,6 +65,7 @@ export const JET_DATA = [
     id: 2,
     tail: "T7-MIDA",
     jet: "Gulfstream (Mid Size)",
+    model: "Gulfstream G200",
     visualKey: "gulfstream-mid-size",
     capacity: 8,
     cruiseSpeed: "459 kts",
@@ -92,6 +94,7 @@ export const JET_DATA = [
     id: 3,
     tail: "T7-MIDB",
     jet: "Embraer (Heavy)",
+    model: "Embraer Legacy 650",
     visualKey: "embraer-heavy",
     capacity: 13,
     cruiseSpeed: "460 kts",
@@ -120,6 +123,7 @@ export const JET_DATA = [
     id: 4,
     tail: "T7-MID",
     jet: "Gulfstream (Heavy)",
+    model: "Gulfstream G450",
     visualKey: "gulfstream-heavy",
     capacity: 13,
     cruiseSpeed: "533 kts",
@@ -148,6 +152,7 @@ export const JET_DATA = [
     id: 5,
     tail: "T7-MIDA",
     jet: "Gulfstream (Mid Size)",
+    model: "Gulfstream G200",
     visualKey: "gulfstream-mid-size",
     capacity: 8,
     cruiseSpeed: "459 kts",
@@ -176,6 +181,7 @@ export const JET_DATA = [
     id: 6,
     tail: "T7-MIDB",
     jet: "Embraer (Heavy)",
+    model: "Embraer Legacy 650",
     visualKey: "embraer-heavy",
     capacity: 13,
     cruiseSpeed: "460 kts",
@@ -204,6 +210,7 @@ export const JET_DATA = [
     id: 7,
     tail: "T7-MID",
     jet: "Gulfstream (Heavy)",
+    model: "Gulfstream G450",
     visualKey: "gulfstream-heavy",
     capacity: 13,
     cruiseSpeed: "533 kts",
@@ -232,6 +239,7 @@ export const JET_DATA = [
     id: 8,
     tail: "T7-MIDA",
     jet: "Gulfstream (Mid Size)",
+    model: "Gulfstream G200",
     visualKey: "gulfstream-mid-size",
     capacity: 8,
     cruiseSpeed: "459 kts",
@@ -367,9 +375,10 @@ const FlightCard = React.memo(function FlightCard({
               className="object-cover"
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050b2a]/86 via-[#050b2a]/30 to-transparent" />
-            <p className="absolute bottom-1.5 left-2 text-[10px] font-medium uppercase tracking-[0.12em] text-blue-100/90">
-              Exterior
-            </p>
+            <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between">
+              <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-blue-100/90">Exterior</p>
+              <span className="font-mono text-[9px] font-semibold tracking-widest text-[#41b3b5]/90">{deal.tail}</span>
+            </div>
           </div>
           <div className="relative h-20 overflow-hidden rounded-lg sm:h-24">
             <Image
@@ -387,16 +396,20 @@ const FlightCard = React.memo(function FlightCard({
         </div>
 
         <div className="rounded-xl bg-[linear-gradient(90deg,rgba(17,26,90,0.65)_0%,rgba(10,110,164,0.65)_100%)] p-3.5 sm:p-4">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <h3 className="truncate text-sm font-semibold text-white sm:text-base">{deal.jet}</h3>
-            <div className="flex items-center rounded-full border border-white/15 bg-[linear-gradient(90deg,rgba(17,26,90,0.80)_0%,rgba(10,110,164,0.80)_100%)] px-2 py-0.5 text-[11px] text-blue-50">
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="truncate text-sm font-semibold text-white sm:text-base">{deal.model}</h3>
+              <p className="truncate text-[11px] text-white/60">{deal.jet}</p>
+              <p className="mt-0.5 font-mono text-[10px] font-semibold tracking-widest text-white/50">{deal.tail}</p>
+            </div>
+            <div className="flex shrink-0 items-center rounded-full border border-white/15 bg-[linear-gradient(90deg,rgba(17,26,90,0.80)_0%,rgba(10,110,164,0.80)_100%)] px-2 py-0.5 text-[11px] text-blue-50">
               <Users size={12} className="mr-1" />
               <span>{deal.capacity}</span>
             </div>
           </div>
 
           <div className="mb-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-2.5">
-            <div className="min-w-0 bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] pr-1.5">
+            <div className="min-w-0 pr-1.5">
               <p className="truncate whitespace-nowrap font-mono text-xs font-semibold text-[#41b3b5]">{deal.fromICAO}</p>
               <p className="truncate text-[11px] text-zinc-400">{deal.fromCity}</p>
             </div>
@@ -413,7 +426,7 @@ const FlightCard = React.memo(function FlightCard({
               </div>
             </div>
 
-            <div className="min-w-0 bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] pl-1.5 text-right">
+            <div className="min-w-0 pl-1.5 text-right">
               <p className="truncate whitespace-nowrap font-mono text-xs font-semibold text-[#41b3b5]">{deal.toICAO}</p>
               <p className="truncate text-[11px] text-zinc-400">{deal.toCity}</p>
             </div>
@@ -532,6 +545,14 @@ export default function FlightMarketplaceHero() {
 
             <div className="relative pb-16 sm:pb-0">
               <div className="relative mx-auto w-full">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#070f35] to-transparent sm:w-16"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#070f35] to-transparent sm:w-16"
+                />
                 <div className="overflow-hidden" ref={emblaRef}>
                   <div
                     role="list"

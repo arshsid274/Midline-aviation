@@ -6,7 +6,7 @@ export default function CargoHeroSection() {
   return (
     <section className="relative isolate h-[calc(100svh-72px)] w-full overflow-hidden md:h-[calc(100svh-84px)]">
       <Image
-        src="/assets/images/fleet/fleet-hero.jpg"
+        src="/assets/images/Midlien_cargo_final.png"
         alt="Cargo aircraft ready for global freight operations"
         fill
         sizes="100vw"
@@ -15,15 +15,7 @@ export default function CargoHeroSection() {
       />
 
       {/* Layered overlays */}
-      <div className="absolute inset-0 bg-black/52" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/10" />
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(to right, rgba(255,255,255,0.15), rgba(255,255,255,0.15) 1px, transparent 1px, transparent 56px)",
-        }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
 
       <div className="relative mx-auto flex h-full w-full max-w-[1400px] items-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-[40rem] text-left text-white">

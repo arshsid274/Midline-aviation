@@ -67,7 +67,7 @@ export default function MROFoundationSection() {
         <figure className="relative isolate mx-auto w-full max-w-[32rem] overflow-hidden rounded-2xl border border-[#111a5a]/14 shadow-[0_22px_46px_rgba(17,26,90,0.14)]">
           <div className="relative aspect-[4/5] min-h-[420px]">
             <Image
-              src="/assets/images/available-flights/gulfstream-heavy-interior.jpg"
+              src="/assets/images/Mro_Portraid_final.png"
               alt="Aircraft interior inspected for safety standards"
               fill
               sizes="(max-width: 1024px) 100vw, 500px"

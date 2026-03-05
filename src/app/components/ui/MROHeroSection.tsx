@@ -5,7 +5,7 @@ export default function MROHeroSection() {
   return (
     <section className="relative isolate h-[calc(100svh-72px)] w-full overflow-hidden md:h-[calc(100svh-84px)]">
       <Image
-        src="/assets/images/fleet/fleet-hero.jpg"
+        src="/assets/images/Mro_Banner.png"
         alt="Aircraft prepared for maintenance inside hangar environment"
         fill
         sizes="100vw"
@@ -13,14 +13,7 @@ export default function MROHeroSection() {
         priority
       />
 
-      <div className="absolute inset-0 bg-black/44" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/78 via-black/48 to-black/16" />
-      <div
-        className="absolute inset-0 opacity-18"
-        style={{
-          backgroundImage: "repeating-linear-gradient(to right, rgba(255,255,255,0.08), rgba(255,255,255,0.08) 1px, transparent 1px, transparent 48px)",
-        }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
 
       <div className="relative mx-auto flex h-full w-full max-w-[1400px] items-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-[36rem] text-left text-white">

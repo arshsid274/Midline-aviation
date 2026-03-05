@@ -6,8 +6,8 @@ export default function FleetExceptionalHero() {
     <section className="relative isolate h-[calc(100svh-72px)] w-full overflow-hidden md:h-[calc(100svh-84px)]">
       <div className="relative h-full w-full">
         <Image
-          src="/assets/images/available-flights/gulfstream-mid-size-exterior.jpg"
-          alt="Private jet in flight"
+          src="/assets/images/gulfstream,g800.png"
+          alt="Gulfstream G800 in flight"
           fill
           sizes="100vw"
           className="object-cover object-center"
