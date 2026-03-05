@@ -63,7 +63,7 @@ export default function AircraftManagementStandardsSection() {
         <figure className="relative isolate mx-auto w-full max-w-[30rem] overflow-hidden rounded-2xl border border-[#00bcff]/26 shadow-[0_24px_46px_rgba(0,0,0,0.35)]">
           <div className="relative aspect-[4/5] min-h-[420px]">
             <Image
-              src="/assets/images/fleet/fleet-hero.jpg"
+              src="/assets/images/Mangement2.jpg"
               alt="Managed business jet on the runway"
               fill
               sizes="(max-width: 1024px) 100vw, 460px"
