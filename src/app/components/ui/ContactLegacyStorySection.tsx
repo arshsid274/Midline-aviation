@@ -28,7 +28,7 @@ const featureSlides: FeatureSlide[] = [
     description:
       "With just a few taps, book private charters for business trips, personal travel, or urgent departures. Access thousands of airports closer to your starting point and arrive with less friction, with dependable service designed around your schedule.",
     ctaHref: "/services/aircraft-charter",
-    imageSrc: "/assets/images/contact/contact-hero.jpg",
+    imageSrc: "/assets/images/Sleeping-on-a-Private-Jet.jpg",
     imageAlt: "Passenger boarding a private jet",
     imagePosition: "center 56%",
   },
@@ -40,7 +40,7 @@ const featureSlides: FeatureSlide[] = [
     description:
       "Empty-leg flights happen when aircraft reposition without passengers. That opens access to private aviation at significantly lower rates, while keeping the same premium cabin experience, safety standards, and service quality.",
     ctaHref: "/fleet",
-    imageSrc: "/assets/images/available-flights/gulfstream-heavy-exterior.jpg",
+    imageSrc: "/assets/images/Empty_Legs_Final.png",
     imageAlt: "Private jet parked on runway",
     imagePosition: "center 62%",
   },
@@ -52,7 +52,7 @@ const featureSlides: FeatureSlide[] = [
     description:
       "Our curated aviation experiences unlock scenic destinations and unique journeys, from coastal escapes to remote luxury retreats. Every route is crafted to blend seamless flight logistics with memorable, destination-first travel.",
     ctaHref: "/contact",
-    imageSrc: "/assets/images/charter/charter-leisure-journeys.png",
+    imageSrc: "/assets/images/Expirence_Final.png",
     imageAlt: "Leisure private aviation experience",
     imagePosition: "center 58%",
   },
