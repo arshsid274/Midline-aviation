@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -16,6 +16,7 @@ type AircraftCard = {
   imageSrc: string;
   imageAlt: string;
   href: string;
+  videoSrc?: string;
 };
 
 const HOME_AIRCRAFT: AircraftCard[] = [
@@ -29,6 +30,7 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     imageSrc: "/assets/images/Embrar_Legasy_Final.png",
     imageAlt: "Embraer Legacy 650 parked on runway",
     href: "/fleet",
+    videoSrc: "/assets/videos/Embrar_Legasy_650.mp4",
   },
   {
     id: "g450",
@@ -51,6 +53,62 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     href: "/fleet",
   },
 ];
+
+function HoverVideoCard({ aircraft }: { aircraft: AircraftCard }) {
+  const [hovered, setHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+    videoRef.current?.play();
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  return (
+    <div
+      className="relative aspect-[16/10] overflow-hidden rounded-xl"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Static image */}
+      <Image
+        src={aircraft.imageSrc}
+        alt={aircraft.imageAlt}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+        className={`object-cover transition-opacity duration-500 ${hovered ? "opacity-0" : "opacity-100"}`}
+        priority
+      />
+
+      {/* Video — always mounted, shown on hover */}
+      <video
+        ref={videoRef}
+        src={aircraft.videoSrc}
+        muted
+        loop
+        playsInline
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${hovered ? "opacity-100" : "opacity-0"}`}
+      />
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+      <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+        <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3.5 py-2 backdrop-blur-md">
+          <h3 className="text-[1.05rem] font-semibold tracking-tight text-white">{aircraft.name}</h3>
+        </div>
+        <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3 py-2 backdrop-blur-md">
+          <span className="font-mono text-xs font-semibold tracking-widest text-white/90">{aircraft.registration}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function HomeAircraftCards() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -111,17 +169,7 @@ export default function HomeAircraftCards() {
           },
         });
 
-        timeline.fromTo(
-          card,
-          fromVars,
-          {
-            x: 0,
-            y: 0,
-            autoAlpha: 1,
-            duration: 1,
-            ease: "power3.out",
-          }
-        );
+        timeline.fromTo(card, fromVars, { x: 0, y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" });
 
         if (textBlock) {
           timeline.fromTo(
@@ -134,9 +182,7 @@ export default function HomeAircraftCards() {
       });
     }, section);
 
-    return () => {
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -147,10 +193,7 @@ export default function HomeAircraftCards() {
     >
       <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <header ref={headerRef} className="mb-8 text-center sm:mb-10 lg:mb-12">
-          <p
-            data-aircraft-heading-line
-            className="text-xs font-semibold uppercase tracking-[0.24em] text-[#111a5a]/70"
-          >
+          <p data-aircraft-heading-line className="text-xs font-semibold uppercase tracking-[0.24em] text-[#111a5a]/70">
             Fleet
           </p>
           <h2
@@ -170,33 +213,34 @@ export default function HomeAircraftCards() {
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {HOME_AIRCRAFT.map((aircraft) => (
-            <CardContainer
-              key={aircraft.id}
-              className="h-full w-full"
-              containerClassName="h-full w-full py-0"
-            >
+            <CardContainer key={aircraft.id} className="h-full w-full" containerClassName="h-full w-full py-0">
               <CardBody
                 data-aircraft-card
                 className="h-full rounded-2xl border border-white/15 bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] p-4 sm:p-5"
               >
-                <CardItem translateZ={50} className="relative aspect-[16/10] overflow-hidden rounded-xl">
-                  <Image
-                    src={aircraft.imageSrc}
-                    alt={aircraft.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                    className="object-cover"
-                    priority={aircraft.id === "legacy-650"}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
-                    <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3.5 py-2 backdrop-blur-md">
-                      <h3 className="text-[1.05rem] font-semibold tracking-tight text-white">{aircraft.name}</h3>
+                <CardItem translateZ={50} className="w-full">
+                  {aircraft.videoSrc ? (
+                    <HoverVideoCard aircraft={aircraft} />
+                  ) : (
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
+                      <Image
+                        src={aircraft.imageSrc}
+                        alt={aircraft.imageAlt}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                      <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                        <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3.5 py-2 backdrop-blur-md">
+                          <h3 className="text-[1.05rem] font-semibold tracking-tight text-white">{aircraft.name}</h3>
+                        </div>
+                        <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3 py-2 backdrop-blur-md">
+                          <span className="font-mono text-xs font-semibold tracking-widest text-white/90">{aircraft.registration}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="inline-flex rounded-lg border border-white/22 bg-white/10 px-3 py-2 backdrop-blur-md">
-                      <span className="font-mono text-xs font-semibold tracking-widest text-white/90">{aircraft.registration}</span>
-                    </div>
-                  </div>
+                  )}
                 </CardItem>
 
                 <div data-aircraft-text className="mt-4 space-y-4">
