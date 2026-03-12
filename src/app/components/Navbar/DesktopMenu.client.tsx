@@ -94,6 +94,18 @@ export default function DesktopMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
+          <NavigationMenuLink asChild data-active={isActive("/gallery") ? "true" : undefined}>
+            <Link
+              href="/gallery"
+              aria-current={isActive("/gallery") ? "page" : undefined}
+              className={navigationMenuTriggerStyle()}
+            >
+              Gallery
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
           <NavigationMenuLink asChild data-active={isActive("/contact") ? "true" : undefined}>
             <Link
               href="/contact"

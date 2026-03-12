@@ -148,10 +148,16 @@ export default function PopularDestinationsCarousel() {
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
 
     const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray<HTMLElement>("[data-dest-card]", section);
+
       if (prefersReducedMotion) {
         gsap.set([textBlock, carouselBlock], { x: 0, y: 0, autoAlpha: 1 });
+        gsap.set(cards, { filter: "blur(0px)", autoAlpha: 1, scale: 1 });
         return;
       }
+
+      // Set all cards to blurred glass state initially — pushed down
+      gsap.set(cards, { filter: "blur(14px)", autoAlpha: 0.35, scale: 0.97, y: 60 });
 
       gsap
         .timeline({
@@ -171,6 +177,20 @@ export default function PopularDestinationsCarousel() {
           { y: isMobile ? 64 : 92, autoAlpha: 0 },
           { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" },
           "-=0.4"
+        )
+        // Stagger clear: each card rises up and unblurs one by one
+        .to(
+          cards,
+          {
+            filter: "blur(0px)",
+            autoAlpha: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.65,
+            ease: "power3.out",
+            stagger: 0.48,
+          },
+          "-=0.3"
         );
     }, section);
 
@@ -233,7 +253,7 @@ export default function PopularDestinationsCarousel() {
                   className="flex-[0_0_88%] pl-3 sm:flex-[0_0_62%] sm:pl-4 md:flex-[0_0_48%] lg:flex-[0_0_34%] xl:flex-[0_0_25%]"
                 >
                   <div className="group h-full">
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-3xl">
+                    <div data-dest-card="" className="relative aspect-[16/10] overflow-hidden rounded-3xl">
                       <Image
                         src={destination.imageSrc}
                         alt={destination.imageAlt}

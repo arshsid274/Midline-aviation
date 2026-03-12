@@ -121,6 +121,16 @@ export default function MobileMenu() {
                 </li>
                 <li>
                   <Link
+                    href="/gallery"
+                    aria-current={isActive("/gallery") ? "page" : undefined}
+                    onClick={() => setOpen(false)}
+                    className={itemClasses(isActive("/gallery"))}
+                  >
+                    Gallery
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/contact"
                     aria-current={isActive("/contact") ? "page" : undefined}
                     onClick={() => setOpen(false)}

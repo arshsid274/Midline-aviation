@@ -16,7 +16,6 @@ type ShowcaseItem = {
   ctaLabel: string;
   imageSrc: string;
   imageAlt: string;
-  imageSizes?: string;
   reverse?: boolean;
 };
 
@@ -31,7 +30,6 @@ const showcaseItems: ShowcaseItem[] = [
     ctaLabel: "Explore Charter",
     imageSrc: "/assets/images/Charter_Hero_T7_Gulfstram_Final.png",
     imageAlt: "Passengers boarding a private jet on the runway",
-    imageSizes: "(max-width: 1024px) 100vw, (max-width: 1536px) 50vw, 980px",
   },
   {
     id: "concierge-service",
@@ -43,128 +41,166 @@ const showcaseItems: ShowcaseItem[] = [
     ctaLabel: "Contact Concierge",
     imageSrc: "/assets/images/Conciarge_Final.png",
     imageAlt: "Luxury concierge arrival with chauffeur and luggage handling",
-    imageSizes: "(max-width: 1024px) 100vw, (max-width: 1536px) 50vw, 980px",
     reverse: true,
   },
 ];
 
-function ShowcaseContent({
-  title,
-  subtitle,
-  description,
-  href,
-  ctaLabel,
-}: {
-  title: string;
-  subtitle: string;
-  description: string;
-  href: string;
-  ctaLabel: string;
-}) {
-  return (
-    <div className="mx-auto w-full max-w-[360px] text-left">
-      <h3 itemProp="name" className="text-3xl font-medium leading-tight text-[#111a5a] sm:text-[2rem]">
-        {title}
-      </h3>
-      <p itemProp="serviceType" className="mt-3 text-sm font-medium tracking-wide text-[#111a5a]/75">
-        {subtitle}
-      </p>
+function ShowcasePanel({ item }: { item: ShowcaseItem }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const maskRef = useRef<HTMLDivElement>(null);
+  const imageInnerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const mask = maskRef.current;
+    const imageInner = imageInnerRef.current;
+    const text = textRef.current;
+    if (!wrapper || !mask || !imageInner || !text) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      gsap.set(mask, { clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(text, { autoAlpha: 1, y: 0 });
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      // Image mask — wipe reveal from left edge to right
+      gsap.fromTo(
+        mask,
+        { clipPath: "inset(0% 0% 100% 0%)" },
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top 80%",
+            end: "top 15%",
+            scrub: 1.4,
+          },
+        }
+      );
+
+      // Parallax on image inner — scrolls up within clipped container
+      gsap.fromTo(
+        imageInner,
+        { y: "10%" },
+        {
+          y: "-10%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
+
+      // Text — fades and slides up
+      gsap.fromTo(
+        text,
+        { autoAlpha: 0, y: 48 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top 78%",
+            end: "top 28%",
+            scrub: 1.1,
+          },
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  const imageBlock = (
+    <div
+      ref={maskRef}
+      className="relative aspect-[16/11] w-full overflow-hidden rounded-2xl"
+      style={{ clipPath: "inset(0% 0% 100% 0%)" }}
+    >
+      <div
+        ref={imageInnerRef}
+        className="absolute inset-x-0"
+        style={{ top: "-15%", bottom: "-15%", transform: "translateY(10%)" }}
+      >
+        <Image
+          src={item.imageSrc}
+          alt={item.imageAlt}
+          fill
+          sizes="(max-width: 1024px) 100vw, 55vw"
+          className="object-cover"
+          priority={item.id === "private-charter"}
+        />
+      </div>
+    </div>
+  );
+
+  const textBlock = (
+    <div ref={textRef} className="mx-auto w-full max-w-[360px]" style={{ opacity: 0 }}>
+      <h3 className="text-3xl font-medium leading-tight text-[#111a5a] sm:text-[2rem]">{item.title}</h3>
+      <p className="mt-3 text-sm font-medium tracking-wide text-[#111a5a]/75">{item.subtitle}</p>
       <div className="mt-4 h-px w-full bg-[linear-gradient(90deg,rgba(17,26,90,0.30)_0%,rgba(10,110,164,0.30)_100%)]" />
-      <p itemProp="description" className="mt-5 text-sm leading-relaxed text-[#111a5a]/75">
-        {description}
-      </p>
+      <p className="mt-5 text-sm leading-relaxed text-[#111a5a]/75">{item.description}</p>
       <Link
-        href={href}
-        itemProp="url"
+        href={item.href}
         className="mt-6 inline-flex min-h-10 items-center border-b border-[#111a5a]/70 pb-0.5 text-sm text-[#111a5a] transition-opacity hover:opacity-80"
       >
-        {ctaLabel}
+        {item.ctaLabel}
       </Link>
+    </div>
+  );
+
+  return (
+    <div ref={wrapperRef}>
+      <div
+        className={`grid items-center gap-8 lg:gap-16 ${
+          item.reverse ? "lg:grid-cols-[360px_1fr]" : "lg:grid-cols-[1fr_360px]"
+        }`}
+      >
+        {item.reverse ? textBlock : imageBlock}
+        {item.reverse ? imageBlock : textBlock}
+      </div>
     </div>
   );
 }
 
 export default function ServiceShowcase() {
-  const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
     gsap.registerPlugin(ScrollTrigger);
+    const heading = headingRef.current;
+    if (!heading) return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isMobile = window.matchMedia("(max-width: 1023px)").matches;
-    const xOffset = isMobile ? 64 : 120;
-    const yOffset = isMobile ? 44 : 72;
+    if (prefersReducedMotion) return;
 
-    const ctx = gsap.context(() => {
-      // ── Heading magic reveal ────────────────────────────────────────────
-      const heading = headingRef.current;
-      if (heading && !prefersReducedMotion) {
-        gsap.fromTo(
-          heading,
-          { y: 56, autoAlpha: 0, scale: 0.97 },
-          {
-            y: 0, autoAlpha: 1, scale: 1,
-            duration: 1.0, ease: "power3.out",
-            scrollTrigger: {
-              trigger: heading,
-              start: "top 92%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
+    gsap.fromTo(
+      heading,
+      { y: 56, autoAlpha: 0, scale: 0.97 },
+      {
+        y: 0, autoAlpha: 1, scale: 1,
+        duration: 1.0, ease: "power3.out",
+        scrollTrigger: {
+          trigger: heading,
+          start: "top 92%",
+          toggleActions: "play none none reverse",
+        },
       }
-
-      // ── Row animations ──────────────────────────────────────────────────
-      const rows = gsap.utils.toArray<HTMLElement>("[data-service-row]");
-
-      rows.forEach((row) => {
-        const image = row.querySelector<HTMLElement>("[data-service-image]");
-        const text = row.querySelector<HTMLElement>("[data-service-text]");
-
-        if (!image || !text) return;
-
-        const direction = image.dataset.direction === "right" ? xOffset : -xOffset;
-
-        if (prefersReducedMotion) {
-          gsap.set([image, text], { clearProps: "all", autoAlpha: 1, x: 0, y: 0 });
-          return;
-        }
-
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: row,
-              start: isMobile ? "top 90%" : "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          })
-          .fromTo(
-            image,
-            { x: direction, autoAlpha: 0 },
-            { x: 0, autoAlpha: 1, duration: 0.95, ease: "power3.out" }
-          )
-          .fromTo(
-            text,
-            { y: yOffset, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.85, ease: "power3.out" },
-            "-=0.45"
-          );
-      });
-
-    }, section);
-
-    return () => {
-      ctx.revert();
-    };
+    );
   }, []);
 
   return (
     <section
-      ref={sectionRef}
       aria-labelledby="service-showcase-heading"
       className="bg-white py-14 sm:py-16 lg:py-20"
     >
@@ -189,54 +225,10 @@ export default function ServiceShowcase() {
           />
         </h2>
 
-        <div className="mt-10 space-y-16 lg:mt-14 lg:space-y-20">
-          {showcaseItems.map((item) => {
-            const imageBlock = (
-              <div
-                className="w-full"
-                data-service-image
-                data-direction={item.reverse ? "right" : "left"}
-              >
-                <Image
-                  src={item.imageSrc}
-                  alt={item.imageAlt}
-                  width={980}
-                  height={650}
-                  sizes={item.imageSizes}
-                  className="h-auto w-full object-cover"
-                  itemProp="image"
-                  priority={item.id === "private-charter"}
-                />
-              </div>
-            );
-
-            const textBlock = (
-              <div data-service-text>
-                <ShowcaseContent
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  description={item.description}
-                  href={item.href}
-                  ctaLabel={item.ctaLabel}
-                />
-              </div>
-            );
-
-            return (
-              <article
-                key={item.id}
-                data-service-row
-                itemScope
-                itemType="https://schema.org/Service"
-                className={`grid items-center gap-8 lg:gap-10 ${
-                  item.reverse ? "lg:grid-cols-[360px_1fr]" : "lg:grid-cols-[1fr_360px]"
-                }`}
-              >
-                {item.reverse ? textBlock : imageBlock}
-                {item.reverse ? imageBlock : textBlock}
-              </article>
-            );
-          })}
+        <div className="mt-10 space-y-20 lg:mt-14 lg:space-y-28">
+          {showcaseItems.map((item) => (
+            <ShowcasePanel key={item.id} item={item} />
+          ))}
         </div>
 
         <div className="sr-only">
