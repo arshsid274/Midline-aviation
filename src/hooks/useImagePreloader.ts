@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 /**
- * Preloads a numbered image sequence (001.jpg … NNN.jpg) from a public folder.
+ * Preloads a numbered image sequence (001.webp … NNN.webp) from a public folder.
+ * All frames are fetched in parallel so total load time = slowest single frame,
+ * not slowest × N.
  *
  * @param sequencePath  Path under /public, e.g. "/sequence-0"
  * @param frameCount    Total number of frames to load
@@ -22,25 +24,21 @@ export const useImagePreloader = (
         let cancelled = false;
 
         const loadImages = async () => {
-            const promises = Array.from({ length: frameCount }, (_, i) => {
-                return new Promise<HTMLImageElement>((resolve) => {
+            // Fetch all frames in parallel — total time = slowest single frame.
+            const promises = Array.from({ length: frameCount }, (_, i) =>
+                new Promise<HTMLImageElement>((resolve) => {
                     const img = new Image();
                     img.decoding = 'async';
                     img.src = `${sequencePath}/${(i + 1).toString().padStart(3, '0')}.webp`;
                     img.onload  = () => resolve(img);
-                    img.onerror = () => {
-                        console.error(`Failed to load image: ${img.src}`);
-                        resolve(img);
-                    };
-                });
-            });
+                    img.onerror = () => resolve(img);
+                })
+            );
 
-            const loadedImages = await Promise.all(promises);
+            const all = await Promise.all(promises);
 
             if (!cancelled) {
-                const validImages = loadedImages.filter(img => img.width > 0);
-                console.log(`[useImagePreloader] ${sequencePath}: Loaded ${validImages.length}/${frameCount} images`);
-                setImages(validImages);
+                setImages(all.filter(img => img.width > 0));
                 setLoaded(true);
             }
         };

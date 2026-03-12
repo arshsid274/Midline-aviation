@@ -143,6 +143,14 @@ const servicesShowcaseSchema = {
 export default function HomePage() {
   return (
     <>
+      {/* Preload first animation frame so the canvas paints almost immediately,
+          keeping Speed Index low without changing any visual design. */}
+      <link
+        rel="preload"
+        as="image"
+        href="/sequence-0/001.webp"
+        type="image/webp"
+      />
       <script
         type="application/ld+json"
         suppressHydrationWarning
