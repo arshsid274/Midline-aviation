@@ -17,10 +17,13 @@ export default function AircraftScroll() {
   // frame of seq0 that was showing the moment the user first scrolled
   const transitionFrameRef  = useRef(0);
 
+  // seq0 loads immediately — needed for the idle loop.
+  // seq1-3 only start downloading after seq0 is fully loaded (enabled={loaded0}),
+  // freeing up bandwidth during the critical first-load window.
   const { images: seq0, loaded: loaded0 } = useImagePreloader("/sequence-0", 120);
-  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120);
-  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120);
-  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120);
+  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0);
+  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0);
+  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0);
 
   const allImages = useMemo(
     () => ({ seq0, seq1, seq2, seq3 }),
@@ -71,7 +74,7 @@ export default function AircraftScroll() {
         const idleImg = allImages.seq0[idleFrameRef.current];
         if (idleImg) drawImage(idleImg);
       } else {
-        // ── Scroll-driven: sequence-1 → 2 → 3 ───────────────────────────
+        // ── Scroll-driven: seq0 tail → seq1 → seq2 → seq3 ───────────────
         const rect             = container.getBoundingClientRect();
         const scrollableHeight = rect.height - window.innerHeight;
         const scrollProgress   =
@@ -81,15 +84,15 @@ export default function AircraftScroll() {
 
         // Full scroll path: seq0[startFrame..119] → seq1[0..119] → seq2[0..119] → seq3[0..119]
         // Total = 480 frames; scroll maps startFrame → 479.
-        const startFrame   = transitionFrameRef.current;          // e.g. 34
-        const totalFrames  = 480 - startFrame;                    // remaining frames to cover
-        const rawFrame     = startFrame + Math.floor(scrollProgress * (totalFrames - 1));
+        const startFrame  = transitionFrameRef.current;
+        const totalFrames = 480 - startFrame;
+        const rawFrame    = startFrame + Math.floor(scrollProgress * (totalFrames - 1));
 
         let img: HTMLImageElement | undefined;
-        if (rawFrame < 120)       img = allImages.seq0[rawFrame];
-        else if (rawFrame < 240)  img = allImages.seq1[rawFrame - 120];
-        else if (rawFrame < 360)  img = allImages.seq2[rawFrame - 240];
-        else                      img = allImages.seq3[Math.min(rawFrame - 360, 119)];
+        if (rawFrame < 120)      img = allImages.seq0[rawFrame];
+        else if (rawFrame < 240) img = allImages.seq1[rawFrame - 120];
+        else if (rawFrame < 360) img = allImages.seq2[rawFrame - 240];
+        else                     img = allImages.seq3[Math.min(rawFrame - 360, 119)];
 
         if (img) drawImage(img);
       }
