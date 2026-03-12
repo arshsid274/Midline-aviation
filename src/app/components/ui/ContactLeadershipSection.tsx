@@ -14,21 +14,21 @@ const leadershipMembers: LeadershipMember[] = [
     name: "James Sterling",
     title: "Chief Executive Officer",
     bio: "With over 20 years in global air transport, James leads Midline with a focus on operational clarity and exceptional client experience.",
-    imageSrc: "/assets/images/contact/contact-profile.jpg",
+    imageSrc: "/assets/images/contact/james-sterling.jpg", // TODO: replace with James Sterling's actual portrait image
     objectPosition: "center 20%",
   },
   {
     name: "Eleanor Vance",
     title: "Head of Partnerships",
     bio: "A finance and commercial strategy lead, Eleanor ensures that every collaboration advances mission-ready aviation and long-term growth.",
-    imageSrc: "/assets/images/contact/contact-profile.jpg",
+    imageSrc: "/assets/images/contact/eleanor-vance.jpg", // TODO: replace with Eleanor Vance's actual portrait image
     objectPosition: "center 20%",
   },
   {
     name: "Arthur Morgan",
     title: "Director of Flight Operations",
     bio: "Arthur brings leadership from elite flight teams to elevate our scheduling, safety oversight, and precision-driven service delivery.",
-    imageSrc: "/assets/images/contact/contact-profile.jpg",
+    imageSrc: "/assets/images/contact/arthur-morgan.jpg", // TODO: replace with Arthur Morgan's actual portrait image
     objectPosition: "center 20%",
   },
 ];

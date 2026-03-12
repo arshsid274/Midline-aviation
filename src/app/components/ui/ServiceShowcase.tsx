@@ -184,7 +184,7 @@ export default function ServiceShowcase() {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    gsap.fromTo(
+    const anim = gsap.fromTo(
       heading,
       { y: 56, autoAlpha: 0, scale: 0.97 },
       {
@@ -197,6 +197,11 @@ export default function ServiceShowcase() {
         },
       }
     );
+
+    return () => {
+      anim.scrollTrigger?.kill();
+      anim.kill();
+    };
   }, []);
 
   return (
