@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
 import gsap from "gsap";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./MidlineAirlinesLoader.module.css";
 import MidlineLogoLoader from "./MidlineLogoLoader";
 
@@ -15,6 +15,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
   autoSkip = false
 }) => {
   const introActiveClass = "home-loader-intro-active";
+  const [mounted, setMounted] = useState(false);
   const mainVisualRef = useRef<HTMLDivElement>(null);
   const introWrapRef = useRef<HTMLDivElement>(null);
   const maskBlankRef = useRef<HTMLDivElement>(null);
@@ -26,33 +27,13 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
     onLoadingComplete?.();
   }, [onLoadingComplete]);
 
+  useEffect(() => { setMounted(true); }, []);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("intro") === "false") {
       finishIntro();
       return;
-    }
-
-    const initialMaskOffsets = getMaskOffsetRelativeToSection();
-    gsap.set(mainVisualRef.current, {
-      ...initialMaskOffsets,
-      ease: "none",
-      onComplete: startLoaderAnimation
-    });
-
-    function startLoaderAnimation() {
-      setTimeout(() => {
-        mainVisualRef.current?.classList.add(styles["active-1"]);
-
-        // Logo loader runs for ~4s — then trigger exit transition
-        setTimeout(() => {
-          mainVisualRef.current?.classList.add(styles["active-2"]);
-        }, 4000);
-
-        setTimeout(() => {
-          finishIntro();
-        }, 4800);
-      }, 100);
     }
 
     function getMaskOffsetRelativeToSection(): Record<string, string> {
@@ -84,14 +65,35 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
       }, 800);
     }
 
-    const skipBtn = skipBtnRef.current;
-    skipBtn?.addEventListener("click", handleSkip);
+    function startLoaderAnimation() {
+      setTimeout(() => {
+        mainVisualRef.current?.classList.add(styles["active-1"]);
+
+        // Logo loader runs for ~4s — then trigger exit transition
+        setTimeout(() => {
+          mainVisualRef.current?.classList.add(styles["active-2"]);
+        }, 4000);
+
+        setTimeout(() => {
+          finishIntro();
+        }, 4800);
+      }, 100);
+    }
 
     function handleResize() {
       const maskOffsets = getMaskOffsetRelativeToSection();
       gsap.set(mainVisualRef.current, maskOffsets);
     }
 
+    const initialMaskOffsets = getMaskOffsetRelativeToSection();
+    gsap.set(mainVisualRef.current, {
+      ...initialMaskOffsets,
+      ease: "none",
+      onComplete: startLoaderAnimation
+    });
+
+    const skipBtn = skipBtnRef.current;
+    skipBtn?.addEventListener("click", handleSkip);
     window.addEventListener("resize", handleResize);
 
     let autoSkipTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -102,9 +104,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
     }
 
     return () => {
-      if (autoSkipTimeout) {
-        clearTimeout(autoSkipTimeout);
-      }
+      if (autoSkipTimeout) clearTimeout(autoSkipTimeout);
       window.removeEventListener("resize", handleResize);
       skipBtn?.removeEventListener("click", handleSkip);
     };
@@ -137,7 +137,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
         </div>
       </div>
 
-      <div className={styles.visual_wrap}></div>
+      <div className={styles.visual_wrap} style={mounted ? undefined : { visibility: 'hidden' }} />
 
       <button
         type="button"

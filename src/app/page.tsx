@@ -150,6 +150,7 @@ export default function HomePage() {
         as="image"
         href="/sequence-0/001.webp"
         type="image/webp"
+        fetchPriority="high"
       />
       <script
         type="application/ld+json"

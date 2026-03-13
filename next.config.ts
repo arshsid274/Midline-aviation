@@ -28,6 +28,16 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Airports dataset — large but static; cache for 7 days
+        source: "/data/airports.json",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
         // All other images in public/assets/
         source: "/assets/:path*",
         headers: [

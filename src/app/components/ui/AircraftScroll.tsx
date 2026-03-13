@@ -74,8 +74,9 @@ export default function AircraftScroll() {
 
     const canvas = canvasRef.current;
     if (!canvas) return;
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Do NOT reset canvas.width/height here — that clears the bitmap and wipes
+    // the fast-paint frame, which pushes LCP to when the idle loop first draws.
+    // The fast-paint effect (empty-deps useEffect above) already sets dimensions.
 
     const drawImage = (img: HTMLImageElement) => {
       const ctx = canvas.getContext("2d");
@@ -142,7 +143,8 @@ export default function AircraftScroll() {
       }
     };
     window.addEventListener("resize", handleResize, { passive: true });
-    handleResize();
+    // Do NOT call handleResize() immediately — it would clear the canvas bitmap
+    // (resetting canvas.width/height wipes all drawn pixels).
 
     const render = () => {
       // Only run scroll-driven rendering after user has scrolled

@@ -591,43 +591,35 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
       : "";
   const paxIsInvalid = paxHasInvalidFormat || paxUnderMinimum || paxOverGlobalLimit || paxOverSelectedLimit;
 
-  useEffect(() => {
-    let stillMounted = true;
+  // Defer the 9 MB airports.json fetch until the user actually focuses an airport
+  // input — avoids a large JSON parse blocking the main thread on page load.
+  const airportsLoadedRef = useRef(false);
 
-    const loadAirportOptions = async () => {
-      try {
-        const response = await fetch("/data/airports.json");
-        if (!response.ok) return;
+  const loadAirportsOnce = async () => {
+    if (airportsLoadedRef.current) return;
+    airportsLoadedRef.current = true;
+    try {
+      const response = await fetch("/data/airports.json");
+      if (!response.ok) return;
 
-        const payload = (await response.json()) as unknown;
-        let parsedAirports: Airport[] = [];
+      const payload = (await response.json()) as unknown;
+      let parsedAirports: Airport[] = [];
 
-        if (Array.isArray(payload)) {
-          parsedAirports = payload
-            .map((item) => parseAirportRecord(item))
-            .filter((airport): airport is Airport => airport !== null);
-        } else if (payload && typeof payload === "object") {
-          parsedAirports = Object.entries(payload)
-            .map(([fallbackCode, item]) => parseAirportRecord(item, fallbackCode))
-            .filter((airport): airport is Airport => airport !== null);
-        } else {
-          return;
-        }
-
-        if (stillMounted) {
-          setAirportOptions(parsedAirports);
-        }
-      } catch (error) {
-        console.error("Failed to load airport options:", error);
+      if (Array.isArray(payload)) {
+        parsedAirports = payload
+          .map((item) => parseAirportRecord(item))
+          .filter((airport): airport is Airport => airport !== null);
+      } else if (payload && typeof payload === "object") {
+        parsedAirports = Object.entries(payload)
+          .map(([fallbackCode, item]) => parseAirportRecord(item, fallbackCode))
+          .filter((airport): airport is Airport => airport !== null);
       }
-    };
 
-    void loadAirportOptions();
-
-    return () => {
-      stillMounted = false;
-    };
-  }, []);
+      setAirportOptions(parsedAirports);
+    } catch (error) {
+      console.error("Failed to load airport options:", error);
+    }
+  };
 
   const departureSuggestions = useMemo(
     () => buildAirportSuggestions(departureCity, airportOptions),
@@ -735,7 +727,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               placeholder="Departure City, Country or Airport Code"
               value={departureCity}
               onChange={(event) => setDepartureCity(event.target.value)}
-              onFocus={() => setActiveAirportField("departure")}
+              onFocus={() => { void loadAirportsOnce(); setActiveAirportField("departure"); }}
               onBlur={() => closeSuggestionsAfterBlur("departure")}
               className="h-11 w-full rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               autoComplete="off"
@@ -769,7 +761,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               placeholder="Arrival City, Country or Airport Code"
               value={arrivalCity}
               onChange={(event) => setArrivalCity(event.target.value)}
-              onFocus={() => setActiveAirportField("arrival")}
+              onFocus={() => { void loadAirportsOnce(); setActiveAirportField("arrival"); }}
               onBlur={() => closeSuggestionsAfterBlur("arrival")}
               className="h-11 w-full rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               autoComplete="off"
