@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useMemo } from "react";
 import { useImagePreloader } from "@/hooks/useImagePreloader";
+import HeroTextOverlay from "./HeroTextOverlay";
 
 const IDLE_FPS = 24;
 const IDLE_FRAME_INTERVAL = 1000 / IDLE_FPS;
@@ -205,6 +206,8 @@ export default function AircraftScroll() {
           aria-label="Aircraft animation"
           className="absolute inset-0 w-full h-full"
         />
+        {/* Hero text + CTA — visible only during sequence-0, slides out on scroll */}
+        <HeroTextOverlay containerRef={containerRef} />
       </div>
     </div>
   );
