@@ -20,6 +20,7 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
   const introWrapRef = useRef<HTMLDivElement>(null);
   const maskBlankRef = useRef<HTMLDivElement>(null);
   const skipBtnRef = useRef<HTMLButtonElement>(null);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const finishIntro = useCallback(() => {
     mainVisualRef.current?.classList.remove(styles.intro);
@@ -60,24 +61,24 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
       window.history.pushState(null, "", newUrl);
 
       mainVisualRef.current?.classList.add(styles["active-2"]);
-      setTimeout(() => {
+      timeoutsRef.current.push(setTimeout(() => {
         finishIntro();
-      }, 800);
+      }, 800));
     }
 
     function startLoaderAnimation() {
-      setTimeout(() => {
+      timeoutsRef.current.push(setTimeout(() => {
         mainVisualRef.current?.classList.add(styles["active-1"]);
 
         // Logo loader runs for ~4s — then trigger exit transition
-        setTimeout(() => {
+        timeoutsRef.current.push(setTimeout(() => {
           mainVisualRef.current?.classList.add(styles["active-2"]);
-        }, 4000);
+        }, 4000));
 
-        setTimeout(() => {
+        timeoutsRef.current.push(setTimeout(() => {
           finishIntro();
-        }, 4800);
-      }, 100);
+        }, 4800));
+      }, 100));
     }
 
     function handleResize() {
@@ -105,6 +106,8 @@ const MidlineAirlinesLoader: React.FC<MidlineAirlinesLoaderProps> = ({
 
     return () => {
       if (autoSkipTimeout) clearTimeout(autoSkipTimeout);
+      timeoutsRef.current.forEach(clearTimeout);
+      timeoutsRef.current = [];
       window.removeEventListener("resize", handleResize);
       skipBtn?.removeEventListener("click", handleSkip);
     };
