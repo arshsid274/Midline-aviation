@@ -54,7 +54,25 @@ export default function ContactLeadershipSection() {
   const [offset, setOffset] = useState(0);
   const [photoW, setPhotoW] = useState(0);   // computed photo pixel width
 
-  const stripRef = useRef<HTMLDivElement>(null);
+  const stripRef  = useRef<HTMLDivElement>(null);
+  const isTouch   = useRef(false);
+
+  // Detect coarse-pointer (touch) devices once on mount – no perf impact
+  useEffect(() => {
+    isTouch.current = window.matchMedia("(pointer: coarse)").matches;
+  }, []);
+
+  // Close active card when touching outside the strip (mobile only)
+  useEffect(() => {
+    if (!isTouch.current || active === null) return;
+    const handler = (e: TouchEvent) => {
+      if (stripRef.current && !stripRef.current.contains(e.target as Node)) {
+        setActive(null);
+      }
+    };
+    document.addEventListener("touchstart", handler, { passive: true });
+    return () => document.removeEventListener("touchstart", handler);
+  }, [active]);
 
   // Measure strip width → compute per-photo pixel width
   useEffect(() => {
@@ -150,8 +168,9 @@ export default function ContactLeadershipSection() {
               <div
                 key={member.name}
                 className="flex flex-none flex-row"
-                onMouseEnter={() => setActive(i)}
-                onMouseLeave={() => setActive(null)}
+                onMouseEnter={() => { if (!isTouch.current) setActive(i); }}
+                onMouseLeave={() => { if (!isTouch.current) setActive(null); }}
+                onClick={() => { if (isTouch.current) setActive(active === i ? null : i); }}
               >
                 {/* ── Photo – fixed width, never changes ── */}
                 <div
