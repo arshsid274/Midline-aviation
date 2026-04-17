@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Navbar from "./components/Navbar/navbar";
+import ClarityInit from "./components/ClarityInit";
 import {
   BRAND_THEME_COLOR,
   CONTACT_EMAIL,
@@ -140,6 +141,7 @@ export default function RootLayout({
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <ClarityInit />
         <Navbar />
         {children}
         <footer
