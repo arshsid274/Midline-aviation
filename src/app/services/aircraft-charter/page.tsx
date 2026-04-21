@@ -26,7 +26,7 @@ export default function CharterPage() {
       <CharterStepsComponent />
       <WhyChooseUsComponent />
       <BespokeTravelCategoriesComponent />
-      <JourneyStartsHereComponent />
+      
       <ClientTestimonialsComponent />
     </main>
   );
