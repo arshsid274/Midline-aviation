@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 const STEPS = [
@@ -31,38 +31,94 @@ const PLANE_PATH =
 export default function CharterStepsComponent() {
   const planeRef = useRef<SVGSVGElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [revealed, setRevealed] = useState<boolean[]>([false, false, false]);
+  const revealedRef = useRef<boolean[]>([false, false, false]);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
     const plane = planeRef.current;
     const track = trackRef.current;
-    if (!plane || !track) return;
+    const section = sectionRef.current;
+    if (!plane || !track || !section) return;
 
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (reducedMotion) {
+      setRevealed([true, true, true]);
+      revealedRef.current = [true, true, true];
+      return;
+    }
 
-    let tween: gsap.core.Tween | null = null;
-
-    const animate = () => {
+    const startAnimation = () => {
       const w = track.getBoundingClientRect().width;
-      tween?.kill();
-      tween = gsap.fromTo(
+      tweenRef.current?.kill();
+
+      tweenRef.current = gsap.fromTo(
         plane,
         { x: -50 },
-        { x: w + 50, duration: 9, ease: "none", repeat: -1 },
+        {
+          x: w + 50,
+          duration: 9,
+          ease: "none",
+          repeat: -1,
+          onUpdate() {
+            if (revealedRef.current.every(Boolean)) return;
+
+            const currentX = gsap.getProperty(plane, "x") as number;
+            const trackLeft = track.getBoundingClientRect().left;
+
+            cardsRef.current.forEach((card, i) => {
+              if (!card || revealedRef.current[i]) return;
+              const cardRect = card.getBoundingClientRect();
+              const cardCenter = cardRect.left - trackLeft + cardRect.width / 2;
+
+              if (currentX >= cardCenter) {
+                revealedRef.current = revealedRef.current.map((v, idx) =>
+                  idx === i ? true : v
+                );
+                setRevealed([...revealedRef.current]);
+              }
+            });
+          },
+        },
       );
     };
 
-    animate();
-    window.addEventListener("resize", animate);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Reset cards each time section enters view
+          revealedRef.current = [false, false, false];
+          setRevealed([false, false, false]);
+          startAnimation();
+        } else {
+          tweenRef.current?.kill();
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(section);
+
+    const handleResize = () => {
+      if (tweenRef.current?.isActive()) startAnimation();
+    };
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      tween?.kill();
-      window.removeEventListener("resize", animate);
+      tweenRef.current?.kill();
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <section className="overflow-hidden bg-[linear-gradient(135deg,#0d1451_0%,#0a5a8c_100%)] py-16 sm:py-20">
+    <section
+      ref={sectionRef}
+      className="overflow-hidden bg-[linear-gradient(135deg,#0d1451_0%,#0a5a8c_100%)] py-16 sm:py-20"
+    >
       <div className="mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-14">
 
         {/* Heading row */}
@@ -82,15 +138,15 @@ export default function CharterStepsComponent() {
         {/* Divider */}
         <div className="mt-6 border-t border-white/20" />
 
-        {/* Cards + flight track combined — plane flies behind cards */}
+        {/* Cards + flight track combined */}
         <div ref={trackRef} className="relative mt-10">
 
-          {/* Dashed runway line running through card area — behind cards */}
+          {/* Dashed runway line */}
           <div className="pointer-events-none absolute inset-0 z-0 hidden items-center md:flex">
             <div className="w-full border-t-2 border-dashed border-white/25" />
           </div>
 
-          {/* Animated plane — behind cards */}
+          {/* Animated plane */}
           <svg
             ref={planeRef}
             viewBox="0 0 13 13"
@@ -100,15 +156,20 @@ export default function CharterStepsComponent() {
             className="pointer-events-none absolute top-1/2 z-0 hidden -translate-y-1/2 drop-shadow md:block"
           >
             <path fill="white" d={PLANE_PATH} />
-            <path fill="white" d={PLANE_PATH} />
           </svg>
 
-          {/* Step cards — above the runway line, narrower than track so plane is visible on sides */}
+          {/* Step cards */}
           <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-            {STEPS.map((step) => (
+            {STEPS.map((step, index) => (
               <div
                 key={step.id}
-                className="rounded-xl border border-dashed border-[#00bcff]/40 bg-[#0a1245]/80 px-8 py-12 backdrop-blur-sm"
+                ref={(el) => { cardsRef.current[index] = el; }}
+                style={{ transitionDelay: `${index * 60}ms` }}
+                className={`rounded-xl border border-dashed border-[#00bcff]/40 bg-[#0a1245]/80 px-8 py-12 backdrop-blur-sm transition-all duration-700 ease-out
+                  ${revealed[index]
+                    ? "opacity-100 translate-y-0 scale-100"
+                    : "opacity-0 translate-y-6 scale-95"
+                  }`}
               >
                 <h3 className="mb-4 text-2xl font-bold text-[#00bcff]">
                   {step.title}
