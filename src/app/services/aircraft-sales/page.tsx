@@ -37,6 +37,7 @@ const advisorySections = [
       "Our team supports shortlisting, valuation, negotiation, pre-purchase inspection coordination, closing, delivery, and post-acquisition readiness.",
     ],
     icon: Search,
+    reverse: false,
   },
   {
     title: "Selling an Aircraft",
@@ -60,6 +61,7 @@ const advisorySections = [
       "Our advisory model is built for flexibility, helping clients evaluate operational needs, ownership structure, aircraft availability, and long-term value.",
     ],
     icon: Plane,
+    reverse: false,
   },
 ] as const;
 
@@ -152,9 +154,7 @@ export default function AircraftSalesPage() {
             }`}
           >
             <div
-              className={`mx-auto grid w-full max-w-[1280px] gap-8 lg:grid-cols-12 lg:items-center ${
-                section.reverse ? "" : ""
-              }`}
+              className="mx-auto grid w-full max-w-[1280px] gap-8 lg:grid-cols-12 lg:items-center"
             >
               <div className={`lg:col-span-5 ${section.reverse ? "lg:col-start-8 lg:order-2" : "lg:col-start-2"}`}>
                 <div className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#d8e3fa] text-[#0d1c32]">
