@@ -119,7 +119,7 @@ export default function HomeFooter() {
               aria-label="Midline Aviation on X"
               className="transition hover:text-[#016291]"
             >
-              <SiX className="h-5 w-5" />
+              <SiX className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
               href="https://www.instagram.com/midlineaviation/"
@@ -128,7 +128,7 @@ export default function HomeFooter() {
               aria-label="Midline Aviation on Instagram"
               className="transition hover:text-[#016291]"
             >
-              <SiInstagram className="h-5 w-5" />
+              <SiInstagram className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
               href="https://www.youtube.com/@midlineaviation"
@@ -137,7 +137,7 @@ export default function HomeFooter() {
               aria-label="Midline Aviation on YouTube"
               className="transition hover:text-[#016291]"
             >
-              <SiYoutube className="h-5 w-5" />
+              <SiYoutube className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
               href="https://www.facebook.com/midlineaviation"
@@ -146,7 +146,7 @@ export default function HomeFooter() {
               aria-label="Midline Aviation on Facebook"
               className="transition hover:text-[#016291]"
             >
-              <SiFacebook className="h-5 w-5" />
+              <SiFacebook className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
               href="https://www.linkedin.com/company/midline-aviation/"
@@ -155,7 +155,7 @@ export default function HomeFooter() {
               aria-label="Midline Aviation on LinkedIn"
               className="transition hover:text-[#016291]"
             >
-              <SiLinkedin className="h-5 w-5" />
+              <SiLinkedin className="h-5 w-5" aria-hidden="true" />
             </a>
           </div>
         </div>

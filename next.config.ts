@@ -4,6 +4,19 @@ const nextConfig: NextConfig = {
   // Gzip all server responses
   compress: true,
 
+  // Tree-shake heavy barrel-export libraries so only the icons/components
+  // actually used are bundled — shrinks client JS and cuts parse/eval time.
+  experimental: {
+    optimizePackageImports: [
+      "react-icons",
+      "lucide-react",
+      "motion",
+      "@gsap/react",
+      "embla-carousel-react",
+      "embla-carousel-autoplay",
+    ],
+  },
+
   // ── Image optimisation ────────────────────────────────────────────────────
   images: {
     // Serve AVIF first (best compression), WebP as fallback

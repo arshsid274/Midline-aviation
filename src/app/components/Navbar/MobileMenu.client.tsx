@@ -11,7 +11,6 @@ const services = [
   { title: "Aircraft Management", href: "/services/aircraft-management" },
   { title: "Aircraft Sales", href: "/services/aircraft-sales" },
   { title: "Cargo Transportation", href: "/services/cargo-transportation" },
-  { title: "MRO", href: "/services/mro" },
 ];
 
 export default function MobileMenu() {
@@ -118,6 +117,16 @@ export default function MobileMenu() {
                       </li>
                     ))}
                   </ul>
+                </li>
+                <li>
+                  <Link
+                    href="/services/mro"
+                    aria-current={isActive("/services/mro") ? "page" : undefined}
+                    onClick={() => setOpen(false)}
+                    className={itemClasses(isActive("/services/mro"))}
+                  >
+                    MRO
+                  </Link>
                 </li>
                 <li>
                   <Link

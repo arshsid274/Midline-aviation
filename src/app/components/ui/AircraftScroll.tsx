@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import { useImagePreloader } from "@/hooks/useImagePreloader";
 import HeroTextOverlay from "./HeroTextOverlay";
 
@@ -41,13 +41,49 @@ export default function AircraftScroll() {
     img.src = "/sequence-0/001.webp";
   }, []);
 
-  // seq0 loads immediately — needed for the idle loop.
-  // seq1-3 only start downloading after seq0 is fully loaded (enabled={loaded0}),
-  // freeing up bandwidth during the critical first-load window.
+  // Gate for the heavier later sequences. seq1-3 = 360 frames (~75% of all
+  // image work) and are ONLY needed once the user scrolls. We hold them out of
+  // the critical first-load window and start them on the first scroll OR once the
+  // browser goes idle, whichever comes first. Decoding 360 fewer large webp
+  // frames up front is the single biggest Total Blocking Time win.
+  const [loadHeavy, setLoadHeavy] = useState(false);
+  useEffect(() => {
+    let triggered = false;
+    const trigger = () => {
+      if (triggered) return;
+      triggered = true;
+      setLoadHeavy(true);
+    };
+    window.addEventListener("scroll", trigger, { once: true, passive: true });
+
+    type IdleWindow = Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const w = window as IdleWindow;
+    let idleId: number | undefined;
+    let timerId: ReturnType<typeof setTimeout> | undefined;
+    if (typeof w.requestIdleCallback === "function") {
+      idleId = w.requestIdleCallback(trigger, { timeout: 3000 });
+    } else {
+      timerId = setTimeout(trigger, 2500);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", trigger);
+      if (idleId !== undefined && typeof w.cancelIdleCallback === "function") {
+        w.cancelIdleCallback(idleId);
+      }
+      if (timerId !== undefined) clearTimeout(timerId);
+    };
+  }, []);
+
+  // seq0 loads immediately — needed for the idle loop and first paint.
+  // seq1-3 wait for BOTH seq0 to finish AND the deferred loadHeavy trigger.
   const { images: seq0, loaded: loaded0 } = useImagePreloader("/sequence-0", 120);
-  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0);
-  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0);
-  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0);
+  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0 && loadHeavy);
+  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0 && loadHeavy);
+  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0 && loadHeavy);
 
   const allImages = useMemo(
     () => ({ seq0, seq1, seq2, seq3 }),

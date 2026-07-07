@@ -1,5 +1,6 @@
 "use client";
 
+import type { FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const AIRCRAFT_OPTIONS = [
@@ -10,6 +11,7 @@ const AIRCRAFT_OPTIONS = [
 
 type TripType = "one-way" | "round-trip";
 type AirportField = "departure" | "arrival";
+type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
 type Airport = {
   name: string;
@@ -95,6 +97,9 @@ const buildAirportSuggestions = (query: string, airports: Airport[]) => {
 };
 
 const formatAirportFieldValue = (airport: Airport) => `${airport.city}, ${airport.country} (${airport.code})`;
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^[+()\d\s.-]{7,20}$/;
 
 type HeroBookingFormProps = {
   revealFromBelow?: boolean;
@@ -568,10 +573,13 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
   const [departureTime, setDepartureTime] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [returnTime, setReturnTime] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedAircraft, setSelectedAircraft] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const isRoundTrip = tripType === "round-trip";
   const selectedAircraftDetails = AIRCRAFT_OPTIONS.find((aircraft) => aircraft.code === selectedAircraft);
@@ -650,6 +658,8 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
   const returnDateIsValid = parseIsoDate(returnDate.trim()) !== null;
   const returnTimeIsValid = parseManualTimeValue(returnTime.trim()) !== null;
   const returnDateIsAfterDeparture = returnDate.trim() >= departureDate.trim();
+  const emailIsValid = EMAIL_PATTERN.test(emailAddress.trim());
+  const phoneIsValid = PHONE_PATTERN.test(phoneNumber.trim());
 
   const primaryDetailsComplete =
     departureCity.trim().length > 0 &&
@@ -659,20 +669,70 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
     (!isRoundTrip || (returnDateIsValid && returnTimeIsValid && returnDateIsAfterDeparture));
 
   const contactDetailsComplete =
-    fullName.trim().length > 0 &&
-    emailAddress.trim().length > 0 &&
-    phoneNumber.trim().length > 0 &&
+    firstName.trim().length > 0 &&
+    lastName.trim().length > 0 &&
+    emailIsValid &&
+    phoneIsValid &&
     selectedAircraft.trim().length > 0 &&
     paxHasValue &&
     !paxIsInvalid;
 
-  const canSubmit = primaryDetailsComplete && contactDetailsComplete;
+  const canSubmit = primaryDetailsComplete && contactDetailsComplete && submitStatus !== "submitting";
 
   const changeTripType = (nextType: TripType) => {
     setTripType(nextType);
     if (nextType === "one-way") {
       setReturnDate("");
       setReturnTime("");
+    }
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitMessage("");
+
+    if (!canSubmit) {
+      setSubmitStatus("error");
+      setSubmitMessage("Please complete every required field with a valid email and phone number.");
+      return;
+    }
+
+    setSubmitStatus("submitting");
+
+    try {
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tripType,
+          departureCity: departureCity.trim(),
+          arrivalCity: arrivalCity.trim(),
+          departureDate: departureDate.trim(),
+          departureTime: departureTime.trim(),
+          returnDate: isRoundTrip ? returnDate.trim() : "",
+          returnTime: isRoundTrip ? returnTime.trim() : "",
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          emailAddress: emailAddress.trim(),
+          phoneNumber: phoneNumber.trim(),
+          selectedAircraft,
+          passengers: paxCount.trim(),
+        }),
+      });
+
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+
+      if (!response.ok) {
+        throw new Error(result?.message ?? "Unable to send your request right now.");
+      }
+
+      setSubmitStatus("success");
+      setSubmitMessage("Your flight request has been sent. Our team will contact you shortly.");
+    } catch (error) {
+      setSubmitStatus("error");
+      setSubmitMessage(error instanceof Error ? error.message : "Unable to send your request right now.");
     }
   };
 
@@ -685,14 +745,11 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
         className={`mx-auto w-full max-w-6xl rounded-2xl border border-[#111a5a]/35 bg-[linear-gradient(90deg,rgba(17,26,90,0.16)_0%,rgba(10,110,164,0.16)_100%)] p-4 text-white shadow-[0_22px_55px_rgba(17,26,90,0.26)] backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-5 md:p-6 ${
           revealFromBelow ? "translate-y-0 opacity-100 delay-[180ms]" : "translate-y-16 opacity-0"
         }`}
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!canSubmit) return;
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/90">Book Your Flight</p>
-          <div className="relative inline-grid grid-cols-2 rounded-full border border-white/40 bg-black/25 p-1">
+          <div className="relative inline-grid grid-cols-2 rounded-full border border-white/40 bg-black/60 p-1">
             <span
               aria-hidden="true"
               className={`absolute inset-y-1 w-[calc(50%-4px)] rounded-full bg-[#016291] transition-transform duration-300 ${
@@ -703,7 +760,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               type="button"
               onClick={() => changeTripType("one-way")}
               className={`relative z-[1] rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] transition-colors ${
-                !isRoundTrip ? "text-white" : "text-white/75"
+                !isRoundTrip ? "text-white" : "text-white/90"
               }`}
             >
               One Way
@@ -712,7 +769,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               type="button"
               onClick={() => changeTripType("round-trip")}
               className={`relative z-[1] rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] transition-colors ${
-                isRoundTrip ? "text-white" : "text-white/75"
+                isRoundTrip ? "text-white" : "text-white/90"
               }`}
             >
               Round Trip
@@ -808,16 +865,24 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
         <div
           className={`overflow-hidden transition-all duration-500 ${
             primaryDetailsComplete
-              ? "mt-4 max-h-[340px] border-t border-white/25 pt-4 opacity-100"
+              ? "mt-4 max-h-[560px] border-t border-white/25 pt-4 opacity-100"
               : "max-h-0 opacity-0"
           }`}
         >
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <input
               type="text"
-              placeholder="Full Name"
-              value={fullName}
-              onChange={(event) => setFullName(event.target.value)}
+              placeholder="First Name"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+              className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
+              required={primaryDetailsComplete}
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
               className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               required={primaryDetailsComplete}
             />
@@ -834,10 +899,12 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               placeholder="Phone Number"
               value={phoneNumber}
               onChange={(event) => setPhoneNumber(event.target.value)}
+              pattern="[+()0-9\s.-]{7,20}"
               className="h-11 rounded-xl border border-white/40 bg-white/10 px-3 text-sm text-[#111a5a] placeholder:text-[#111a5a]/60 focus:border-[#111a5a] focus:outline-none"
               required={primaryDetailsComplete}
             />
             <select
+              aria-label="Select aircraft type"
               value={selectedAircraft}
               onChange={(event) => {
                 setSelectedAircraft(event.target.value);
@@ -876,18 +943,33 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               required={primaryDetailsComplete}
             />
           </div>
+          {primaryDetailsComplete && (emailAddress.trim().length > 0 || phoneNumber.trim().length > 0) && (!emailIsValid || !phoneIsValid) && (
+            <p className="mt-2 text-xs font-semibold text-[#b91c1c]">
+              Enter a valid email address and phone number before sending the request.
+            </p>
+          )}
           {paxErrorMessage && (
             <p className={`mt-2 text-xs ${paxOverGlobalLimit ? "font-semibold text-[#ff1f1f]" : "font-semibold text-[#b91c1c]"}`}>
               {paxErrorMessage}
             </p>
           )}
-          <div className="mt-4 flex justify-end">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            {submitMessage && (
+              <p
+                className={`text-sm font-semibold ${
+                  submitStatus === "success" ? "text-[#0f766e]" : "text-[#b91c1c]"
+                }`}
+                role="status"
+              >
+                {submitMessage}
+              </p>
+            )}
             <button
               type="submit"
               disabled={!canSubmit}
               className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] px-5 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-[#016291] disabled:cursor-not-allowed disabled:opacity-55"
             >
-              Request Flight
+              {submitStatus === "submitting" ? "Sending..." : "Request Flight"}
             </button>
           </div>
         </div>

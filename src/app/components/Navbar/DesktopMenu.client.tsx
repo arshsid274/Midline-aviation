@@ -34,11 +34,6 @@ const services = [
     href: "/services/cargo-transportation",
     description: "Reliable global air cargo and freight solutions.",
   },
-  {
-    title: "MRO",
-    href: "/services/mro",
-    description: "Maintenance, repair, and overhaul services.",
-  },
 ]
 
 export default function DesktopMenu() {
@@ -91,6 +86,18 @@ export default function DesktopMenu() {
               ))}
             </ul>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild data-active={isActive("/services/mro") ? "true" : undefined}>
+            <Link
+              href="/services/mro"
+              aria-current={isActive("/services/mro") ? "page" : undefined}
+              className={navigationMenuTriggerStyle()}
+            >
+              MRO
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>

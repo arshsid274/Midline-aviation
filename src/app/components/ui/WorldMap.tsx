@@ -2,7 +2,6 @@
 
 import { memo, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import DottedMap from "dotted-map";
 import Image from "next/image";
 
 interface MapProps {
@@ -18,15 +17,13 @@ interface MapProps {
   };
 }
 
-const mapInstance = new DottedMap({ height: 100, grid: "diagonal" });
-const staticMapData = `data:image/svg+xml;utf8,${encodeURIComponent(
-  mapInstance.getSVG({
-    radius: 0.22,
-    color: "#01699a",
-    shape: "circle",
-    backgroundColor: "#111a5a",
-  })
-)}`;
+// The dotted world map is identical on every load (no dynamic inputs), so it is
+// precomputed once into a static SVG at /public/assets/dotted-world-map.svg
+// (generated with `new DottedMap({height:100,grid:"diagonal"}).getSVG(...)`)
+// instead of regenerating 8,550 dots + a 566 KB string in the browser on every
+// load. This drops the dotted-map library from the client bundle and removes a
+// ~1.9 s main-thread blocking task. Regenerate the SVG if the map style changes.
+const staticMapData = "/assets/dotted-world-map.svg";
 
 const toCoords = (lat: number, lng: number) => ({
   x: (lng + 180) * (800 / 360),

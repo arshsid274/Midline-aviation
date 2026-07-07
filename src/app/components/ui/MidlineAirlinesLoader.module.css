@@ -197,19 +197,27 @@
   z-index: -1;
 }
 
-/* Visual Wrap - Opaque outer layer with transparent expanding cutout */
+/* Visual Wrap - Opaque white mask with a transparent expanding cutout.
+   Implemented as a full-screen white layer (fixed geometry) whose "window"
+   is carved out with an animated clip-path. clip-path is composited, so the
+   reveal produces ZERO Cumulative Layout Shift — unlike animating
+   top/right/bottom/left, which moves the element's box every frame. */
 .visual_wrap {
   position: absolute;
-  top: var(--maskT);
-  right: var(--maskR);
-  bottom: var(--maskB);
-  left: var(--maskL);
+  inset: 0;
   z-index: 1;
-  box-shadow: 0 0 0 120vmax #ffffff;
-  will-change: top, right, bottom, left;
-  transition: top 0.8s ease, right 0.8s ease, bottom 0.8s ease, left 0.8s ease;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: #ffffff;
+  will-change: clip-path;
+  clip-path: polygon(
+    evenodd,
+    0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%,
+    var(--maskL) var(--maskT),
+    calc(100% - var(--maskR)) var(--maskT),
+    calc(100% - var(--maskR)) calc(100% - var(--maskB)),
+    var(--maskL) calc(100% - var(--maskB)),
+    var(--maskL) var(--maskT)
+  );
+  transition: clip-path 0.8s ease;
   pointer-events: none;
 }
 
@@ -226,24 +234,37 @@
 }
 
 .main_visual.active-1 .visual_wrap {
-  bottom: 0%;
-  transition: top 1s ease, right 1s ease, bottom 1s ease, left 1s ease;
+  /* Window grows downward to the bottom edge (maskB -> 0), via clip-path. */
+  clip-path: polygon(
+    evenodd,
+    0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%,
+    var(--maskL) var(--maskT),
+    calc(100% - var(--maskR)) var(--maskT),
+    calc(100% - var(--maskR)) 100%,
+    var(--maskL) 100%,
+    var(--maskL) var(--maskT)
+  );
+  transition: clip-path 1s ease;
 }
 
 /* Animation phase 2 - Intro scales out */
 .main_visual.active-2 .intro_wrap {
-  transform: scale(4);
-  top: -30%;
-  transition: 1s ease;
+  /* Zoom + rise-up exit done entirely with transform (no layout `top`)
+     so the exit produces no layout shift. */
+  transform: translateY(-30%) scale(4);
+  transition: transform 1s ease;
   animation-timing-function: ease;
 }
 
 .main_visual.active-2 .visual_wrap {
-  top: 0%;
-  right: 0%;
-  bottom: 0%;
-  left: 0%;
-  transition: top 0.7s ease, right 0.7s ease, bottom 0.7s ease, left 0.7s ease;
+  /* Fully open the cutout (hole covers the whole screen) so the white mask
+     disappears entirely — the final reveal. */
+  clip-path: polygon(
+    evenodd,
+    0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%,
+    0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%
+  );
+  transition: clip-path 0.7s ease;
 }
 
 /* Skip Button Styling */
