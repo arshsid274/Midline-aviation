@@ -27,10 +27,9 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     description:
       "The flagship of luxury aviation delivers ultra-long-range performance, cutting-edge design, and unmatched speed. The Embraer Legacy 650 redefines private air travel with elegance and power.",
     comingSoon: true,
-    imageSrc: "/assets/images/Embrar_Legasy_Final.png",
-    imageAlt: "Embraer Legacy 650 parked on runway",
-    href: "/fleet",
-    videoSrc: "/assets/videos/Embrar_Legasy_650.mp4",
+    imageSrc: "/assets/images/aircraft/legacy650-exterior-2.webp",
+    imageAlt: "Embraer Legacy 650 (T7-MIDB) on the tarmac",
+    href: "/fleet/embraer-legacy-650",
   },
   {
     id: "g450",
@@ -38,9 +37,9 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     registration: "T7-MID",
     description:
       "A long-range business jet known for its advanced technology, quiet cabin, and superior reliability. Perfect for intercontinental travel with unmatched comfort and safety.",
-    imageSrc: "/assets/images/g450_Final.png",
-    imageAlt: "Gulfstream G450 near terminal",
-    href: "/fleet",
+    imageSrc: "/assets/images/aircraft/g450-exterior.webp",
+    imageAlt: "Gulfstream G450 (T7-MID) on the tarmac",
+    href: "/fleet/gulfstream-g450",
   },
   {
     id: "g200",
@@ -48,9 +47,9 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     registration: "T7-MIDA",
     description:
       "A versatile midsize jet offering exceptional comfort and performance for regional and medium-haul flights. The G200 combines spacious seating with impressive range and efficiency.",
-    imageSrc: "/assets/images/g200_Final.png",
-    imageAlt: "Gulfstream G200 in flight line",
-    href: "/fleet",
+    imageSrc: "/assets/images/aircraft/g200-exterior.webp",
+    imageAlt: "Gulfstream G200 (T7-MIDA) on the tarmac",
+    href: "/fleet/gulfstream-g200",
   },
 ];
 

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import MidlineAirlinesLoader from "@/app/components/ui/MidlineAirlinesLoader";
 import AircraftScroll from "@/app/components/ui/AircraftScroll";
 import HeroBookingForm from "@/app/components/ui/HeroBookingForm";
-import HomeFooter from "@/app/components/ui/HomeFooter";
 
 const ServicesShowcase = dynamic(() => import("@/app/components/ui/ServiceShowcase"), {
   loading: () => null,
@@ -23,9 +22,6 @@ const LogoLoopSection = dynamic(() => import("@/app/components/ui/LogoLoopSectio
   loading: () => null,
 });
 const HomeAircraftCards = dynamic(() => import("@/app/components/ui/HomeAircraftCards"), {
-  loading: () => null,
-});
-const ServiceMissionShowcase = dynamic(() => import("@/app/components/ui/ServicesMissionShowcase"), {
   loading: () => null,
 });
 
@@ -68,8 +64,6 @@ export default function HomePageClient() {
         <TripsMapView />
         <LogoLoopSection />
         <HomeAircraftCards />
-        <ServiceMissionShowcase />
-        <HomeFooter />
       </main>
 
       <noscript>

@@ -28,8 +28,8 @@ const showcaseItems: ShowcaseItem[] = [
       "Indulge in seamless luxury with our VIP private charter service, where we manage every detail from A to Z, creating an exclusive journey tailored to perfection just for you.",
     href: "/services/aircraft-charter",
     ctaLabel: "Explore Charter",
-    imageSrc: "/assets/images/Charter_Hero_T7_Gulfstram_Final.png",
-    imageAlt: "Passengers boarding a private jet on the runway",
+    imageSrc: "/assets/images/aircraft/g450-red-carpet.webp",
+    imageAlt: "Red carpet rolled out to a waiting private charter jet",
   },
   {
     id: "concierge-service",
@@ -39,7 +39,7 @@ const showcaseItems: ShowcaseItem[] = [
       "Benefit from the power of access provided by Midline Concierge. From luxury hotel reservations and entertainment to the finest yachts and villas around the globe.",
     href: "/contact",
     ctaLabel: "Contact Concierge",
-    imageSrc: "/assets/images/Conciarge_Final.png",
+    imageSrc: "/assets/images/aircraft/concierge.webp",
     imageAlt: "Luxury concierge arrival with chauffeur and luggage handling",
     reverse: true,
   },
@@ -62,12 +62,15 @@ function ShowcasePanel({ item }: { item: ShowcaseItem }) {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (prefersReducedMotion) {
-      gsap.set(mask, { clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(mask, { autoAlpha: 1, clipPath: "inset(0% 0% 0% 0%)" });
       gsap.set(text, { autoAlpha: 1, y: 0 });
       return;
     }
 
     const ctx = gsap.context(() => {
+      // Release the CSS .js gate while still fully clipped — no flash possible.
+      gsap.set(mask, { autoAlpha: 1 });
+
       // Image mask — wipe reveal from left edge to right
       gsap.fromTo(
         mask,
@@ -124,8 +127,8 @@ function ShowcasePanel({ item }: { item: ShowcaseItem }) {
   const imageBlock = (
     <div
       ref={maskRef}
+      data-reveal=""
       className="relative aspect-[16/11] w-full overflow-hidden rounded-2xl"
-      style={{ clipPath: "inset(0% 0% 100% 0%)" }}
     >
       <div
         ref={imageInnerRef}
@@ -145,7 +148,7 @@ function ShowcasePanel({ item }: { item: ShowcaseItem }) {
   );
 
   const textBlock = (
-    <div ref={textRef} className="mx-auto w-full max-w-[360px]" style={{ opacity: 0 }}>
+    <div ref={textRef} data-reveal="" className="mx-auto w-full max-w-[360px]">
       <h3 className="text-3xl font-medium leading-tight text-[#111a5a] sm:text-[2rem]">{item.title}</h3>
       <p className="mt-3 text-sm font-medium tracking-wide text-[#111a5a]/75">{item.subtitle}</p>
       <div className="mt-4 h-px w-full bg-[linear-gradient(90deg,rgba(17,26,90,0.30)_0%,rgba(10,110,164,0.30)_100%)]" />

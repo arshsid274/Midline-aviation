@@ -1,5 +1,5 @@
 import { Globe, ShieldCheck, SlidersHorizontal } from "lucide-react";
-import { playfairDisplay } from "@/lib/fonts";
+import Reveal from "@/app/components/motion/Reveal";
 
 const advantages = [
   {
@@ -33,10 +33,10 @@ export default function CargoWhyChooseSection() {
     <section className="bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-16 sm:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-14">
+        <Reveal as="div" variant="fade-up" className="mx-auto mb-12 max-w-2xl text-center sm:mb-14">
           <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#00bcff]">Core Advantages</p>
           <h2
-            className={`${playfairDisplay.className} mt-3 text-3xl font-medium tracking-[-0.02em] text-white sm:text-4xl lg:text-[2.6rem]`}
+            className="font-display mt-3 text-3xl font-medium tracking-[-0.02em] text-white sm:text-4xl lg:text-[2.6rem]"
           >
             Why Choose Midline Cargo?
           </h2>
@@ -44,15 +44,16 @@ export default function CargoWhyChooseSection() {
             Built on decades of aviation expertise, our cargo division delivers reliability, security, and precision on
             every route we operate.
           </p>
-        </div>
+        </Reveal>
 
         {/* Cards grid */}
-        <div className="grid gap-5 md:grid-cols-3">
+        <Reveal as="div" variant="stagger" stagger={0.12} className="grid gap-5 md:grid-cols-3">
           {advantages.map((item) => {
             const Icon = item.icon;
             return (
               <article
                 key={item.title}
+                data-reveal-item
                 className={`relative overflow-hidden rounded-2xl border p-6 shadow-[0_18px_34px_rgba(0,0,0,0.28)] backdrop-blur-xl transition-colors ${
                   item.featured
                     ? "border-[#00bcff]/38 bg-[#00bcff]/12 hover:bg-[#00bcff]/18"
@@ -95,7 +96,7 @@ export default function CargoWhyChooseSection() {
               </article>
             );
           })}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

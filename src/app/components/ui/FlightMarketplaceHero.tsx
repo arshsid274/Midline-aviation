@@ -10,21 +10,21 @@ import { WorldMap } from "./WorldMap";
 
 const JET_VISUALS = {
   "gulfstream-heavy": {
-    exteriorSrc: "/assets/images/g450_Exterior_Final2.png",
-    exteriorAlt: "Gulfstream G450 exterior on runway",
-    interiorSrc: "/assets/images/g450_Interior_Final.png",
+    exteriorSrc: "/assets/images/aircraft/g450-exterior.webp",
+    exteriorAlt: "Gulfstream G450 T7-MID on the ramp",
+    interiorSrc: "/assets/images/aircraft/g450-cabin-wide.webp",
     interiorAlt: "Gulfstream G450 luxury cabin interior",
   },
   "gulfstream-mid-size": {
-    exteriorSrc: "/assets/images/g200_Final_Exterior.png",
-    exteriorAlt: "Gulfstream G200 exterior on tarmac",
-    interiorSrc: "/assets/images/g200_Interior.png",
+    exteriorSrc: "/assets/images/aircraft/g200-exterior.webp",
+    exteriorAlt: "Gulfstream G200 T7-MIDA on the tarmac",
+    interiorSrc: "/assets/images/aircraft/g200-cabin.webp",
     interiorAlt: "Gulfstream G200 cabin interior",
   },
   "embraer-heavy": {
-    exteriorSrc: "/assets/images/Legasy_650_Exterior_Final.png",
-    exteriorAlt: "Embraer Legacy 650 exterior",
-    interiorSrc: "/assets/images/Embrar_Legasy_Interior_Final.png",
+    exteriorSrc: "/assets/images/aircraft/legacy650-exterior.webp",
+    exteriorAlt: "Embraer Legacy 650 T7-MIDB on the tarmac",
+    interiorSrc: "/assets/images/aircraft/legacy650-cabin-wide.webp",
     interiorAlt: "Embraer Legacy 650 interior cabin",
   },
 } as const;
@@ -525,7 +525,7 @@ export default function FlightMarketplaceHero() {
             Regional private jet routes, split view booking and map intelligence
           </h2>
           <p className="mt-3 max-w-3xl text-sm text-[#0c134d]/82 sm:text-base">
-            View active route deals in the left carousel and follow each selected route on the right interactive map,
+            View active route deals in the carousel and follow each selected route on the interactive map,
             optimized for short-to-mid-range regional flights.
           </p>
           <p className="sr-only" aria-live="polite">
@@ -534,12 +534,12 @@ export default function FlightMarketplaceHero() {
           </p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-stretch lg:gap-7">
-          <div className="relative rounded-2xl border border-white/12 bg-[#070f35]/82 p-3 shadow-[0_18px_46px_rgba(0,6,26,0.45)] sm:p-4">
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-stretch lg:gap-7">
+          <div className="relative order-2 rounded-2xl border border-white/12 bg-[#070f35]/82 p-3 shadow-[0_18px_46px_rgba(0,6,26,0.45)] sm:p-4 lg:order-1">
             <div className="mb-3">
               <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#7ec8ff]/82">Available Flights</p>
               <p className="mt-1 text-xs text-blue-100/70 sm:text-sm">
-                Browse live route cards on the left while the map updates on the right.
+                Browse live route cards and the map updates to match your selection.
               </p>
             </div>
 
@@ -604,7 +604,7 @@ export default function FlightMarketplaceHero() {
             </div>
           </div>
 
-          <aside className="relative flex min-h-[320px] flex-col overflow-hidden rounded-2xl border border-[#3a78b6]/45 bg-[linear-gradient(90deg,rgba(17,26,90,0.86)_0%,rgba(10,110,164,0.86)_100%)] p-4 shadow-[0_20px_50px_rgba(0,8,28,0.55)] sm:min-h-[360px] sm:p-5">
+          <aside className="relative sticky top-20 z-30 order-1 flex min-h-[300px] flex-col self-start overflow-hidden md:top-24 rounded-2xl border border-[#3a78b6]/45 bg-[linear-gradient(90deg,rgba(17,26,90,0.86)_0%,rgba(10,110,164,0.86)_100%)] p-4 shadow-[0_20px_50px_rgba(0,8,28,0.55)] sm:min-h-[360px] sm:p-5 lg:relative lg:top-auto lg:z-auto lg:order-2 lg:self-auto">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#070f35]/88 to-transparent"
@@ -630,7 +630,7 @@ export default function FlightMarketplaceHero() {
               </div>
             </div>
 
-            <figure className="relative mt-4 flex-1 overflow-hidden rounded-xl border border-[#3a78b6]/35 shadow-inner">
+            <figure className="relative mt-3 h-56 overflow-hidden rounded-xl border border-[#3a78b6]/35 shadow-inner sm:mt-4 sm:h-64 lg:h-auto lg:flex-1">
               <WorldMap dots={currentRoute} lineColor="#41b3b5" focus={mapFocus} />
               <figcaption className="sr-only">
                 Route map highlighting flights between {activeDeal.fromCity} and {activeDeal.toCity}.

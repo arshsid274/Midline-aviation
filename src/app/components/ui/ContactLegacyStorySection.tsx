@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { playfairDisplay } from "@/lib/fonts";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 type FeatureKey = "charters" | "emptyLegs" | "experiences";
 
@@ -28,9 +28,9 @@ const featureSlides: FeatureSlide[] = [
     description:
       "With just a few taps, book private charters for business trips, personal travel, or urgent departures. Access thousands of airports closer to your starting point and arrive with less friction, with dependable service designed around your schedule.",
     ctaHref: "/services/aircraft-charter",
-    imageSrc: "/assets/images/Sleeping-on-a-Private-Jet.jpg",
-    imageAlt: "Passenger boarding a private jet",
-    imagePosition: "center 56%",
+    imageSrc: "/assets/images/aircraft/g450-cabin.webp",
+    imageAlt: "Guest relaxing in the Gulfstream G450 cabin",
+    imagePosition: "center 40%",
   },
   {
     key: "emptyLegs",
@@ -40,9 +40,9 @@ const featureSlides: FeatureSlide[] = [
     description:
       "Empty-leg flights happen when aircraft reposition without passengers. That opens access to private aviation at significantly lower rates, while keeping the same premium cabin experience, safety standards, and service quality.",
     ctaHref: "/fleet",
-    imageSrc: "/assets/images/Empty_Legs_Final.png",
-    imageAlt: "Private jet parked on runway",
-    imagePosition: "center 62%",
+    imageSrc: "/assets/images/aircraft/legacy650-exterior-2.webp",
+    imageAlt: "Embraer Legacy 650 repositioning on the ramp",
+    imagePosition: "center 50%",
   },
   {
     key: "experiences",
@@ -52,13 +52,14 @@ const featureSlides: FeatureSlide[] = [
     description:
       "Our curated aviation experiences unlock scenic destinations and unique journeys, from coastal escapes to remote luxury retreats. Every route is crafted to blend seamless flight logistics with memorable, destination-first travel.",
     ctaHref: "/contact",
-    imageSrc: "/assets/images/Expirence_Final.png",
-    imageAlt: "Leisure private aviation experience",
-    imagePosition: "center 58%",
+    imageSrc: "/assets/images/aircraft/g450-celebration.webp",
+    imageAlt: "Guests celebrating aboard the Gulfstream G450",
+    imagePosition: "center 40%",
   },
 ];
 
 export default function ContactLegacyStorySection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const [activeFeature, setActiveFeature] = useState<FeatureKey>("charters");
 
   const activeSlide = useMemo(
@@ -66,20 +67,25 @@ export default function ContactLegacyStorySection() {
     [activeFeature],
   );
 
+  useScrollReveal(sectionRef, { stagger: 0.14 });
+
   return (
-    <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-[var(--midline-bg-soft)] py-10 sm:py-12">
+    <section
+      ref={sectionRef}
+      className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-[var(--midline-bg-soft)] py-10 sm:py-12"
+    >
       <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className={`${playfairDisplay.className} text-[2.2rem] font-medium tracking-[-0.025em] text-[var(--midline-navy)] sm:text-[2.6rem]`}>
+        <div data-reveal-item className="mx-auto max-w-3xl text-center">
+          <h1 className="font-display text-[2.2rem] font-medium tracking-[-0.025em] text-[var(--midline-navy)] sm:text-[2.6rem]">
             What we do
-          </h2>
+          </h1>
           <p className="mx-auto mt-2 max-w-[34rem] text-[0.77rem] leading-[1.72] text-[color:color-mix(in_srgb,var(--midline-navy)_70%,white_30%)] sm:text-[0.82rem]">
             We are the one-stop-shop you need to book a business flight, plan a relaxing getaway, or discover your
             next adventure.
           </p>
         </div>
 
-        <div className="mt-4 flex justify-center sm:mt-5">
+        <div data-reveal-item className="mt-4 flex justify-center sm:mt-5">
           <div className="inline-flex items-center rounded-full border border-[color:color-mix(in_srgb,var(--midline-navy)_10%,white_90%)] bg-white p-1 shadow-[0_8px_20px_rgba(17,26,90,0.08)]">
             {featureSlides.map((slide) => (
               <button
@@ -99,14 +105,14 @@ export default function ContactLegacyStorySection() {
           </div>
         </div>
 
-        <article className="mt-10">
+        <article data-reveal-item className="mt-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:gap-10">
             <div>
               <p className="text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-[var(--midline-cyan-strong)]">
                 {activeSlide.eyebrow}
               </p>
               <h3
-                className={`${playfairDisplay.className} mt-2 text-[2rem] font-medium leading-[1.08] tracking-[-0.02em] text-[var(--midline-navy)] sm:text-[2.3rem]`}
+                className="font-display mt-2 text-[2rem] font-medium leading-[1.08] tracking-[-0.02em] text-[var(--midline-navy)] sm:text-[2.3rem]"
               >
                 {activeSlide.title}
               </h3>
@@ -134,12 +140,12 @@ export default function ContactLegacyStorySection() {
           </div>
         </article>
 
-        <article className="mt-12 sm:mt-14">
+        <article data-reveal-item className="mt-12 sm:mt-14">
           <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10">
             <figure className="relative h-[280px] overflow-hidden rounded-[1rem] bg-[color:color-mix(in_srgb,var(--midline-navy)_12%,white_88%)] sm:h-[320px] lg:h-[360px]">
               <Image
-                src="/assets/images/charter/charter-runway-jet.png"
-                alt="Private jet on a runway"
+                src="/assets/images/aircraft/g200-exterior.webp"
+                alt="Gulfstream G200 on the runway"
                 fill
                 sizes="(max-width: 1024px) 100vw, 52vw"
                 className="object-cover"
@@ -152,7 +158,7 @@ export default function ContactLegacyStorySection() {
                 <span aria-hidden className="h-3.5 w-3.5 rounded-sm bg-[var(--midline-navy)]" />
               </span>
               <h3
-                className={`${playfairDisplay.className} mt-3 text-[2.05rem] font-medium leading-[1.08] tracking-[-0.02em] text-[var(--midline-navy)] sm:text-[2.35rem]`}
+                className="font-display mt-3 text-[2.05rem] font-medium leading-[1.08] tracking-[-0.02em] text-[var(--midline-navy)] sm:text-[2.35rem]"
               >
                 Our story
               </h3>

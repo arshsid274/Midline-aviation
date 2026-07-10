@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Navbar from "./components/Navbar/navbar";
 import ClarityInit from "./components/ClarityInit";
+import SiteFooter from "./components/ui/SiteFooter";
+import { hankenGrotesk, jetbrainsMono, playfairDisplay } from "@/lib/fonts";
 import {
   BRAND_THEME_COLOR,
   CONTACT_EMAIL,
@@ -129,8 +131,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${hankenGrotesk.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable}`}
+    >
       <body className="min-h-screen bg-background pt-[72px] md:pt-[84px]">
+        {/* Flags that JS is active so the reveal CSS gate can hide-then-animate elements.
+            With no JS the class is never added, so [data-reveal] content stays fully visible. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         <script
           type="application/ld+json"
           suppressHydrationWarning
@@ -144,12 +157,7 @@ export default function RootLayout({
         <ClarityInit />
         <Navbar />
         {children}
-        <footer
-          data-global-footer="true"
-          className="border-t border-border/70 bg-background/95 px-4 py-6 text-center text-sm text-muted-foreground backdrop-blur-sm sm:px-6"
-        >
-          &copy; {new Date().getFullYear()} {SITE_NAME}
-        </footer>
+        <SiteFooter />
       </body>
     </html>
   );

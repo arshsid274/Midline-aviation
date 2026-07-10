@@ -12,6 +12,7 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Explore Midline Aviation fleet featuring Embraer Legacy 650, Gulfstream G450, and Gulfstream G200 aircraft for luxury, safety, and performance.",
   path: "/fleet",
+  ogImage: "/assets/og/og-fleet.jpg",
   keywords: ["midline fleet", "embraer legacy 650", "gulfstream g450", "gulfstream g200"],
 });
 

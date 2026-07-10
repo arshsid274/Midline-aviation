@@ -96,7 +96,7 @@ export default function MidlineLogoLoader() {
           alignItems: "center",
           gap: "30px",
           position: "relative",
-          fontFamily: "Georgia, 'Times New Roman', serif",
+          fontFamily: "var(--font-playfair), Georgia, 'Times New Roman', serif",
         }}
         key={cycle}
       >

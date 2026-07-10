@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ShieldCheck, LineChart } from "lucide-react";
-import { playfairDisplay } from "@/lib/fonts";
+import Reveal from "@/app/components/motion/Reveal";
 
 const standards = [
   {
@@ -19,20 +19,20 @@ export default function AircraftManagementStandardsSection() {
   return (
     <section className="bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-14 sm:py-16 lg:py-20">
       <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.86fr)] lg:gap-16 lg:px-8">
-        <div className="max-w-[38rem] space-y-7">
-          <div>
+        <Reveal as="div" className="max-w-[38rem] space-y-7" variant="stagger" stagger={0.14}>
+          <div data-reveal-item>
             <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#00bcff]">
               The Midline Advantage
             </p>
             <h2
-              className={`${playfairDisplay.className} mt-3 max-w-[30rem] text-4xl font-medium leading-[1.02] tracking-[-0.02em] text-white sm:text-5xl lg:text-[3.15rem]`}
+              className="font-display mt-3 max-w-[30rem] text-4xl font-medium leading-[1.02] tracking-[-0.02em] text-white sm:text-5xl lg:text-[3.15rem]"
             >
               Setting New Standards in{" "}
               <span className="font-light italic text-[#c8d7ff]">Operational Excellence</span>
             </h2>
           </div>
 
-          <p className="max-w-[33rem] text-base leading-relaxed text-[#dfe8ff]/74">
+          <p data-reveal-item className="max-w-[33rem] text-base leading-relaxed text-[#dfe8ff]/74">
             We provide industry-leading management solutions focused on safety, compliance, and efficiency. Your
             aircraft is managed by veteran aviation professionals who treat your asset with precision at every step.
           </p>
@@ -43,6 +43,7 @@ export default function AircraftManagementStandardsSection() {
               return (
                 <article
                   key={item.title}
+                  data-reveal-item
                   className="max-w-[32rem] rounded-xl border border-white/16 bg-white/8 p-4 shadow-[0_14px_28px_rgba(0,0,0,0.2)] backdrop-blur-xl"
                 >
                   <div className="flex items-start gap-4">
@@ -58,13 +59,18 @@ export default function AircraftManagementStandardsSection() {
               );
             })}
           </div>
-        </div>
+        </Reveal>
 
-        <figure className="relative isolate mx-auto w-full max-w-[30rem] overflow-hidden rounded-2xl border border-[#00bcff]/26 shadow-[0_24px_46px_rgba(0,0,0,0.35)]">
+        <Reveal
+          as="figure"
+          variant="clip-wipe"
+          duration={0.9}
+          className="relative isolate mx-auto w-full max-w-[30rem] overflow-hidden rounded-2xl border border-[#00bcff]/26 shadow-[0_24px_46px_rgba(0,0,0,0.35)]"
+        >
           <div className="relative aspect-[4/5] min-h-[420px]">
             <Image
-              src="/assets/images/Mangement2.jpg"
-              alt="Managed business jet on the runway"
+              src="/assets/images/aircraft/g450-exterior-portrait.webp"
+              alt="Managed Gulfstream G450 on the ramp at Dubai"
               fill
               sizes="(max-width: 1024px) 100vw, 460px"
               className="object-cover object-center"
@@ -77,7 +83,7 @@ export default function AircraftManagementStandardsSection() {
               Dispatch Reliability
             </p>
           </figcaption>
-        </figure>
+        </Reveal>
       </div>
     </section>
   );

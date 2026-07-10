@@ -184,7 +184,7 @@ export default function MobileMenu() {
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((prev) => !prev)}
-          className="rounded-lg p-2.5 text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+          className="flex h-11 w-11 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/10 hover:text-white"
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>

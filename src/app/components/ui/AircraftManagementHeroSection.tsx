@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { playfairDisplay } from "@/lib/fonts";
+import Reveal from "@/app/components/motion/Reveal";
+import SplitHeading from "@/app/components/motion/SplitHeading";
 
 export default function AircraftManagementHeroSection() {
   return (
@@ -9,28 +10,45 @@ export default function AircraftManagementHeroSection() {
         alt="Private aircraft at sunset"
         fill
         sizes="100vw"
-        className="object-cover object-center"
+        className="object-cover object-center hero-kenburns"
         priority
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
 
-      <div className="relative mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-6 text-center">
-        <p className="inline-flex items-center gap-2 rounded-full border border-white/22 bg-white/12 px-4 py-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-xl">
+      <Reveal
+        as="div"
+        className="relative mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-6 text-center"
+        on="load"
+        variant="stagger"
+        stagger={0.12}
+        delay={0.1}
+      >
+        <p
+          data-reveal-item
+          className="inline-flex items-center gap-2 rounded-full border border-white/22 bg-white/12 px-4 py-1.5 text-[0.64rem] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-xl"
+        >
           Elite Aircraft Management
         </p>
 
-        <h1
-          className={`${playfairDisplay.className} mt-5 text-4xl font-medium leading-[1.08] tracking-[-0.02em] text-white sm:text-5xl md:text-6xl`}
+        <SplitHeading
+          as="h1"
+          mode="lcp"
+          on="load"
+          delay={0.25}
+          className="font-display mt-5 text-4xl font-medium leading-[1.08] tracking-[-0.02em] text-white sm:text-5xl md:text-6xl"
         >
           Expert Care for Your Aircraft,{" "}
           <span className="rounded-md bg-white px-2 py-0.5 text-[#111a5a]">Peace of Mind</span> for You
-        </h1>
+        </SplitHeading>
 
-        <p className="mt-5 max-w-3xl text-sm leading-relaxed text-white/88 sm:text-base md:text-lg">
+        <p
+          data-reveal-item
+          className="mt-5 max-w-3xl text-sm leading-relaxed text-white/88 sm:text-base md:text-lg"
+        >
           Comprehensive aircraft management services tailored to operational excellence, safety, and your schedule.
         </p>
 
-        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+        <div data-reveal-item className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
           <button
             type="button"
             className="inline-flex min-h-11 items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#111a5a] transition-colors hover:bg-[#f4f7ff]"
@@ -44,7 +62,7 @@ export default function AircraftManagementHeroSection() {
             Review Safety Protocols
           </button>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

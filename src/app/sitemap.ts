@@ -1,8 +1,16 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
+import { JETS } from "@/lib/fleet";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+
+  const jetEntries: MetadataRoute.Sitemap = JETS.map((jet) => ({
+    url: `${SITE_URL}/fleet/${jet.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
 
   return [
     {
@@ -16,6 +24,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
+    },
+    ...jetEntries,
+    {
+      url: `${SITE_URL}/gallery`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.6,
     },
     {
       url: `${SITE_URL}/about`,

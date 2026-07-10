@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { playfairDisplay } from "@/lib/fonts";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 interface LeadershipMember {
   name: string;
@@ -54,8 +54,11 @@ export default function ContactLeadershipSection() {
   const [offset, setOffset] = useState(0);
   const [photoW, setPhotoW] = useState(0);   // computed photo pixel width
 
+  const sectionRef = useRef<HTMLElement>(null);
   const stripRef  = useRef<HTMLDivElement>(null);
   const isTouch   = useRef(false);
+
+  useScrollReveal(sectionRef, { stagger: 0.16 });
 
   // Detect coarse-pointer (touch) devices once on mount – no perf impact
   useEffect(() => {
@@ -90,10 +93,10 @@ export default function ContactLeadershipSection() {
   const canNext = offset < maxOffset;
 
   return (
-    <section className="mt-14 bg-white sm:mt-20">
+    <section ref={sectionRef} className="mt-14 bg-white sm:mt-20">
 
       {/* ── Header ── */}
-      <div className="flex flex-col gap-6 pb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+      <div data-reveal-item className="flex flex-col gap-6 pb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
 
         {/* Left – headline */}
         <div className="flex-1">
@@ -102,7 +105,7 @@ export default function ContactLeadershipSection() {
             Our Leadership
           </p>
           <h2
-            className={`${playfairDisplay.className} mt-3 max-w-xs text-[1.85rem] font-medium leading-[1.15] tracking-[-0.02em] text-[#1f2f67] sm:text-[2.2rem]`}
+            className="font-display mt-3 max-w-xs text-[1.85rem] font-medium leading-[1.15] tracking-[-0.02em] text-[#1f2f67] sm:text-[2.2rem]"
           >
             Meet the Minds Behind Midline
           </h2>
@@ -145,7 +148,7 @@ export default function ContactLeadershipSection() {
 
       {/* ── Photo strip ── */}
       {/* overflow-hidden clips cards pushed off-screen by hover expansion */}
-      <div ref={stripRef} className="-mx-4 overflow-hidden sm:-mx-6 lg:-mx-10">
+      <div ref={stripRef} data-reveal-item className="-mx-4 overflow-hidden sm:-mx-6 lg:-mx-10">
         {/* Sliding track for carousel offset */}
         <div
           className="flex"
@@ -205,7 +208,7 @@ export default function ContactLeadershipSection() {
                   {/* name + title at bottom of photo */}
                   <div className="absolute bottom-0 left-0 right-0 px-4 pb-5">
                     <h3
-                      className={`${playfairDisplay.className} text-[0.95rem] font-medium leading-tight text-white drop-shadow sm:text-[1.05rem]`}
+                      className="font-display text-[0.95rem] font-medium leading-tight text-white drop-shadow sm:text-[1.05rem]"
                     >
                       {member.name}
                     </h3>
@@ -234,7 +237,7 @@ export default function ContactLeadershipSection() {
                     {member.title}
                   </p>
                   <h3
-                    className={`${playfairDisplay.className} mt-2 flex-none text-[1.2rem] font-medium leading-tight text-white`}
+                    className="font-display mt-2 flex-none text-[1.2rem] font-medium leading-tight text-white"
                   >
                     {member.name}
                   </h3>

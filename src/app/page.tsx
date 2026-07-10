@@ -7,6 +7,7 @@ export const metadata: Metadata = buildPageMetadata({
   description:
     "Midline Aviation delivers seamless luxury air travel with private charter, aircraft management, aircraft sales, MRO, and cargo transportation services.",
   path: "/",
+  ogImage: "/assets/og/og-home.jpg",
   keywords: [
     "luxury air travel",
     "private aviation dubai",
@@ -60,86 +61,6 @@ const homePageSchema = {
   ],
 };
 
-const servicesShowcaseSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Our Services",
-  itemListOrder: "https://schema.org/ItemListOrderAscending",
-  numberOfItems: 5,
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      item: {
-        "@type": "Service",
-        name: "Aircraft Charter",
-        serviceType: "Personalized private jet charter for business and leisure travel",
-        url: absoluteUrl("/services/aircraft-charter"),
-        provider: {
-          "@type": "Airline",
-          name: SITE_NAME,
-        },
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      item: {
-        "@type": "Service",
-        name: "Aircraft Management",
-        serviceType: "Complete aircraft ownership and operational management",
-        url: absoluteUrl("/services/aircraft-management"),
-        provider: {
-          "@type": "Airline",
-          name: SITE_NAME,
-        },
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      item: {
-        "@type": "Service",
-        name: "Aircraft Sales",
-        serviceType: "Global aircraft acquisition and sales advisory",
-        url: absoluteUrl("/services/aircraft-sales"),
-        provider: {
-          "@type": "Airline",
-          name: SITE_NAME,
-        },
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 4,
-      item: {
-        "@type": "Service",
-        name: "MRO",
-        serviceType: "Certified maintenance, repair, and overhaul services",
-        url: absoluteUrl("/services/mro"),
-        provider: {
-          "@type": "Airline",
-          name: SITE_NAME,
-        },
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 5,
-      item: {
-        "@type": "Service",
-        name: "Cargo Transportation",
-        serviceType: "Secure and reliable global air cargo transportation",
-        url: absoluteUrl("/services/cargo-transportation"),
-        provider: {
-          "@type": "Airline",
-          name: SITE_NAME,
-        },
-      },
-    },
-  ],
-};
-
 export default function HomePage() {
   return (
     <>
@@ -156,11 +77,6 @@ export default function HomePage() {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesShowcaseSchema) }}
       />
       <HomePageClient />
     </>

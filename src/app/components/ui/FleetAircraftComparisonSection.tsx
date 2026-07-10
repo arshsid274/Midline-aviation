@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -16,13 +17,15 @@ import {
   Star,
   Users2,
 } from "lucide-react";
-import { playfairDisplay } from "@/lib/fonts";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import CountUp from "@/app/components/motion/CountUp";
 
 interface AircraftColumn {
   code: string;
   name: string;
   images: string[];
   badge: string;
+  href: string;
 }
 
 interface MetricCell {
@@ -42,23 +45,34 @@ const aircraftColumns: AircraftColumn[] = [
     code: "EMBRAER LEGACY 650",
     name: "Embraer Legacy 650",
     images: [
-      "/assets/images/Legasy_650_Exterior_Final.png",
-      "/assets/images/Embrar_Legasy_Interior_Final.png",
-      "/assets/images/Embrar_Legasy_Final.png",
+      "/assets/images/aircraft/legacy650-exterior.webp",
+      "/assets/images/aircraft/legacy650-cabin-wide.webp",
+      "/assets/images/aircraft/legacy650-exterior-rear.webp",
     ],
     badge: "HEAVY JET",
+    href: "/fleet/embraer-legacy-650",
   },
   {
     code: "GULFSTREAM G450",
     name: "Gulfstream G450",
-    images: ["/assets/images/gallery/g450_Exterior_Final.png", "/assets/images/g450_Interior_Final.png"],
+    images: [
+      "/assets/images/aircraft/g450-exterior.webp",
+      "/assets/images/aircraft/g450-cabin-wide.webp",
+      "/assets/images/aircraft/g450-cabin-lounge.webp",
+    ],
     badge: "LARGE JET",
+    href: "/fleet/gulfstream-g450",
   },
   {
     code: "GULFSTREAM G200",
     name: "Gulfstream G200",
-    images: ["/assets/images/g200_Final_Exterior.png", "/assets/images/g200_Interior.png"],
+    images: [
+      "/assets/images/aircraft/g200-exterior.webp",
+      "/assets/images/aircraft/g200-cabin.webp",
+      "/assets/images/aircraft/g200-galley-detail.webp",
+    ],
     badge: "SUPER MIDSIZE",
+    href: "/fleet/gulfstream-g200",
   },
 ];
 
@@ -114,6 +128,19 @@ const metricRows: MetricRow[] = [
     bestIndex: 0,
   },
 ];
+
+/** Counts up the numeric part of a metric ("3,900 nm" → animated 3,900 + " nm"). */
+function MetricValue({ value }: { value: string }) {
+  const match = /^([\d,]+)(.*)$/.exec(value);
+  if (!match) return <>{value}</>;
+  const numeric = Number(match[1].replace(/,/g, ""));
+  return (
+    <>
+      <CountUp value={numeric} />
+      {match[2]}
+    </>
+  );
+}
 
 function AircraftMedia({ aircraft }: { aircraft: AircraftColumn }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -191,8 +218,15 @@ function AircraftMedia({ aircraft }: { aircraft: AircraftColumn }) {
 }
 
 export default function FleetAircraftComparisonSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useScrollReveal(sectionRef, { stagger: 0.14 });
+
   return (
-    <section className="relative w-full overflow-hidden bg-[#f9f9ff] py-16 sm:py-20 lg:py-24">
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden bg-[#f9f9ff] py-16 sm:py-20 lg:py-24"
+    >
       <div
         className="absolute inset-0 opacity-[0.035]"
         style={{
@@ -202,9 +236,9 @@ export default function FleetAircraftComparisonSection() {
       />
 
       <div className="relative mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-16">
-        <div className="mb-10 max-w-2xl sm:mb-12">
+        <div data-reveal-item className="mb-10 max-w-2xl sm:mb-12">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#44474d]">Specifications</p>
-          <h2 className={`${playfairDisplay.className} mt-3 text-4xl font-medium text-[#0d1c32] sm:text-5xl`}>
+          <h2 className="font-display mt-3 text-4xl font-medium text-[#0d1c32] sm:text-5xl">
             Metrics
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#44474d] sm:text-lg">
@@ -213,7 +247,7 @@ export default function FleetAircraftComparisonSection() {
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-lg border border-[#c5c6cd] bg-white shadow-[0_18px_50px_rgba(17,28,44,0.07)]">
+        <div data-reveal-item className="overflow-hidden rounded-lg border border-[#c5c6cd] bg-white shadow-[0_18px_50px_rgba(17,28,44,0.07)]">
           <div className="flex flex-col lg:flex-row">
             <div className="hidden w-64 shrink-0 flex-col border-r border-[#c5c6cd] bg-[#f9f9ff] lg:flex">
               <div className="h-[480px] border-b border-[#c5c6cd] p-6" />
@@ -246,7 +280,7 @@ export default function FleetAircraftComparisonSection() {
                   <div className="flex h-auto flex-col border-b border-[#c5c6cd] p-5 lg:h-[480px] lg:p-6">
                     <AircraftMedia aircraft={aircraft} />
 
-                    <h3 className={`${playfairDisplay.className} mt-6 text-2xl font-medium text-[#0d1c32]`}>
+                    <h3 className="font-display mt-6 text-2xl font-medium text-[#0d1c32]">
                       {aircraft.name}
                     </h3>
 
@@ -282,7 +316,9 @@ export default function FleetAircraftComparisonSection() {
                             <span className="text-xs font-semibold uppercase tracking-[0.14em]">{metric.label}</span>
                           </div>
                           <div className="min-w-[7rem] text-right lg:min-w-0 lg:text-center">
-                            <div className="text-xl font-semibold tracking-[-0.01em] text-[#0d1c32]">{cell.value}</div>
+                            <div className="text-xl font-semibold tracking-[-0.01em] text-[#0d1c32]">
+                              <MetricValue value={cell.value} />
+                            </div>
                             <div className="mt-0.5 text-sm text-[#44474d]">{cell.note}</div>
                           </div>
                         </div>
@@ -290,13 +326,13 @@ export default function FleetAircraftComparisonSection() {
                     })}
 
                     <div className="flex h-20 items-center justify-center border-b border-[#c5c6cd]/70 px-5 lg:h-24">
-                      <button
-                        type="button"
+                      <Link
+                        href={aircraft.href}
                         className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#775a19] transition-[color,transform] duration-150 ease-out hover:text-[#0d1c32] active:scale-[0.98]"
                       >
                         View Details
                         <ArrowRight className="h-4 w-4" />
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </article>

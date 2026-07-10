@@ -43,6 +43,9 @@ type BuildPageMetadataArgs = {
   description: string;
   path?: string;
   keywords?: string[];
+  /** Page-specific 1200x630 social banner (path under /public). Falls back to the brand logo. */
+  ogImage?: string;
+  ogImageAlt?: string;
 };
 
 export function buildPageMetadata({
@@ -50,9 +53,12 @@ export function buildPageMetadata({
   description,
   path = "/",
   keywords = [],
+  ogImage = DEFAULT_OG_IMAGE,
+  ogImageAlt,
 }: BuildPageMetadataArgs): Metadata {
   const canonical = absoluteUrl(path);
   const mergedKeywords = uniqueKeywords([...DEFAULT_KEYWORDS, ...keywords]);
+  const imageAlt = ogImageAlt ?? (ogImage === DEFAULT_OG_IMAGE ? `${SITE_NAME} logo` : title);
 
   return {
     title,
@@ -75,10 +81,10 @@ export function buildPageMetadata({
       locale: DEFAULT_LOCALE,
       images: [
         {
-          url: absoluteUrl(DEFAULT_OG_IMAGE),
+          url: absoluteUrl(ogImage),
           width: 1200,
           height: 630,
-          alt: `${SITE_NAME} logo`,
+          alt: imageAlt,
         },
       ],
     },
@@ -86,7 +92,64 @@ export function buildPageMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [absoluteUrl(DEFAULT_OG_IMAGE)],
+      images: [absoluteUrl(ogImage)],
     },
+  };
+}
+
+/** BreadcrumbList JSON-LD for nested routes (Home is prepended automatically). */
+export function buildBreadcrumbSchema(items: { name: string; path: string }[]) {
+  const trail = [{ name: "Home", path: "/" }, ...items];
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: trail.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
+}
+
+/** Service JSON-LD shared by the service pages and the per-jet charter pages. */
+export function buildServiceSchema({
+  name,
+  serviceType,
+  description,
+  path,
+  images = [],
+  additionalProperty,
+}: {
+  name: string;
+  serviceType: string;
+  description: string;
+  path: string;
+  images?: string[];
+  additionalProperty?: { name: string; value: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    serviceType,
+    description,
+    url: absoluteUrl(path),
+    areaServed: "Worldwide",
+    provider: {
+      "@type": "Airline",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    ...(images.length ? { image: images.map((src) => absoluteUrl(src)) } : {}),
+    ...(additionalProperty?.length
+      ? {
+          additionalProperty: additionalProperty.map((property) => ({
+            "@type": "PropertyValue",
+            name: property.name,
+            value: property.value,
+          })),
+        }
+      : {}),
   };
 }

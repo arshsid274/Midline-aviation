@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ShieldCheck, Wrench, TimerReset } from "lucide-react";
-import { playfairDisplay } from "@/lib/fonts";
+import Reveal from "@/app/components/motion/Reveal";
 
 const pillars = [
   {
@@ -24,19 +24,19 @@ export default function MROFoundationSection() {
   return (
     <section className="bg-white py-12 sm:py-14 lg:py-16">
       <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-14 lg:px-8">
-        <div className="space-y-7">
-          <div>
+        <Reveal as="div" className="space-y-7" variant="stagger" stagger={0.14}>
+          <div data-reveal-item>
             <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#111a5a]/72">
               Operational Integrity
             </p>
             <h2
-              className={`${playfairDisplay.className} mt-3 text-3xl font-medium leading-[1.12] tracking-[-0.02em] text-[#111a5a] sm:text-4xl lg:text-[2.8rem]`}
+              className="font-display mt-3 text-3xl font-medium leading-[1.12] tracking-[-0.02em] text-[#111a5a] sm:text-4xl lg:text-[2.8rem]"
             >
               The Foundation of Safe Travel
             </h2>
           </div>
 
-          <p className="max-w-2xl text-base leading-relaxed text-[#111a5a]/74">
+          <p data-reveal-item className="max-w-2xl text-base leading-relaxed text-[#111a5a]/74">
             Our MRO framework is built on strict process control, transparent reporting, and engineering precision.
             Every check, repair, and overhaul is executed to elevate safety and long-term reliability.
           </p>
@@ -47,6 +47,7 @@ export default function MROFoundationSection() {
               return (
                 <article
                   key={item.title}
+                  data-reveal-item
                   className="rounded-xl border border-[#111a5a]/12 bg-[#f8faff] p-4 shadow-[0_10px_22px_rgba(17,26,90,0.08)]"
                 >
                   <div className="flex items-start gap-3">
@@ -62,13 +63,18 @@ export default function MROFoundationSection() {
               );
             })}
           </div>
-        </div>
+        </Reveal>
 
-        <figure className="relative isolate mx-auto w-full max-w-[32rem] overflow-hidden rounded-2xl border border-[#111a5a]/14 shadow-[0_22px_46px_rgba(17,26,90,0.14)]">
+        <Reveal
+          as="figure"
+          variant="clip-wipe"
+          duration={0.9}
+          className="relative isolate mx-auto w-full max-w-[32rem] overflow-hidden rounded-2xl border border-[#111a5a]/14 shadow-[0_22px_46px_rgba(17,26,90,0.14)]"
+        >
           <div className="relative aspect-[4/5] min-h-[420px]">
             <Image
-              src="/assets/images/Mro_Portraid_final.png"
-              alt="Aircraft interior inspected for safety standards"
+              src="/assets/images/aircraft/g450-detail.webp"
+              alt="Rolls-Royce Tay engine nacelle under inspection"
               fill
               sizes="(max-width: 1024px) 100vw, 500px"
               className="object-cover object-center"
@@ -81,7 +87,7 @@ export default function MROFoundationSection() {
               On-Time Completion
             </p>
           </figcaption>
-        </figure>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { playfairDisplay } from "@/lib/fonts";
+import Reveal from "@/app/components/motion/Reveal";
 
 interface ManagedAircraft {
   label: string;
@@ -13,22 +13,22 @@ interface ManagedAircraft {
 
 const managedFleet: ManagedAircraft[] = [
   {
-    label: "Ultra Long Range",
-    name: "Global 7500",
-    description: "Built for intercontinental missions with smooth cabin comfort and precision dispatch.",
-    imageSrc: "/assets/images/fleet/global-7500.jpg",
+    label: "Large Jet",
+    name: "Gulfstream G450",
+    description: "Full-service management for the G450 — long-range capability backed by disciplined dispatch and maintenance oversight.",
+    imageSrc: "/assets/images/aircraft/g450-exterior.webp",
   },
   {
     label: "Heavy Jet",
-    name: "Gulfstream G650ER",
-    description: "High-performance management support for long-range business and diplomatic operations.",
-    imageSrc: "/assets/images/fleet/gulfstream-g650er.jpg",
+    name: "Embraer Legacy 650",
+    description: "Heavy-jet management with the cabin space and range for extended business and diplomatic missions.",
+    imageSrc: "/assets/images/aircraft/legacy650-exterior.webp",
   },
   {
-    label: "Managed Portfolio",
-    name: "Diverse Fleet Access",
-    description: "Access a curated management portfolio aligned to mission profile, cost, and passenger capacity.",
-    imageSrc: "/assets/images/fleet/citation-latitude.jpg",
+    label: "Super Midsize",
+    name: "Gulfstream G200",
+    description: "Efficient super-midsize management tuned for regional reach, quick turnarounds, and cost control.",
+    imageSrc: "/assets/images/aircraft/g200-exterior.webp",
   },
 ];
 
@@ -36,11 +36,11 @@ export default function AircraftManagementFleetSection() {
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div className="mb-9 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
+        <Reveal as="div" variant="fade-up" className="mb-9 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
           <div>
             <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#111a5a]/72">Under Our Wing</p>
             <h2
-              className={`${playfairDisplay.className} mt-2 text-3xl font-medium tracking-[-0.02em] text-[#111a5a] sm:text-4xl`}
+              className="font-display mt-2 text-3xl font-medium tracking-[-0.02em] text-[#111a5a] sm:text-4xl"
             >
               Our Management Fleet
             </h2>
@@ -52,12 +52,13 @@ export default function AircraftManagementFleetSection() {
             View All Specifications
             <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <Reveal as="div" variant="stagger" stagger={0.12} className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {managedFleet.map((aircraft) => (
             <article
               key={aircraft.name}
+              data-reveal-item
               className="group overflow-hidden rounded-2xl border border-[#111a5a]/12 bg-white shadow-[0_16px_32px_rgba(17,26,90,0.1)]"
             >
               <div className="relative aspect-[16/10] overflow-hidden">
@@ -81,7 +82,7 @@ export default function AircraftManagementFleetSection() {
               </div>
             </article>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

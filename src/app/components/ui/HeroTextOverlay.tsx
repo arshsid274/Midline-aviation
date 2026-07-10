@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { playfairDisplay } from "@/lib/fonts";
 import styles from "./HeroTextOverlay.module.css";
 
 interface Props {
@@ -70,11 +69,11 @@ export default function HeroTextOverlay({ containerRef }: Props) {
   }, [containerRef]);
 
   return (
-    <div ref={wrapperRef} className={styles.overlay} aria-hidden="true">
+    <div ref={wrapperRef} className={styles.overlay}>
       {/* ── Left text block ── */}
       <div ref={leftRef} className={styles.leftContent}>
         <span className={styles.tagline}>Established Excellence</span>
-        <h1 className={`${playfairDisplay.className} ${styles.headline}`}>
+        <h1 className={`font-display ${styles.headline}`}>
           <span className={styles.headlineItalic}>Midline Aviation</span>
           <span className={styles.headlineMain}>
             Your Sky. Your Schedule. Your Way.
@@ -93,7 +92,6 @@ export default function HeroTextOverlay({ containerRef }: Props) {
         <a
           href="/contact"
           className={styles.ctaButton}
-          aria-hidden="false"
           tabIndex={0}
         >
           Book Flight

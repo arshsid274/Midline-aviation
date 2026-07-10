@@ -1,12 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Cpu, Star } from "lucide-react";
+import { Star } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { gsap, registerScrollTrigger } from "@/app/components/motion/gsap";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type ServiceTab = {
-  id: "charter" | "membership" | "ownership" | "technology";
+  id: "charter" | "membership" | "ownership";
   label: string;
   title: string;
   description: string;
@@ -42,15 +45,6 @@ const serviceTabs: ServiceTab[] = [
     ctaHref: "/services/aircraft-sales",
     ctaLabel: "More Details",
   },
-  {
-    id: "technology",
-    label: "MRO",
-    title: "MRO",
-    description:
-      "Our certified engineers deliver world-class maintenance solutions that meet the highest aviation standards, keeping your aircraft in optimal condition and ready to fly anytime.",
-    ctaHref: "/services/mro",
-    ctaLabel: "More Details",
-  },
 ];
 
 function JetImage({ src, alt, model, tail }: { src: string; alt: string; model: string; tail: string }) {
@@ -72,50 +66,44 @@ function JetImage({ src, alt, model, tail }: { src: string; alt: string; model: 
   );
 }
 
-function TechnologyVisual() {
-  return (
-    <div className="mx-auto w-full max-w-[620px] rounded-3xl border border-white/15 bg-gradient-to-br from-[#101e66]/60 to-[#08103d]/40 p-5 sm:p-6 lg:p-7">
-      <div className="grid gap-4">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
-          <div className="rounded-xl border border-[#3e5bff]/70 bg-[#1e37bf] p-4 text-white shadow-[0_8px_26px_rgba(30,55,191,0.45)]">
-            <p className="text-xs uppercase tracking-[0.16em] text-white/70">Tracking</p>
-            <p className="mt-1 font-semibold">Live Fleet</p>
-          </div>
-          <div className="rounded-xl border border-white/20 bg-white/10 p-4 text-white">
-            <p className="text-xs uppercase tracking-[0.16em] text-white/70">Engine Health</p>
-            <p className="mt-1 font-semibold">Predictive</p>
-          </div>
-          <div className="rounded-xl border border-white/20 bg-white/10 p-4 text-white">
-            <p className="text-xs uppercase tracking-[0.16em] text-white/70">Optimization</p>
-            <p className="mt-1 font-semibold">Routing AI</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-          <div className="rounded-xl border border-white/20 bg-white/10 p-4 text-white">
-            <p className="text-sm font-semibold">Maintenance Alerts</p>
-            <p className="mt-1 text-xs text-white/75">Issue probability tracking and action windows.</p>
-          </div>
-          <div className="rounded-xl border border-white/20 bg-white/10 p-4 text-white">
-            <p className="text-sm font-semibold">Control Center</p>
-            <p className="mt-1 text-xs text-white/75">Unified operations dashboard for mission teams.</p>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between rounded-xl bg-white/95 px-4 py-3 text-[#1c275f]">
-          <p className="text-sm font-semibold">System readiness score</p>
-          <div className="flex items-center gap-2 rounded-lg bg-[#1e37bf] px-3 py-1 text-white">
-            <Cpu size={14} />
-            97.4%
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function ServicesMissionShowcase() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const isFirstPanelRender = useRef(true);
   const [activeTab, setActiveTab] = useState<ServiceTab["id"]>("charter");
+  const prefersReducedMotion = useReducedMotion();
+
+  useScrollReveal(sectionRef, { stagger: 0.12 });
+
+  // Crossfade: tween the old panel out, swap state, tween the new panel in.
+  const changeTab = (id: ServiceTab["id"]) => {
+    if (id === activeTab) return;
+    const panel = panelRef.current;
+    if (prefersReducedMotion || !panel) {
+      setActiveTab(id);
+      return;
+    }
+    registerScrollTrigger();
+    gsap.killTweensOf(panel);
+    gsap.to(panel, {
+      autoAlpha: 0,
+      y: 8,
+      duration: 0.18,
+      ease: "power1.in",
+      onComplete: () => setActiveTab(id),
+    });
+  };
+
+  useLayoutEffect(() => {
+    // Skip the mount pass — the scroll reveal owns the first entrance.
+    if (isFirstPanelRender.current) {
+      isFirstPanelRender.current = false;
+      return;
+    }
+    const panel = panelRef.current;
+    if (!panel || prefersReducedMotion) return;
+    gsap.fromTo(panel, { autoAlpha: 0, y: -8 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "midline" });
+  }, [activeTab, prefersReducedMotion]);
 
   const activeConfig = useMemo(
     () => serviceTabs.find((tab) => tab.id === activeTab) ?? serviceTabs[0],
@@ -124,16 +112,15 @@ export default function ServicesMissionShowcase() {
 
   const activeVisual = useMemo(() => {
     if (activeTab === "charter")
-      return <JetImage src="/assets/images/Embrar_Legasy_Final.png" alt="Embraer Legacy 650" model="Embraer Legacy 650" tail="T7-MIDB" />;
+      return <JetImage src="/assets/images/aircraft/legacy650-exterior-2.webp" alt="Embraer Legacy 650" model="Embraer Legacy 650" tail="T7-MIDB" />;
     if (activeTab === "membership")
-      return <JetImage src="/assets/images/g450_Final.png" alt="Gulfstream G450" model="Gulfstream G450" tail="T7-MID" />;
-    if (activeTab === "ownership")
-      return <JetImage src="/assets/images/g200_Final.png" alt="Gulfstream G200" model="Gulfstream G200" tail="T7-MIDA" />;
-    return <TechnologyVisual />;
+      return <JetImage src="/assets/images/aircraft/g450-exterior.webp" alt="Gulfstream G450" model="Gulfstream G450" tail="T7-MID" />;
+    return <JetImage src="/assets/images/aircraft/g200-exterior.webp" alt="Gulfstream G200" model="Gulfstream G200" tail="T7-MIDA" />;
   }, [activeTab]);
 
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="services-mission-heading"
       className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] py-16 sm:py-20 lg:py-24"
     >
@@ -163,7 +150,7 @@ export default function ServicesMissionShowcase() {
 
       <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-end">
-          <div>
+          <div data-reveal-item>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Our Services</p>
             <h2
               id="services-mission-heading"
@@ -172,14 +159,14 @@ export default function ServicesMissionShowcase() {
               Midline Aviation - Elevating Every Aspect of Aviation.
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-relaxed text-blue-100/85 sm:text-base">
+          <p data-reveal-item className="max-w-xl text-sm leading-relaxed text-blue-100/85 sm:text-base">
             Aircraft charter, aircraft management, aircraft sales, MRO, and cargo transportation services built for
             modern travelers and owners.
           </p>
         </div>
 
-        <div className="mt-9 border-b border-white/30">
-          <div role="tablist" aria-label="Midline service categories" className="grid grid-cols-2 sm:grid-cols-4">
+        <div data-reveal-item className="mt-9 border-b border-white/30">
+          <div role="tablist" aria-label="Midline service categories" className="grid grid-cols-2 sm:grid-cols-3">
             {serviceTabs.map((tab) => {
               const isActive = tab.id === activeTab;
               return (
@@ -190,9 +177,9 @@ export default function ServicesMissionShowcase() {
                   role="tab"
                   aria-selected={isActive}
                   aria-controls={`service-panel-${tab.id}`}
-                  onMouseEnter={() => setActiveTab(tab.id)}
-                  onFocus={() => setActiveTab(tab.id)}
-                  onClick={() => setActiveTab(tab.id)}
+                  onMouseEnter={() => changeTab(tab.id)}
+                  onFocus={() => changeTab(tab.id)}
+                  onClick={() => changeTab(tab.id)}
                   className={`relative px-3 py-3 text-xs transition-colors sm:px-4 sm:py-4 sm:text-sm ${
                     isActive ? "text-white" : "text-white/45 hover:text-white/80"
                   }`}
@@ -210,6 +197,8 @@ export default function ServicesMissionShowcase() {
         </div>
 
         <div
+          ref={panelRef}
+          data-reveal-item
           id={`service-panel-${activeConfig.id}`}
           role="tabpanel"
           aria-labelledby={`service-tab-${activeConfig.id}`}

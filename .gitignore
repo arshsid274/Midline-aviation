@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw source media (kept outside the repo — see ~/Desktop/Midline-source-media)
+public/assets/images/T7-MID*
+public/assets/images/T7-MIDA*
+public/assets/images/T7-MIDB*
