@@ -228,6 +228,28 @@
   }
 }
 
+/* ── Coming-soon ticker (MRO) — compositor-only infinite marquee ──────────── */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerScroll 30s linear infinite;
+}
+
+@keyframes tickerScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
+
 /* ── Signature: hero Ken-Burns ──────────────────────────────────────────────
    A one-shot slow zoom-out on hero background images. Compositor-only (transform),
    never touches opacity, so it does not delay LCP. Disabled under reduced motion. */

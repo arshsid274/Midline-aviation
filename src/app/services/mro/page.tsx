@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { buildBreadcrumbSchema, buildPageMetadata, buildServiceSchema } from "@/lib/seo";
-import MROHeroSection from "@/app/components/ui/MROHeroSection";
-import MROFoundationSection from "@/app/components/ui/MROFoundationSection";
-import MROServiceCardsSection from "@/app/components/ui/MROServiceCardsSection";
-import MROOptimizeFleetSection from "@/app/components/ui/MROOptimizeFleetSection";
+import MROComingSoon from "@/app/components/ui/MROComingSoon";
 
 export const dynamic = "force-static";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Aircraft MRO Services",
+  title: "Aircraft MRO Services — Coming Soon",
   description:
-    "Certified MRO services delivering world-class maintenance solutions under strict aviation safety standards.",
+    "Midline Aviation's certified MRO facility is launching soon — world-class maintenance, repair, and overhaul under strict aviation safety standards. Get notified at launch.",
   path: "/services/mro",
   keywords: ["aircraft MRO services", "aircraft maintenance", "aviation repair and overhaul"],
   ogImage: "/assets/og/og-mro.jpg",
@@ -20,7 +17,7 @@ const serviceSchema = buildServiceSchema({
   name: "Aircraft MRO Services",
   serviceType: "Aircraft Maintenance, Repair & Overhaul",
   description:
-    "Certified MRO services delivering world-class maintenance solutions under strict aviation safety standards.",
+    "Certified MRO services launching soon — world-class maintenance, repair, and overhaul under strict aviation safety standards.",
   path: "/services/mro",
   images: ["/assets/og/og-mro.jpg"],
 });
@@ -43,10 +40,7 @@ export default function MROPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <main className="midline-page">
-        <MROHeroSection />
-        <MROFoundationSection />
-        <MROServiceCardsSection />
-        <MROOptimizeFleetSection />
+        <MROComingSoon />
       </main>
     </>
   );
