@@ -154,7 +154,7 @@ export default function ServicesMissionShowcase() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Our Services</p>
             <h2
               id="services-mission-heading"
-              className="mt-3 max-w-[14ch] text-balance text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl"
+              className="mt-3 text-3xl font-medium leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-5xl"
             >
               Midline Aviation - Elevating Every Aspect of Aviation.
             </h2>

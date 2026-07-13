@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from "next";
 import Navbar from "./components/Navbar/navbar";
 import ClarityInit from "./components/ClarityInit";
 import SiteFooter from "./components/ui/SiteFooter";
+import WhatsAppButton from "./components/ui/WhatsAppButton";
+import CookieConsent from "./components/ui/CookieConsent";
 import { hankenGrotesk, jetbrainsMono, playfairDisplay } from "@/lib/fonts";
 import {
   BRAND_THEME_COLOR,
@@ -158,6 +160,8 @@ export default function RootLayout({
         <Navbar />
         {children}
         <SiteFooter />
+        <WhatsAppButton />
+        <CookieConsent />
       </body>
     </html>
   );

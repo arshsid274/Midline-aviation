@@ -2,6 +2,8 @@
 
 import type { FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { AlertTriangle, CheckCircle2, X } from "lucide-react";
 
 const AIRCRAFT_OPTIONS = [
   { code: "T7-MID", manufacturer: "Gulfstream", category: "Heavy", maxPax: 13 },
@@ -29,11 +31,16 @@ const parseAirportRecord = (item: unknown, fallbackCode = ""): Airport | null =>
 
   const airport = item as Record<string, unknown>;
   const name = typeof airport.name === "string" ? airport.name : "";
-  const city = typeof airport.city === "string" ? airport.city : "";
+  const cityFromItem = typeof airport.city === "string" ? airport.city : "";
+  const municipality = typeof airport.municipality === "string" ? airport.municipality : "";
+  // Remote strips often have no municipality — fall back to the airport name
+  // so every field still renders as "<place>, <country> (<code>)".
+  const city = cityFromItem || municipality || name;
   const country = typeof airport.country === "string" ? airport.country : "";
   const codeFromItem = typeof airport.code === "string" ? airport.code : "";
   const iata = typeof airport.iata === "string" ? airport.iata : "";
   const icao = typeof airport.icao === "string" ? airport.icao : "";
+  // Prefer the passenger-facing IATA code; fall back to ICAO for strips without one.
   const code = codeFromItem || iata || icao || fallbackCode;
 
   if (!name || !city || !country || !code) return null;
@@ -580,6 +587,23 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
   const [selectedAircraft, setSelectedAircraft] = useState("");
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [toastMounted, setToastMounted] = useState(false);
+
+  // Portal target only exists client-side.
+  useEffect(() => {
+    setToastMounted(true);
+    return () => setToastMounted(false);
+  }, []);
+
+  // Auto-dismiss the toast — success sooner, errors get a little longer.
+  useEffect(() => {
+    if (!submitMessage || submitStatus === "submitting") return;
+    const timer = window.setTimeout(
+      () => setSubmitMessage(""),
+      submitStatus === "success" ? 6000 : 9000
+    );
+    return () => window.clearTimeout(timer);
+  }, [submitMessage, submitStatus]);
 
   const isRoundTrip = tripType === "round-trip";
   const selectedAircraftDetails = AIRCRAFT_OPTIONS.find((aircraft) => aircraft.code === selectedAircraft);
@@ -599,7 +623,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
       : "";
   const paxIsInvalid = paxHasInvalidFormat || paxUnderMinimum || paxOverGlobalLimit || paxOverSelectedLimit;
 
-  // Defer the 9 MB airports.json fetch until the user actually focuses an airport
+  // Defer the ~7 MB airports.json fetch until the user actually focuses an airport
   // input — avoids a large JSON parse blocking the main thread on page load.
   const airportsLoadedRef = useRef(false);
 
@@ -738,8 +762,9 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
 
   return (
     <section
+      id="book-your-flight"
       aria-label="Flight booking form"
-      className="relative z-40 -mt-16 px-4 sm:px-6 md:px-10"
+      className="relative z-40 -mt-16 scroll-mt-28 px-4 sm:px-6 md:px-10"
     >
       <form
         className={`mx-auto w-full max-w-6xl rounded-2xl border border-[#111a5a]/35 bg-[linear-gradient(90deg,rgba(17,26,90,0.16)_0%,rgba(10,110,164,0.16)_100%)] p-4 text-white shadow-[0_22px_55px_rgba(17,26,90,0.26)] backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-5 md:p-6 ${
@@ -953,17 +978,7 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
               {paxErrorMessage}
             </p>
           )}
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            {submitMessage && (
-              <p
-                className={`text-sm font-semibold ${
-                  submitStatus === "success" ? "text-[#0f766e]" : "text-[#b91c1c]"
-                }`}
-                role="status"
-              >
-                {submitMessage}
-              </p>
-            )}
+          <div className="mt-4 flex flex-wrap items-center justify-end gap-3">
             <button
               type="submit"
               disabled={!canSubmit}
@@ -974,6 +989,50 @@ export default function HeroBookingForm({ revealFromBelow = false }: HeroBooking
           </div>
         </div>
       </form>
+
+      {/* Right-side toast — portaled to <body> because the form's reveal
+          transform would otherwise trap position:fixed inside it. */}
+      {toastMounted &&
+        submitMessage &&
+        submitStatus !== "submitting" &&
+        createPortal(
+          <div
+            role="status"
+            aria-live="polite"
+            className="fixed right-4 top-24 z-[90] w-[calc(100vw-2rem)] max-w-sm motion-safe:animate-[toastIn_0.35s_cubic-bezier(0.22,1,0.36,1)_both] md:top-28"
+          >
+            <div
+              className={`flex items-start gap-3 rounded-2xl border p-4 shadow-[0_18px_46px_rgba(7,12,42,0.35)] backdrop-blur-xl ${
+                submitStatus === "success"
+                  ? "border-[#00bcff]/35 bg-[#0b1c4d]/92 text-white"
+                  : "border-red-300/40 bg-[#4d0b0b]/92 text-white"
+              }`}
+            >
+              <span
+                className={`mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+                  submitStatus === "success" ? "bg-[#00bcff]/18 text-[#00bcff]" : "bg-red-500/18 text-red-300"
+                }`}
+              >
+                {submitStatus === "success" ? <CheckCircle2 className="h-4.5 w-4.5" /> : <AlertTriangle className="h-4.5 w-4.5" />}
+              </span>
+              <div className="min-w-0 flex-1 pt-1">
+                <p className="text-sm font-semibold leading-snug">
+                  {submitStatus === "success" ? "Request received" : "Something went wrong"}
+                </p>
+                <p className="mt-1 text-[0.8rem] leading-relaxed text-white/78">{submitMessage}</p>
+              </div>
+              <button
+                type="button"
+                aria-label="Dismiss notification"
+                onClick={() => setSubmitMessage("")}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
     </section>
   );
 }

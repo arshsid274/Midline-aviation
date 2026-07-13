@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight, Plane, Users } from "lucide-react";
@@ -24,7 +25,7 @@ const JET_VISUALS = {
   "embraer-heavy": {
     exteriorSrc: "/assets/images/aircraft/legacy650-exterior.webp",
     exteriorAlt: "Embraer Legacy 650 T7-MIDB on the tarmac",
-    interiorSrc: "/assets/images/aircraft/legacy650-cabin-wide.webp",
+    interiorSrc: "/assets/images/aircraft/legacy650-cabin-real.webp",
     interiorAlt: "Embraer Legacy 650 interior cabin",
   },
 } as const;
@@ -535,7 +536,10 @@ export default function FlightMarketplaceHero() {
         </header>
 
         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-stretch lg:gap-7">
-          <div className="relative order-2 rounded-2xl border border-white/12 bg-[#070f35]/82 p-3 shadow-[0_18px_46px_rgba(0,6,26,0.45)] sm:p-4 lg:order-1">
+          {/* Mobile: carousel card stacks first (per the mobile booking design), map card follows.
+              min-w-0 is load-bearing: grid items default to min-width:auto, and the carousel's
+              no-wrap slide row would otherwise blow the column out wider than the viewport. */}
+          <div className="relative min-w-0 rounded-2xl border border-white/12 bg-[#070f35]/82 p-3 shadow-[0_18px_46px_rgba(0,6,26,0.45)] sm:p-4">
             <div className="mb-3">
               <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#7ec8ff]/82">Available Flights</p>
               <p className="mt-1 text-xs text-blue-100/70 sm:text-sm">
@@ -543,7 +547,7 @@ export default function FlightMarketplaceHero() {
               </p>
             </div>
 
-            <div className="relative pb-16 sm:pb-0">
+            <div className="relative">
               <div className="relative mx-auto w-full">
                 <div
                   aria-hidden="true"
@@ -565,30 +569,12 @@ export default function FlightMarketplaceHero() {
                   </div>
                 </div>
 
+                {/* Floating edge arrows — overlap the active card on every breakpoint. */}
                 <button
                   type="button"
                   aria-label="Previous route"
                   onClick={() => emblaApi?.scrollPrev()}
-                  className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.95)_0%,rgba(10,110,164,0.95)_100%)] text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Next route"
-                  onClick={() => emblaApi?.scrollNext()}
-                  className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.95)_0%,rgba(10,110,164,0.95)_100%)] text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] sm:inline-flex"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-3 sm:hidden">
-                <button
-                  type="button"
-                  aria-label="Previous route"
-                  onClick={() => emblaApi?.scrollPrev()}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.90)_0%,rgba(10,110,164,0.90)_100%)] text-white shadow"
+                  className="absolute left-1 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.95)_0%,rgba(10,110,164,0.95)_100%)] text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] active:scale-95 sm:left-2 sm:h-10 sm:w-10"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -596,15 +582,32 @@ export default function FlightMarketplaceHero() {
                   type="button"
                   aria-label="Next route"
                   onClick={() => emblaApi?.scrollNext()}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.90)_0%,rgba(10,110,164,0.90)_100%)] text-white shadow"
+                  className="absolute right-1 top-1/2 z-20 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[linear-gradient(90deg,rgba(17,26,90,0.95)_0%,rgba(10,110,164,0.95)_100%)] text-white shadow-lg transition hover:scale-105 hover:bg-[#1a276c] active:scale-95 sm:right-2 sm:h-10 sm:w-10"
                 >
                   <ChevronRight size={18} />
                 </button>
               </div>
+
+              {/* Pagination dots — active route stretches into a pill. */}
+              <div className="mt-4 flex items-center justify-center gap-1.5" role="tablist" aria-label="Route pagination">
+                {JET_DATA.map((deal, index) => (
+                  <button
+                    key={`dot-${deal.id}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={index === selectedIndex}
+                    aria-label={`Show route ${deal.fromCity} to ${deal.toCity}`}
+                    onClick={() => emblaApi?.scrollTo(index)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      index === selectedIndex ? "w-5 bg-[#41b3b5]" : "w-1.5 bg-white/25 hover:bg-white/45"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
-          <aside className="relative sticky top-20 z-30 order-1 flex min-h-[300px] flex-col self-start overflow-hidden md:top-24 rounded-2xl border border-[#3a78b6]/45 bg-[linear-gradient(90deg,rgba(17,26,90,0.86)_0%,rgba(10,110,164,0.86)_100%)] p-4 shadow-[0_20px_50px_rgba(0,8,28,0.55)] sm:min-h-[360px] sm:p-5 lg:relative lg:top-auto lg:z-auto lg:order-2 lg:self-auto">
+          <aside className="relative flex min-h-[300px] min-w-0 flex-col overflow-hidden rounded-2xl border border-[#3a78b6]/45 bg-[linear-gradient(90deg,rgba(17,26,90,0.86)_0%,rgba(10,110,164,0.86)_100%)] p-4 shadow-[0_20px_50px_rgba(0,8,28,0.55)] sm:min-h-[360px] sm:p-5">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#070f35]/88 to-transparent"
@@ -637,6 +640,16 @@ export default function FlightMarketplaceHero() {
               </figcaption>
             </figure>
           </aside>
+        </div>
+
+        {/* Mobile booking CTA — full-width, tracks the active route (per the mobile design). */}
+        <div className="mt-6 lg:hidden">
+          <Link
+            href="/#book-your-flight"
+            className="flex w-full items-center justify-center rounded-2xl bg-[#00bcff] py-4 text-sm font-bold uppercase tracking-[0.08em] text-[#111a5a] shadow-[0_14px_34px_rgba(0,188,255,0.25)] transition-all hover:bg-[#33cbff] active:scale-[0.97]"
+          >
+            Book {activeDeal.fromCity} – {activeDeal.toCity}
+          </Link>
         </div>
 
         <div className="sr-only">

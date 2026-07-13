@@ -179,7 +179,7 @@ export const JETS: Jet[] = [
       },
     },
     gallery: [
-      { src: "/assets/images/aircraft/legacy650-cabin-wide.webp", alt: "Legacy 650 principal cabin zone", width: 1920, height: 1098, orientation: "landscape", span: "wide" },
+      { src: "/assets/images/aircraft/legacy650-cabin-real.webp", alt: "Legacy 650 principal cabin zone", width: 1080, height: 1920, orientation: "portrait", span: "tall" },
       { src: "/assets/images/aircraft/legacy650-cabin-portrait.webp", alt: "Cabin sideboard dressed with sunflowers", width: 1280, height: 1707, orientation: "portrait", span: "tall" },
       { src: "/assets/images/aircraft/legacy650-window-view.webp", alt: "T7-MIDB seen through a cabin porthole", width: 1280, height: 1707, orientation: "portrait", span: "tall" },
       { src: "/assets/images/aircraft/legacy650-exterior-rear.webp", alt: "Rear three-quarter view at the hangar", width: 1280, height: 1707, orientation: "portrait", span: "tall" },

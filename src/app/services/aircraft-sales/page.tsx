@@ -107,8 +107,8 @@ export default function AircraftSalesPage() {
       />
       <section className="relative min-h-[calc(100svh-72px)] overflow-hidden md:min-h-[calc(100svh-84px)]">
         <Image
-          src="/assets/images/gulfstream,g800.png"
-          alt="Premium private jet in flight for aircraft sales and acquisition advisory"
+          src="/assets/images/aircraft/sales-hero.webp"
+          alt="Clients walking to the Gulfstream G200 T7-MIDA on the Midline ramp"
           fill
           sizes="100vw"
           className="object-cover hero-kenburns"
@@ -280,84 +280,25 @@ export default function AircraftSalesPage() {
         <Reveal
           as="div"
           variant="fade-up"
-          className="mx-auto grid w-full max-w-[1180px] gap-10 rounded-lg border border-[#c5c6cd] bg-[#f9f9ff] p-5 shadow-[0_24px_64px_rgba(17,28,44,0.08)] sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:p-10"
+          className="mx-auto flex w-full max-w-[1180px] flex-col items-start gap-8 rounded-lg bg-[#0d1c32] p-7 shadow-[0_24px_64px_rgba(17,28,44,0.18)] sm:p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12"
         >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#775a19]">Contact Us</p>
-            <h2 className="font-display mt-3 text-3xl font-medium text-[#0d1c32] sm:text-4xl">
+          <div className="max-w-xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#c9a24b]">Contact Us</p>
+            <h2 className="font-display mt-3 text-3xl font-medium text-white sm:text-4xl">
               Discuss your next aircraft move.
             </h2>
-            <p className="mt-5 text-base leading-8 text-[#44474d]">
-              Share a few details and our aviation advisory team will help you evaluate the right next step for buying,
-              selling, or leasing.
+            <p className="mt-4 text-base leading-7 text-white/72">
+              Our aviation advisory team handles buying, selling, and leasing conversations with discretion and
+              qualified next actions.
             </p>
-            <div className="mt-8 rounded-lg bg-[#0d1c32] p-5 text-white">
-              <p className="text-sm font-semibold">Confidential advisory</p>
-              <p className="mt-2 text-sm leading-6 text-white/72">
-                We handle transaction conversations with discretion, clear documentation, and qualified next actions.
-              </p>
-            </div>
           </div>
-
-          <form className="grid gap-5" action="/contact">
-            <label className="grid gap-2 text-sm font-semibold text-[#0d1c32]">
-              Name
-              <input
-                className="rounded-none border-0 border-b border-[#75777e] bg-transparent px-0 py-3 text-base font-normal text-[#111c2c] outline-none transition-colors focus:border-[#775a19] focus:ring-0"
-                name="name"
-                placeholder="Your name"
-                type="text"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold text-[#0d1c32]">
-              Email
-              <input
-                className="rounded-none border-0 border-b border-[#75777e] bg-transparent px-0 py-3 text-base font-normal text-[#111c2c] outline-none transition-colors focus:border-[#775a19] focus:ring-0"
-                name="email"
-                placeholder="you@example.com"
-                type="email"
-              />
-            </label>
-            <div className="grid gap-5 sm:grid-cols-[0.35fr_0.65fr]">
-              <label className="grid gap-2 text-sm font-semibold text-[#0d1c32]">
-                Code
-                <select
-                  className="rounded-none border-0 border-b border-[#75777e] bg-transparent px-0 py-3 text-base font-normal text-[#111c2c] outline-none transition-colors focus:border-[#775a19] focus:ring-0"
-                  name="countryCode"
-                  defaultValue="+971"
-                >
-                  <option>+971</option>
-                  <option>+1</option>
-                  <option>+44</option>
-                  <option>+91</option>
-                </select>
-              </label>
-              <label className="grid gap-2 text-sm font-semibold text-[#0d1c32]">
-                Phone
-                <input
-                  className="rounded-none border-0 border-b border-[#75777e] bg-transparent px-0 py-3 text-base font-normal text-[#111c2c] outline-none transition-colors focus:border-[#775a19] focus:ring-0"
-                  name="phone"
-                  placeholder="Phone number"
-                  type="tel"
-                />
-              </label>
-            </div>
-            <label className="grid gap-2 text-sm font-semibold text-[#0d1c32]">
-              Message
-              <textarea
-                className="min-h-28 resize-none rounded-none border-0 border-b border-[#75777e] bg-transparent px-0 py-3 text-base font-normal text-[#111c2c] outline-none transition-colors focus:border-[#775a19] focus:ring-0"
-                name="message"
-                placeholder="Tell us what you are looking to buy, sell, or lease"
-              />
-            </label>
-            <button
-              type="submit"
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg border border-[#775a19] px-5 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#775a19] transition-[background-color,transform,color] duration-150 ease-out hover:bg-[#775a19] hover:text-white active:scale-[0.98]"
-            >
-              Submit Inquiry
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </form>
+          <Link
+            href="/contact"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#c9a24b] px-7 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#0d1c32] transition-[background-color,transform] duration-150 ease-out hover:bg-[#dcb75f] active:scale-[0.98]"
+          >
+            Contact Our Team
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </Reveal>
       </section>
     </main>

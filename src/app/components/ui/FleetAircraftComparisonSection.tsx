@@ -46,7 +46,7 @@ const aircraftColumns: AircraftColumn[] = [
     name: "Embraer Legacy 650",
     images: [
       "/assets/images/aircraft/legacy650-exterior.webp",
-      "/assets/images/aircraft/legacy650-cabin-wide.webp",
+      "/assets/images/aircraft/legacy650-cabin-real.webp",
       "/assets/images/aircraft/legacy650-exterior-rear.webp",
     ],
     badge: "HEAVY JET",
@@ -121,11 +121,11 @@ const metricRows: MetricRow[] = [
     label: "Baggage Volume",
     icon: BriefcaseBusiness,
     values: [
-      { value: "240", note: "Cu. Ft." },
-      { value: "169", note: "Cu. Ft." },
-      { value: "150", note: "Cu. Ft." },
+      { value: "14-15", note: "Bags" },
+      { value: "14-15", note: "Bags" },
+      { value: "14-16", note: "Bags" },
     ],
-    bestIndex: 0,
+    bestIndex: 2,
   },
 ];
 

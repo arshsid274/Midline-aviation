@@ -34,9 +34,9 @@ const footerColumns = [
   {
     heading: "Connect",
     links: [
-      { label: "Careers", href: "/contact" },
       { label: "Contact", href: "/contact" },
       { label: "Press Inquiries", href: "/contact" },
+      { label: "Book a Flight", href: "/#book-your-flight" },
     ],
   },
 ] as const;
@@ -97,13 +97,26 @@ export default function SiteFooter() {
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between border-t border-[#1E293B] pt-8 text-xs md:flex-row">
-          <div className="mb-6 flex items-center gap-4 md:mb-0">
+          <div className="mb-6 flex flex-col items-center gap-3 md:mb-0 md:flex-row md:gap-4">
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-[10px] font-semibold text-white">
               M
             </span>
             <p>
               &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
             </p>
+            <nav aria-label="Legal" className="flex items-center gap-3">
+              <Link href="/privacy-policy" className="link-underline transition-colors hover:text-white">
+                Privacy
+              </Link>
+              <span aria-hidden className="text-white/25">·</span>
+              <Link href="/terms-and-conditions" className="link-underline transition-colors hover:text-white">
+                Terms
+              </Link>
+              <span aria-hidden className="text-white/25">·</span>
+              <Link href="/cookie-policy" className="link-underline transition-colors hover:text-white">
+                Cookies
+              </Link>
+            </nav>
           </div>
           <div className="flex gap-6">
             {socials.map(({ label, href, Icon }) => (

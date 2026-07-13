@@ -3,7 +3,7 @@ import styles from "./BookFlightButton.module.css"
 
 export default function BookFlightButton() {
   return (
-    <Link href="/contact" aria-label="Book Flight" className={styles.cartBtn}>
+    <Link href="/#book-your-flight" aria-label="Book Flight" className={styles.cartBtn}>
       <span className={styles.iconContainer}>
         <svg viewBox="0 0 13 13" width="18px" className={styles.icon} aria-hidden="true" focusable="false">
           <path

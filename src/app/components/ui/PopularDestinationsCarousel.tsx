@@ -18,87 +18,66 @@ type DestinationCard = {
 
 const POPULAR_DESTINATIONS: DestinationCard[] = [
   {
-    id: "cape-town",
-    name: "Cape Town",
-    imageSrc: "/assets/images/popular-destinations/cape-town.jpg",
-    imageAlt: "Cape Town coastline viewed from above",
-    href: "/contact",
-  },
-  {
-    id: "bora-bora",
-    name: "Bora Bora",
-    imageSrc: "/assets/images/popular-destinations/bora-bora.jpg",
-    imageAlt: "Tropical island waters and villas",
-    href: "/contact",
-  },
-  {
-    id: "sydney",
-    name: "Sydney",
-    imageSrc: "/assets/images/popular-destinations/sydney.jpg",
-    imageAlt: "Sydney skyline at dusk",
-    href: "/contact",
-  },
-  {
-    id: "dubai",
-    name: "Dubai",
-    imageSrc: "/assets/images/popular-destinations/dubai.jpg",
-    imageAlt: "Dubai skyline at night",
-    href: "/contact",
-  },
-  {
-    id: "maldives",
-    name: "Maldives",
-    imageSrc: "/assets/images/popular-destinations/maldives.jpg",
-    imageAlt: "Maldives island view from above",
-    href: "/contact",
-  },
-  {
     id: "london",
     name: "London",
-    imageSrc: "/assets/images/popular-destinations/london.jpg",
-    imageAlt: "London skyline at twilight",
+    imageSrc: "/assets/images/frequent-travel-destinations/london.webp",
+    imageAlt: "London skyline along the Thames",
     href: "/contact",
   },
   {
     id: "paris",
     name: "Paris",
-    imageSrc: "/assets/images/popular-destinations/paris.jpg",
-    imageAlt: "Paris city lights at night",
+    imageSrc: "/assets/images/frequent-travel-destinations/paris.webp",
+    imageAlt: "Paris cityscape with the Eiffel Tower",
     href: "/contact",
   },
   {
-    id: "new-york",
-    name: "New York",
-    imageSrc: "/assets/images/popular-destinations/new-york.jpg",
-    imageAlt: "New York skyline aerial view",
-    href: "/contact",
-  },
-  {
-    id: "zurich",
-    name: "Zurich",
-    imageSrc: "/assets/images/popular-destinations/zurich.jpg",
-    imageAlt: "Zurich city and lake panorama",
+    id: "maldives",
+    name: "Maldives",
+    imageSrc: "/assets/images/frequent-travel-destinations/maldives.webp",
+    imageAlt: "Maldives island resort from above",
     href: "/contact",
   },
   {
     id: "singapore",
     name: "Singapore",
-    imageSrc: "/assets/images/popular-destinations/singapore.jpg",
+    imageSrc: "/assets/images/frequent-travel-destinations/singapore.webp",
     imageAlt: "Singapore skyline and waterfront",
     href: "/contact",
   },
   {
-    id: "tokyo",
-    name: "Tokyo",
-    imageSrc: "/assets/images/popular-destinations/tokyo.jpg",
-    imageAlt: "Tokyo skyline at night",
+    id: "turkey",
+    name: "Turkey",
+    imageSrc: "/assets/images/frequent-travel-destinations/turkey.webp",
+    imageAlt: "Historic skyline of Istanbul, Turkey",
     href: "/contact",
   },
   {
-    id: "miami",
-    name: "Miami",
-    imageSrc: "/assets/images/popular-destinations/miami.jpg",
-    imageAlt: "Miami beach and coastline view",
+    id: "madrid",
+    name: "Madrid",
+    imageSrc: "/assets/images/frequent-travel-destinations/madrid.webp",
+    imageAlt: "Madrid city architecture at golden hour",
+    href: "/contact",
+  },
+  {
+    id: "uzbekistan",
+    name: "Uzbekistan",
+    imageSrc: "/assets/images/frequent-travel-destinations/uzbekistan.webp",
+    imageAlt: "Historic architecture of Uzbekistan",
+    href: "/contact",
+  },
+  {
+    id: "mumbai",
+    name: "Mumbai",
+    imageSrc: "/assets/images/frequent-travel-destinations/mumbai.webp",
+    imageAlt: "Mumbai skyline along Marine Drive",
+    href: "/contact",
+  },
+  {
+    id: "chennai",
+    name: "Chennai",
+    imageSrc: "/assets/images/frequent-travel-destinations/chennai.webp",
+    imageAlt: "Chennai cityscape and coastline",
     href: "/contact",
   },
 ];
@@ -152,7 +131,9 @@ export default function PopularDestinationsCarousel() {
 
       if (prefersReducedMotion) {
         gsap.set([textBlock, carouselBlock], { x: 0, y: 0, autoAlpha: 1 });
-        gsap.set(cards, { filter: "blur(0px)", autoAlpha: 1, scale: 1 });
+        // No filter here — a lingering blur(0px) keeps each card on its own
+        // composited layer and paints a ghost band under the cards.
+        gsap.set(cards, { autoAlpha: 1, scale: 1, y: 0 });
         return;
       }
 
@@ -178,7 +159,10 @@ export default function PopularDestinationsCarousel() {
           { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" },
           "-=0.4"
         )
-        // Stagger clear: each card rises up and unblurs one by one
+        // Stagger clear: each card rises up and unblurs one by one.
+        // clearProps removes the inline filter once each card settles —
+        // otherwise blur(0px) pins the card to a composited layer that
+        // renders a ghost band beneath it.
         .to(
           cards,
           {
@@ -189,6 +173,7 @@ export default function PopularDestinationsCarousel() {
             duration: 0.65,
             ease: "power3.out",
             stagger: 0.48,
+            clearProps: "filter",
           },
           "-=0.3"
         );
@@ -212,9 +197,9 @@ export default function PopularDestinationsCarousel() {
               id="popular-destinations-heading"
               className="text-2xl font-medium tracking-tight text-white sm:text-4xl"
             >
-              Popular destinations
+              Frequent travel destinations
             </h2>
-            <p className="mt-2 text-sm text-white/70 sm:text-xl">Let&apos;s go on an adventure</p>
+            <p className="mt-2 text-sm text-white/70 sm:text-xl">The routes our clients fly most</p>
           </div>
 
           <div className="hidden items-center gap-3 sm:flex">
@@ -243,7 +228,7 @@ export default function PopularDestinationsCarousel() {
           <div className="overflow-hidden" ref={emblaRef}>
             <div
               role="list"
-              aria-label="Popular destinations"
+              aria-label="Frequent travel destinations"
               className="-ml-3 flex cursor-grab active:cursor-grabbing sm:-ml-4"
             >
               {POPULAR_DESTINATIONS.map((destination) => (

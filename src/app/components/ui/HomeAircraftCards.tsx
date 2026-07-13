@@ -188,7 +188,7 @@ export default function HomeAircraftCards() {
     <section
       ref={sectionRef}
       aria-labelledby="home-aircraft-heading"
-      className="bg-white py-14 sm:py-16 lg:py-20"
+      className="overflow-x-clip bg-white py-14 sm:py-16 lg:py-20"
     >
       <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <header ref={headerRef} className="mb-8 text-center sm:mb-10 lg:mb-12">

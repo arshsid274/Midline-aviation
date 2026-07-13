@@ -6,8 +6,8 @@ export default function AircraftManagementHeroSection() {
   return (
     <section className="relative isolate h-[calc(100svh-72px)] w-full overflow-hidden md:h-[calc(100svh-84px)]">
       <Image
-        src="/assets/images/Flight_Managament_Final.png"
-        alt="Private aircraft at sunset"
+        src="/assets/images/aircraft/management-hero.webp"
+        alt="Gulfstream G200 T7-MIDA under management, seen from the Midline FBO lounge"
         fill
         sizes="100vw"
         className="object-cover object-center hero-kenburns"

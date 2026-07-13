@@ -21,7 +21,7 @@ const operations = [
     title: "Specialized Cargo",
     description:
       "Hazmat, temperature-sensitive, and high-value cargo handled under strict compliance protocols, with dedicated secure storage and monitoring.",
-    image: "/assets/images/gallery/g450_Exterior_Final.png",
+    image: "/assets/images/aircraft/g450-nose.webp",
     tag: "Sensitive Freight",
   },
 ];
