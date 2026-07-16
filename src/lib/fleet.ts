@@ -58,7 +58,7 @@ export const JETS: Jet[] = [
       { label: "Cruising Speed", value: 476, unit: "kts", note: "Mach 0.88" },
       { label: "Passengers", value: 14, unit: "", note: "Three living zones" },
       { label: "Cabin Height", value: 0, unit: "", note: "Stand-up cabin", displayValue: "6'2\"" },
-      { label: "Baggage", value: 169, unit: "cu ft", note: "Full wardrobe hold" },
+      { label: "Baggage", value: 0, unit: "", note: "169 cu ft hold", displayValue: "14-15 Bags" },
     ],
     hero: {
       image: {
@@ -112,7 +112,7 @@ export const JETS: Jet[] = [
       { label: "Cruising Speed", value: 459, unit: "kts", note: "Mach 0.80" },
       { label: "Passengers", value: 9, unit: "", note: "Club configuration" },
       { label: "Cabin Height", value: 0, unit: "", note: "Stand-up cabin", displayValue: "6'3\"" },
-      { label: "Baggage", value: 150, unit: "cu ft", note: "Ski-length hold" },
+      { label: "Baggage", value: 0, unit: "", note: "150 cu ft hold", displayValue: "14-16 Bags" },
     ],
     hero: {
       video: { src: "/assets/videos/g200-showcase.mp4", poster: "/assets/images/aircraft/g200-exterior.webp" },
@@ -166,7 +166,7 @@ export const JETS: Jet[] = [
       { label: "Cruising Speed", value: 459, unit: "kts", note: "Mach 0.80" },
       { label: "Passengers", value: 13, unit: "", note: "Three cabin zones" },
       { label: "Cabin Height", value: 0, unit: "", note: "Stand-up cabin", displayValue: "6'0\"" },
-      { label: "Baggage", value: 240, unit: "cu ft", note: "Largest in class" },
+      { label: "Baggage", value: 0, unit: "", note: "240 cu ft, largest in class", displayValue: "14-15 Bags" },
     ],
     hero: {
       // Photo hero by design — the only landscape Legacy video is a render, not T7-MIDB.
