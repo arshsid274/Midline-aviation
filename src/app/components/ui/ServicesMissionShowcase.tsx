@@ -21,28 +21,28 @@ const serviceTabs: ServiceTab[] = [
   {
     id: "charter",
     label: "Embraer Legacy 650",
-    title: "Aircraft Charter",
+    title: "Embraer Legacy 650",
     description:
-      "Experience the freedom of personalized travel. Midline Aviation offers tailored private jet charters designed for comfort, flexibility, and privacy taking you wherever business or leisure calls.",
-    ctaHref: "/services/aircraft-charter",
+      "Our heavy-jet workhorse, T7-MIDB — three distinct cabin zones for thirteen passengers, a 3,900 nm intercontinental range, and the largest baggage hold in its class. From Dubai it reaches London, Singapore, or Cape Town with a cabin built to work, dine, and rest en route.",
+    ctaHref: "/fleet/embraer-legacy-650",
     ctaLabel: "More Details",
   },
   {
     id: "membership",
     label: "Gulfstream G450",
-    title: "Aircraft Management",
+    title: "Gulfstream G450",
     description:
-      "We handle every detail of aircraft ownership from operations and crew to maintenance and scheduling ensuring your jet operates safely, efficiently, and profitably.",
-    ctaHref: "/services/aircraft-management",
+      "The flagship of the Midline fleet, T7-MID — 4,350 nm of transoceanic range at Mach 0.88, a whisper-quiet hand-finished cabin, and three living zones for fourteen passengers with full in-flight dining service.",
+    ctaHref: "/fleet/gulfstream-g450",
     ctaLabel: "More Details",
   },
   {
     id: "ownership",
     label: "Gulfstream G200",
-    title: "Aircraft Sales",
+    title: "Gulfstream G200",
     description:
-      "Whether you are acquiring or selling an aircraft, our team provides expert guidance, transparency, and global market insight to secure the best value and outcome.",
-    ctaHref: "/services/aircraft-sales",
+      "Super-midsize efficiency with a cabin finished like a private salon — T7-MIDA seats nine in club configuration, cruises 3,400 nm, and carries hand-appointed detailing that rivals jets twice its size.",
+    ctaHref: "/fleet/gulfstream-g200",
     ctaLabel: "More Details",
   },
 ];
@@ -151,7 +151,7 @@ export default function ServicesMissionShowcase() {
       <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-end">
           <div data-reveal-item>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Our Services</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Our Fleet</p>
             <h2
               id="services-mission-heading"
               className="mt-3 text-3xl font-medium leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-5xl"
@@ -160,13 +160,13 @@ export default function ServicesMissionShowcase() {
             </h2>
           </div>
           <p data-reveal-item className="max-w-xl text-sm leading-relaxed text-blue-100/85 sm:text-base">
-            Aircraft charter, aircraft management, aircraft sales, MRO, and cargo transportation services built for
-            modern travelers and owners.
+            Three aircraft, one standard — the Gulfstream G450, Gulfstream G200, and Embraer Legacy 650, each
+            maintained and finished to Midline&rsquo;s specification and ready to fly from Dubai.
           </p>
         </div>
 
         <div data-reveal-item className="mt-9 border-b border-white/30">
-          <div role="tablist" aria-label="Midline service categories" className="grid grid-cols-2 sm:grid-cols-3">
+          <div role="tablist" aria-label="Midline fleet aircraft" className="grid grid-cols-2 sm:grid-cols-3">
             {serviceTabs.map((tab) => {
               const isActive = tab.id === activeTab;
               return (
@@ -225,7 +225,7 @@ export default function ServicesMissionShowcase() {
         </div>
 
         <div className="sr-only">
-          <h3>All Midline services</h3>
+          <h3>The Midline fleet</h3>
           <ul>
             {serviceTabs.map((tab) => (
               <li key={`seo-service-${tab.id}`}>

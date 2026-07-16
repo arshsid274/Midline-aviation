@@ -47,7 +47,7 @@ export default function ContactPage() {
         poster="/assets/images/aircraft/contact-poster.webp"
         className="absolute inset-0 h-full w-full object-cover"
       >
-        <source src="/assets/videos/g450-goldenhour.mp4" type="video/mp4" />
+        <source src="/assets/videos/contact.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-black/22" />

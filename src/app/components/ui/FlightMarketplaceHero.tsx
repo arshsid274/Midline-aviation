@@ -53,8 +53,6 @@ export const JET_DATA = [
     distanceNm: 2950,
     duration: "6h 10m",
 
-    price: "AED 320k",
-    marketRange: "AED 290k - 380k",
     operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
@@ -82,8 +80,6 @@ export const JET_DATA = [
     distanceNm: 1180,
     duration: "2h 40m",
 
-    price: "AED 135k",
-    marketRange: "AED 110k - 165k",
     operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
@@ -111,8 +107,6 @@ export const JET_DATA = [
     distanceNm: 2550,
     duration: "5h 40m",
 
-    price: "AED 285k",
-    marketRange: "AED 250k - 340k",
     operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
@@ -140,8 +134,6 @@ export const JET_DATA = [
     distanceNm: 5900,
     duration: "12h 10m",
 
-    price: "AED 620k",
-    marketRange: "AED 560k - 720k",
     operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
@@ -169,8 +161,6 @@ export const JET_DATA = [
     distanceNm: 1850,
     duration: "4h 25m",
 
-    price: "AED 210k",
-    marketRange: "AED 180k - 250k",
     operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
@@ -198,8 +188,6 @@ export const JET_DATA = [
     distanceNm: 3150,
     duration: "7h 15m",
 
-    price: "AED 355k",
-    marketRange: "AED 310k - 420k",
     operator: "Private Fleet",
     lat1: 25.2532,
     lng1: 55.3657,
@@ -227,8 +215,6 @@ export const JET_DATA = [
     distanceNm: 1300,
     duration: "2h 50m",
 
-    price: "AED 160k",
-    marketRange: "AED 135k - 190k",
     operator: "Private Fleet",
     lat1: 24.4330,
     lng1: 54.6511,
@@ -256,8 +242,6 @@ export const JET_DATA = [
     distanceNm: 190,
     duration: "50m",
 
-    price: "AED 68k",
-    marketRange: "AED 55k - 85k",
     operator: "Private Fleet",
     lat1: 24.8964,
     lng1: 55.1614,
@@ -438,7 +422,10 @@ const FlightCard = React.memo(function FlightCard({
               <p className="text-[10px] uppercase tracking-[0.16em] text-blue-100/55">Operator</p>
               <p className="truncate text-xs font-semibold text-zinc-200 sm:text-sm">{deal.operator}</p>
             </div>
-            <span className="shrink-0 whitespace-nowrap text-base font-semibold text-white sm:text-lg">{deal.price}</span>
+            <div className="min-w-0 text-right">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-blue-100/55">Flight Time</p>
+              <p className="truncate text-xs font-semibold text-zinc-200 sm:text-sm">{deal.duration}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -624,12 +611,12 @@ export default function FlightMarketplaceHero() {
 
             <div className="relative mt-3 grid grid-cols-2 gap-2 text-xs">
               <div className="rounded-lg border border-[#3a78b6]/35 bg-[#070f35]/55 p-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-blue-100/58">Listed Price</p>
-                <p className="mt-1 text-sm font-semibold text-white">{activeDeal.price}</p>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-blue-100/58">Aircraft</p>
+                <p className="mt-1 text-sm font-semibold text-white">{activeDeal.model}</p>
               </div>
               <div className="rounded-lg border border-[#3a78b6]/35 bg-[#070f35]/55 p-2.5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-blue-100/58">Market Band</p>
-                <p className="mt-1 text-sm font-semibold text-white">{activeDeal.marketRange}</p>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-blue-100/58">Flight Time</p>
+                <p className="mt-1 text-sm font-semibold text-white">{activeDeal.duration}</p>
               </div>
             </div>
 
@@ -658,7 +645,7 @@ export default function FlightMarketplaceHero() {
             {JET_DATA.map((deal) => (
               <li key={`seo-route-${deal.id}`}>
                 {deal.jet} from {deal.fromCity} ({deal.fromICAO}) to {deal.toCity} ({deal.toICAO}), operated by{" "}
-                {deal.operator}, listed at {deal.price}.
+                {deal.operator}.
               </li>
             ))}
           </ul>

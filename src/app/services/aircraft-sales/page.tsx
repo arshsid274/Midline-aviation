@@ -126,7 +126,7 @@ export default function AircraftSalesPage() {
             delay={0.1}
             className="max-w-4xl"
           >
-            <p data-reveal-item className="text-xs font-semibold uppercase tracking-[0.22em] text-[#ffdea5]">Aircraft Sales</p>
+            <p data-reveal-item className="text-xs font-semibold uppercase tracking-[0.22em] text-[#00bcff]">Aircraft Sales</p>
             <SplitHeading
               as="h1"
               mode="lcp"
@@ -167,7 +167,7 @@ export default function AircraftSalesPage() {
           className="mx-auto grid w-full max-w-[1180px] gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start"
         >
           <div data-reveal-item>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#775a19]">Market Guidance</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a6ea4]">Market Guidance</p>
             <h2 className="font-display mt-3 text-3xl font-medium text-[#0d1c32] sm:text-5xl">
               A guided path through every aircraft transaction.
             </h2>
@@ -205,11 +205,11 @@ export default function AircraftSalesPage() {
                 <div className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#d8e3fa] text-[#0d1c32]">
                   <Icon className="h-5 w-5" />
                 </div>
-                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#775a19]">{section.kicker}</p>
+                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#0a6ea4]">{section.kicker}</p>
                 <h2 className="font-display mt-3 text-3xl font-medium text-[#0d1c32] sm:text-4xl">
                   {section.title}
                 </h2>
-                <div className="mt-6 h-px w-12 bg-[#775a19]" />
+                <div className="mt-6 h-px w-12 bg-[#0a6ea4]" />
                 <div className="mt-7 space-y-5 text-base leading-7 text-[#44474d]">
                   {section.body.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
@@ -241,7 +241,7 @@ export default function AircraftSalesPage() {
       <section className="bg-[#f9f9ff] px-4 py-16 sm:px-6 sm:py-20 lg:px-16">
         <div className="mx-auto w-full max-w-[1180px]">
           <Reveal as="div" variant="fade-up" className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#775a19]">Comprehensive Services</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a6ea4]">Comprehensive Services</p>
             <h2 className="font-display mt-3 text-3xl font-medium text-[#0d1c32] sm:text-5xl">
               One advisory team from first review to final handover.
             </h2>
@@ -265,7 +265,7 @@ export default function AircraftSalesPage() {
                   data-reveal-item
                   className="flex min-h-20 items-center gap-3 rounded-lg border border-[#c5c6cd] bg-white px-4 py-4 shadow-[0_14px_34px_rgba(17,28,44,0.05)]"
                 >
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f0f3ff] text-[#775a19]">
+                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f0f3ff] text-[#0a6ea4]">
                     <Icon className="h-4.5 w-4.5" />
                   </span>
                   <span className="text-sm font-semibold text-[#0d1c32]">{service.label}</span>
@@ -283,7 +283,7 @@ export default function AircraftSalesPage() {
           className="mx-auto flex w-full max-w-[1180px] flex-col items-start gap-8 rounded-lg bg-[#0d1c32] p-7 shadow-[0_24px_64px_rgba(17,28,44,0.18)] sm:p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12"
         >
           <div className="max-w-xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#c9a24b]">Contact Us</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#00bcff]">Contact Us</p>
             <h2 className="font-display mt-3 text-3xl font-medium text-white sm:text-4xl">
               Discuss your next aircraft move.
             </h2>
@@ -294,7 +294,7 @@ export default function AircraftSalesPage() {
           </div>
           <Link
             href="/contact"
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#c9a24b] px-7 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#0d1c32] transition-[background-color,transform] duration-150 ease-out hover:bg-[#dcb75f] active:scale-[0.98]"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#00bcff] px-7 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-[#111a5a] transition-[background-color,transform] duration-150 ease-out hover:bg-[#33cbff] active:scale-[0.98]"
           >
             Contact Our Team
             <ArrowRight className="h-4 w-4" />

@@ -92,6 +92,18 @@ export default function ContactLeadershipSection() {
   const canPrev = offset > 0;
   const canNext = offset < maxOffset;
 
+  // When the active card's info panel would overflow the strip's right edge
+  // (e.g. the last visible card), shift the whole track left by the overflow
+  // so the panel stays in view and the preceding cards get pushed aside.
+  const stripW = VISIBLE * photoW + (VISIBLE - 1) * GAP;
+  const hoverShift =
+    active === null || !photoW
+      ? 0
+      : Math.max(
+          0,
+          (active + 1) * photoW + active * GAP + PANEL_W - offset * (photoW + GAP) - stripW
+        );
+
   return (
     <section ref={sectionRef} className="mt-14 bg-white sm:mt-20">
 
@@ -154,8 +166,9 @@ export default function ContactLeadershipSection() {
           className="flex"
           style={{
             gap: GAP,
-            // Each step = one photo width + one gap
-            transform: photoW ? `translateX(${-offset * (photoW + GAP)}px)` : "none",
+            // Each step = one photo width + one gap; hoverShift keeps an
+            // expanded info panel inside the strip when it would overflow.
+            transform: photoW ? `translateX(${-offset * (photoW + GAP) - hoverShift}px)` : "none",
             transition: "transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >

@@ -57,7 +57,7 @@ export default function AircraftManagementSafetyCardsSection() {
                 data-reveal-item
                 className="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-[0_18px_34px_rgba(0,0,0,0.26)] backdrop-blur-xl transition-colors hover:bg-white/14"
               >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#ecab13] text-[#016d9d]">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#00bcff] text-[#111a5a]">
                   <Icon className="h-5 w-5" />
                 </span>
                 <h3 className="mt-4 text-xl font-semibold text-white">{card.title}</h3>
@@ -66,7 +66,7 @@ export default function AircraftManagementSafetyCardsSection() {
                 <ul className="mt-5 space-y-2.5">
                   {card.points.map((point) => (
                     <li key={point} className="flex items-start gap-2.5 text-sm text-[#e8efff]/88">
-                      <CheckCircle2 className="mt-[0.1rem] h-4 w-4 shrink-0 text-[#ecab13]" />
+                      <CheckCircle2 className="mt-[0.1rem] h-4 w-4 shrink-0 text-[#00bcff]" />
                       <span>{point}</span>
                     </li>
                   ))}

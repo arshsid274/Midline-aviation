@@ -7,8 +7,8 @@ export default function CargoHeroSection() {
   return (
     <section className="relative isolate h-[calc(100svh-72px)] w-full overflow-hidden md:h-[calc(100svh-84px)]">
       <Image
-        src="/assets/images/Midlien_cargo_final.png"
-        alt="Cargo aircraft ready for global freight operations"
+        src="/assets/images/aircraft/cargo-hero.webp"
+        alt="Gulfstream G450 T7-MID on the ramp at night under apron floodlights, ready for cargo operations"
         fill
         sizes="100vw"
         className="object-cover object-center hero-kenburns"
