@@ -26,16 +26,15 @@ const footerColumns = [
   {
     heading: "About Us",
     links: [
-      { label: "Customer Portal", href: "/contact" },
       { label: "Midline Aviation", href: "/about" },
-      { label: "Midline Group", href: "/about" },
+      { label: "Safety & Certifications", href: "/safety" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
   {
     heading: "Connect",
     links: [
       { label: "Contact", href: "/contact" },
-      { label: "Press Inquiries", href: "/contact" },
       { label: "Book a Flight", href: "/#book-your-flight" },
     ],
   },

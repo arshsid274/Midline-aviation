@@ -5,38 +5,35 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { LogoItem } from "./LogoLoop";
 import LogoLoop from "./LogoLoop";
-import { SiNextdotjs, SiReact, SiTailwindcss, SiTypescript } from "react-icons/si";
+import { enabledAccreditations } from "@/lib/accreditations";
 
-const techLogos: LogoItem[] = [
-  { node: <SiReact />, title: "React", href: "https://react.dev", ariaLabel: "React website" },
-  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org", ariaLabel: "Next.js website" },
-  {
-    node: <SiTypescript />,
-    title: "TypeScript",
-    href: "https://www.typescriptlang.org",
-    ariaLabel: "TypeScript website",
-  },
-  {
-    node: <SiTailwindcss />,
-    title: "Tailwind CSS",
-    href: "https://tailwindcss.com",
-    ariaLabel: "Tailwind CSS website",
-  },
-];
+// Only credentials with `enabled: true` in src/lib/accreditations.ts are shown —
+// unverified logos ship disabled there and can be switched on without touching this file.
+// Logos sit on white chips so dark brand marks stay legible on the navy gradient.
+// Every chip and inner logo box is a FIXED size, and each mark scales to fill it
+// with object-contain — so wide, squat, and square logos all read the same size.
+const accreditationLogos: LogoItem[] = enabledAccreditations.map(({ src, name }) => ({
+  node: (
+    <span className="flex h-24 w-[220px] items-center justify-center rounded-xl bg-white shadow-[0_10px_26px_rgba(4,10,36,0.32)] sm:h-28 sm:w-[250px]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={name} loading="lazy" className="h-14 w-[170px] object-contain sm:h-16 sm:w-[195px]" />
+    </span>
+  ),
+  title: name,
+  ariaLabel: name,
+}));
 
 export default function LogoLoopSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
   const loopRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const heading = headingRef.current;
-    const description = descriptionRef.current;
     const loop = loopRef.current;
 
-    if (!section || !heading || !description || !loop) return;
+    if (!section || !heading || !loop) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -45,7 +42,7 @@ export default function LogoLoopSection() {
 
     const ctx = gsap.context(() => {
       if (prefersReducedMotion) {
-        gsap.set([heading, description, loop], { x: 0, y: 0, autoAlpha: 1 });
+        gsap.set([heading, loop], { x: 0, y: 0, autoAlpha: 1 });
         return;
       }
 
@@ -63,16 +60,10 @@ export default function LogoLoopSection() {
           { y: 0, autoAlpha: 1, duration: 0.75, ease: "power3.out" }
         )
         .fromTo(
-          description,
-          { y: isMobile ? 30 : 42, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" },
-          "-=0.45"
-        )
-        .fromTo(
           loop,
           { y: isMobile ? 52 : 76, autoAlpha: 0 },
           { y: 0, autoAlpha: 1, duration: 0.9, ease: "power3.out" },
-          "-=0.35"
+          "-=0.4"
         );
     }, section);
 
@@ -93,26 +84,19 @@ export default function LogoLoopSection() {
           id="logo-loop-heading"
           className="text-center text-3xl font-semibold tracking-tight text-white sm:text-4xl"
         >
-          Midline Aviation Redefining the Art of Private Air Travel
+          Accreditations &amp; Memberships
         </h2>
-        <p
-          ref={descriptionRef}
-          className="mx-auto mt-3 max-w-3xl text-center text-sm leading-relaxed text-blue-100/85 sm:text-base"
-        >
-          Every journey with Midline Aviation is crafted to perfection where luxury, privacy, and precision meet in
-          the skies. We do not just take you to your destination, we elevate the way you travel.
-        </p>
 
-        <div ref={loopRef} className="relative mt-8 h-[120px] overflow-hidden sm:mt-10 sm:h-[140px]">
+        <div ref={loopRef} className="relative mt-8 h-[140px] overflow-hidden sm:mt-10 sm:h-[156px]">
           <LogoLoop
-            logos={techLogos}
-            speed={100}
+            logos={accreditationLogos}
+            speed={80}
             direction="left"
-            logoHeight={52}
-            gap={56}
+            logoHeight={112}
+            gap={40}
             hoverSpeed={0}
             scaleOnHover
-            ariaLabel="Technology partners"
+            ariaLabel="Accreditations and memberships"
             className="text-white/95"
           />
         </div>

@@ -26,7 +26,6 @@ const HOME_AIRCRAFT: AircraftCard[] = [
     registration: "T7-MIDB",
     description:
       "The flagship of luxury aviation delivers ultra-long-range performance, cutting-edge design, and unmatched speed. The Embraer Legacy 650 redefines private air travel with elegance and power.",
-    comingSoon: true,
     imageSrc: "/assets/images/aircraft/legacy650-exterior-2.webp",
     imageAlt: "Embraer Legacy 650 (T7-MIDB) on the tarmac",
     href: "/fleet/embraer-legacy-650",

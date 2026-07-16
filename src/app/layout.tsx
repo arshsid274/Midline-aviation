@@ -73,7 +73,8 @@ export const metadata: Metadata = {
   },
   title: {
     default: defaultTitle,
-    template: `%s | ${SITE_NAME}`,
+    // Site name first so browser tabs always show "Midline Aviation".
+    template: `${SITE_NAME} | %s`,
   },
   alternates: {
     canonical: SITE_URL,
