@@ -37,9 +37,6 @@ export default function AircraftCharterHeroComponent() {
           <Link href="/fleet" className="midline-btn-primary w-full rounded-xl px-10 py-4 text-center text-sm sm:w-auto">
             Explore Our Fleet
           </Link>
-          <Link href="/contact" className="midline-btn-secondary w-full rounded-xl px-10 py-4 text-center text-sm sm:w-auto">
-            Virtual Tour
-          </Link>
         </div>
       </Reveal>
     </section>
