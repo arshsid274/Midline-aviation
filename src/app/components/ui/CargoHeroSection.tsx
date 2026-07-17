@@ -30,7 +30,7 @@ export default function CargoHeroSection() {
           {/* Badge */}
           <span
             data-reveal-item
-            className="inline-flex items-center gap-2 rounded-full border border-[#00bcff]/38 bg-[#00bcff]/14 px-3.5 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-[#00bcff] backdrop-blur-xl"
+            className="inline-flex items-center gap-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-[#00bcff]"
           >
             <Package className="h-3 w-3" />
             Global Logistics Experts

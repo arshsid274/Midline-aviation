@@ -21,7 +21,7 @@
 
 .tagline {
   display: block;
-  color: #c5a059;
+  color: #0a6ea4;
   font-size: 0.65rem;
   letter-spacing: 0.5em;
   text-transform: uppercase;
@@ -54,8 +54,8 @@
 .divider {
   width: 3.5rem;
   height: 1px;
-  background: #c5a059;
-  opacity: 0.65;
+  background: #0a6ea4;
+  opacity: 0.8;
   margin: 1.5rem 0;
   flex-shrink: 0;
 }
@@ -63,17 +63,18 @@
 .body {
   font-size: clamp(0.8rem, 1.1vw, 0.9375rem);
   font-weight: 300;
-  color: rgba(203, 213, 225, 0.92);
+  color: rgba(15, 30, 62, 0.85);
   letter-spacing: 0.04em;
   line-height: 1.75;
   max-width: 380px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.45);
 }
 
 /* ── Right CTA block ─────────────────────────────────────────── */
 .rightContent {
   position: absolute;
-  bottom: clamp(3rem, 6vh, 5rem);
+  /* Sits above the floating WhatsApp button (bottom-right, ~80px tall zone). */
+  bottom: clamp(6rem, 10vh, 7.5rem);
   right: clamp(1.5rem, 4vw, 3rem);
   display: flex;
   flex-direction: column;
@@ -87,15 +88,15 @@
   font-size: 0.6rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(15, 30, 62, 0.72);
   font-weight: 500;
 }
 
 .ctaButton {
   display: inline-block;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  color: #ffffff;
+  border: 1px solid rgba(15, 30, 62, 0.45);
+  color: #0f1e3e;
   padding: 0.9rem 2.25rem;
   font-size: 0.6875rem;
   letter-spacing: 0.28em;
@@ -108,22 +109,27 @@
 }
 
 .ctaButton:hover {
-  border-color: #c5a059;
-  color: #c5a059;
+  border-color: #0a6ea4;
+  color: #0a6ea4;
 }
 
 /* ── Mobile adjustments ──────────────────────────────────────── */
 @media (max-width: 640px) {
   .leftContent {
-    max-width: 80vw;
+    max-width: 86vw;
   }
 
+  /* Anchor the CTA bottom-LEFT on phones so it never sits under the
+     floating WhatsApp button in the bottom-right corner. */
   .rightContent {
-    bottom: 2rem;
-    right: 1.25rem;
+    left: 1.5rem;
+    right: auto;
+    bottom: 2.75rem;
+    align-items: flex-start;
   }
 
+  /* ≥44px tall touch target */
   .ctaButton {
-    padding: 0.75rem 1.75rem;
+    padding: 0.85rem 1.75rem;
   }
 }

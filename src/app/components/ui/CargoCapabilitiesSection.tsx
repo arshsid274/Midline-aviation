@@ -75,7 +75,7 @@ export default function CargoCapabilitiesSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#111a5a]/82 via-[#0b5f95]/28 to-transparent" />
 
                 {/* Tag badge */}
-                <span className="absolute left-4 top-4 rounded-full border border-[#00bcff]/40 bg-[linear-gradient(90deg,rgba(17,26,90,0.70)_0%,rgba(10,110,164,0.70)_100%)] px-3 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.16em] text-[#00bcff] backdrop-blur-sm">
+                <span className="absolute left-4 top-4 rounded-lg border border-white/25 bg-black/45 px-3 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm">
                   {op.tag}
                 </span>
 

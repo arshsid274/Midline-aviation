@@ -24,8 +24,10 @@ export default function AircraftCharterHeroComponent() {
         stagger={0.12}
         delay={0.1}
       >
-        <span data-reveal-item className="mb-6 inline-block rounded-full border border-[#00bcff]/45 bg-[#00bcff]/12 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#00bcff] backdrop-blur-md">
+        <span data-reveal-item className="mb-6 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#00bcff]">
+          <span aria-hidden className="h-px w-8 bg-[#00bcff]/60" />
           Premium Charter Experience
+          <span aria-hidden className="h-px w-8 bg-[#00bcff]/60" />
         </span>
         <SplitHeading as="h1" mode="lcp" on="load" delay={0.25} className="mb-6 text-5xl font-black tracking-tight text-white sm:text-6xl md:text-7xl">Aircraft Charter</SplitHeading>
         <p data-reveal-item className="mx-auto mb-10 max-w-2xl text-lg font-light leading-relaxed text-slate-200/90 md:text-2xl">

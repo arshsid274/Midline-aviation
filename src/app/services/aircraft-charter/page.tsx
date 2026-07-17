@@ -5,7 +5,6 @@ import OurPhilosophyComponent from "@/app/components/ui/OurPhilosophyComponent";
 import CharterStepsComponent from "@/app/components/ui/CharterStepsComponent";
 import WhyChooseUsComponent from "@/app/components/ui/WhyChooseUsComponent";
 import BespokeTravelCategoriesComponent from "@/app/components/ui/BespokeTravelCategoriesComponent";
-import JourneyStartsHereComponent from "@/app/components/ui/JourneyStartsHereComponent";
 import ClientTestimonialsComponent from "@/app/components/ui/ClientTestimonialsComponent";
 
 export const dynamic = "force-static";

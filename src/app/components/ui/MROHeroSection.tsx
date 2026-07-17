@@ -27,8 +27,9 @@ export default function MROHeroSection() {
         >
           <p
             data-reveal-item
-            className="inline-flex items-center gap-2 rounded-full border border-[#00bcff]/45 bg-[#00bcff]/18 px-3 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.18em] text-[#00bcff] backdrop-blur-xl"
+            className="inline-flex items-center gap-2.5 text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-[#00bcff]"
           >
+            <span aria-hidden className="h-px w-8 bg-[#00bcff]/60" />
             Century of Excellence
           </p>
 

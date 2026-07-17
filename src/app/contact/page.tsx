@@ -107,13 +107,13 @@ export default function ContactPage() {
               <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">
                 Inquire About Your Journey
               </h2>
-              <p className="mt-2 text-sm text-white/65">Confidential inquiry for private aviation services.</p>
+              <p className="mt-2 text-sm text-white/75">Confidential inquiry for private aviation services.</p>
             </div>
 
             <form className="space-y-5">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="fullName">
+                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="fullName">
                     Full Name
                   </label>
                   <input
@@ -121,11 +121,11 @@ export default function ContactPage() {
                     name="fullName"
                     type="text"
                     placeholder="John Doe"
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/50 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="email">
+                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="email">
                     Email Address
                   </label>
                   <input
@@ -133,14 +133,14 @@ export default function ContactPage() {
                     name="email"
                     type="email"
                     placeholder="john@example.com"
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/50 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="phone">
+                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="phone">
                     Phone Number
                   </label>
                   <input
@@ -148,11 +148,11 @@ export default function ContactPage() {
                     name="phone"
                     type="tel"
                     placeholder="+1 (555) 000-0000"
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/50 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="aircraftType">
+                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="aircraftType">
                     Preferred Aircraft Type
                   </label>
                   <div className="relative">
@@ -188,7 +188,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="destination">
+                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="destination">
                     Destination
                   </label>
                   <input
@@ -196,11 +196,11 @@ export default function ContactPage() {
                     name="destination"
                     type="text"
                     placeholder="E.g. London, Teterboro..."
-                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                    className="w-full rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/50 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="departureDate">
+                  <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="departureDate">
                     Desired Departure Date
                   </label>
                   <input
@@ -213,7 +213,7 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="passengers">
+                <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="passengers">
                   Number of Passengers
                 </label>
                 <div className="relative">
@@ -241,7 +241,7 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55" htmlFor="message">
+                <label className="ml-1 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80" htmlFor="message">
                   Additional Notes
                 </label>
                 <textarea
@@ -249,7 +249,7 @@ export default function ContactPage() {
                   name="message"
                   rows={4}
                   placeholder="Tell us your route, timing, and service preferences..."
-                  className="w-full resize-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/28 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
+                  className="w-full resize-none rounded-xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white placeholder:text-white/50 backdrop-blur-xl focus:border-[#c5a059]/60 focus:outline-none focus:ring-1 focus:ring-[#c5a059]/40"
                 />
               </div>
 
@@ -261,7 +261,7 @@ export default function ContactPage() {
                   <span className="absolute left-0 top-0 h-full w-1 -translate-x-full bg-[#c5a059]/90 transition-transform duration-300 group-hover:translate-x-0" />
                   <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white">Submit Inquiry</span>
                 </button>
-                <p className="mt-5 text-center text-[10px] uppercase tracking-[0.16em] text-white/34">
+                <p className="mt-5 text-center text-[10px] uppercase tracking-[0.16em] text-white/60">
                   Confidential &amp; Secure Inquiry Process
                 </p>
               </div>

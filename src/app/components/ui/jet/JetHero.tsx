@@ -38,7 +38,7 @@ export default function JetHero({ jet }: { jet: Jet }) {
 
         <div className="max-w-[44rem]">
           <Reveal as="div" on="load" variant="fade-up" delay={0.05}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#00bcff]/45 bg-[#00bcff]/14 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-[#00bcff] backdrop-blur-xl">
+            <span className="inline-flex items-center gap-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#00bcff]">
               {jet.category}
               <span aria-hidden className="h-1 w-1 rounded-full bg-[#00bcff]" />
               <span className="font-mono tracking-[0.12em]">{jet.tail}</span>

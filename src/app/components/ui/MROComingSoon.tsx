@@ -40,7 +40,7 @@ export default function MROComingSoon() {
 
       <div className="relative mx-auto flex w-full max-w-[1400px] flex-1 flex-col items-center justify-center px-4 py-16 text-center sm:px-6 lg:px-8">
         <Reveal as="div" on="load" variant="fade-up" delay={0.05}>
-          <p className="inline-flex items-center gap-2.5 rounded-full border border-[#00bcff]/45 bg-[#00bcff]/12 px-4 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-[#00bcff] backdrop-blur-xl sm:text-[0.66rem]">
+          <p className="inline-flex items-center gap-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.26em] text-[#00bcff] sm:text-[0.7rem]">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-[#00bcff] opacity-75 motion-safe:animate-ping" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00bcff]" />

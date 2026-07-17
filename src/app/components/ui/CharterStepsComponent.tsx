@@ -44,11 +44,22 @@ export default function CharterStepsComponent() {
     if (!plane || !track || !section) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mdQuery = window.matchMedia("(min-width: 768px)");
 
-    if (reducedMotion) {
-      setRevealed([true, true, true]);
+    const revealAll = () => {
       revealedRef.current = [true, true, true];
-      return;
+      setRevealed([true, true, true]);
+    };
+
+    // The plane runway is desktop-only (hidden below md) — never gate the
+    // cards behind an invisible animation on phones or under reduced motion.
+    if (reducedMotion || !mdQuery.matches) {
+      revealAll();
+      const onBreakpoint = (e: MediaQueryListEvent) => {
+        if (!e.matches) revealAll();
+      };
+      mdQuery.addEventListener("change", onBreakpoint);
+      return () => mdQuery.removeEventListener("change", onBreakpoint);
     }
 
     const startAnimation = () => {
@@ -60,7 +71,7 @@ export default function CharterStepsComponent() {
         { x: -50 },
         {
           x: w + 50,
-          duration: 9,
+          duration: 6,
           ease: "none",
           repeat: -1,
           onUpdate() {
@@ -72,9 +83,11 @@ export default function CharterStepsComponent() {
             cardsRef.current.forEach((card, i) => {
               if (!card || revealedRef.current[i]) return;
               const cardRect = card.getBoundingClientRect();
-              const cardCenter = cardRect.left - trackLeft + cardRect.width / 2;
+              // Reveal as the plane reaches the card's leading quarter —
+              // waiting for dead-center made the last card feel sluggish.
+              const cardTrigger = cardRect.left - trackLeft + cardRect.width * 0.25;
 
-              if (currentX >= cardCenter) {
+              if (currentX >= cardTrigger) {
                 revealedRef.current = revealedRef.current.map((v, idx) =>
                   idx === i ? true : v
                 );
@@ -165,7 +178,7 @@ export default function CharterStepsComponent() {
                 key={step.id}
                 ref={(el) => { cardsRef.current[index] = el; }}
                 style={{ transitionDelay: `${index * 60}ms` }}
-                className={`rounded-xl border border-dashed border-[#00bcff]/40 bg-[#0a1245]/80 px-8 py-12 backdrop-blur-sm transition-all duration-700 ease-out
+                className={`rounded-xl border border-dashed border-[#00bcff]/40 bg-[#0a1245]/80 px-6 py-8 backdrop-blur-sm transition-all duration-700 ease-out sm:px-8 md:py-12
                   ${revealed[index]
                     ? "opacity-100 translate-y-0 scale-100"
                     : "opacity-0 translate-y-6 scale-95"
