@@ -43,16 +43,25 @@ const leadershipMembers: LeadershipMember[] = [
   },
 ];
 
-const VISIBLE   = 4;          // cards shown at once
-const GAP       = 12;         // px gap between cards
-const PANEL_W   = 240;        // px – info panel width on hover
-const total     = leadershipMembers.length;
-const maxOffset = Math.max(0, total - VISIBLE);
+const GAP   = 12;             // px gap between cards
+const total = leadershipMembers.length;
+
+/**
+ * Responsive layout derived from the measured strip width:
+ * 1 card on phones, 2 on tablets, 4 on desktop. The info panel narrows on
+ * phones so photo + panel always fit inside the strip.
+ */
+const layoutFor = (w: number) => {
+  const visible = w < 640 ? 1 : w < 1024 ? 2 : 4;
+  const panelW = visible === 1 ? Math.min(240, Math.round(w * 0.62)) : 240;
+  const photoW = (w - (visible - 1) * GAP) / visible;
+  return { visible, panelW, photoW };
+};
 
 export default function ContactLeadershipSection() {
   const [active, setActive] = useState<number | null>(null);
   const [offset, setOffset] = useState(0);
-  const [photoW, setPhotoW] = useState(0);   // computed photo pixel width
+  const [layout, setLayout] = useState({ visible: 4, panelW: 240, photoW: 0 });
 
   const sectionRef = useRef<HTMLElement>(null);
   const stripRef  = useRef<HTMLDivElement>(null);
@@ -77,31 +86,38 @@ export default function ContactLeadershipSection() {
     return () => document.removeEventListener("touchstart", handler);
   }, [active]);
 
-  // Measure strip width → compute per-photo pixel width
+  // Measure strip width → derive column count, photo and panel widths.
+  // Also clamps the carousel offset when the column count changes so a
+  // desktop offset can't strand the track after rotating to portrait.
   useEffect(() => {
     const el = stripRef.current;
     if (!el) return;
-    const compute = (w: number) =>
-      setPhotoW((w - (VISIBLE - 1) * GAP) / VISIBLE);
+    const compute = (w: number) => {
+      const next = layoutFor(w);
+      setLayout(next);
+      setOffset((o) => Math.min(o, Math.max(0, total - next.visible)));
+    };
     compute(el.offsetWidth);
     const ro = new ResizeObserver(([e]) => compute(e.contentRect.width));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
+  const { visible, panelW, photoW } = layout;
+  const maxOffset = Math.max(0, total - visible);
   const canPrev = offset > 0;
   const canNext = offset < maxOffset;
 
   // When the active card's info panel would overflow the strip's right edge
   // (e.g. the last visible card), shift the whole track left by the overflow
   // so the panel stays in view and the preceding cards get pushed aside.
-  const stripW = VISIBLE * photoW + (VISIBLE - 1) * GAP;
+  const stripW = visible * photoW + (visible - 1) * GAP;
   const hoverShift =
     active === null || !photoW
       ? 0
       : Math.max(
           0,
-          (active + 1) * photoW + active * GAP + PANEL_W - offset * (photoW + GAP) - stripW
+          (active + 1) * photoW + active * GAP + panelW - offset * (photoW + GAP) - stripW
         );
 
   return (
@@ -147,7 +163,7 @@ export default function ContactLeadershipSection() {
                   opacity: can ? 1 : 0.38,
                   cursor: can ? "pointer" : "default",
                 }}
-                className="flex h-9 w-9 items-center justify-center border transition-colors duration-200"
+                className="flex h-11 w-11 items-center justify-center border transition-colors duration-200 sm:h-9 sm:w-9"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d={icon} stroke={can ? "#c5a059" : "#1f2f67"} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -178,7 +194,7 @@ export default function ContactLeadershipSection() {
             return (
               /*
                * Each card is itself a flex-row:
-               *   [photo (fixed photoW px)] [info panel (0 → PANEL_W px, in-flow)]
+               *   [photo (fixed photoW px)] [info panel (0 → panelW px, in-flow)]
                * When info panel expands it pushes subsequent cards right.
                */
               <div
@@ -235,7 +251,7 @@ export default function ContactLeadershipSection() {
                 <div
                   className="flex flex-col justify-center overflow-hidden bg-[#1f2f67]"
                   style={{
-                    width: isActive ? PANEL_W : 0,
+                    width: isActive ? panelW : 0,
                     opacity: isActive ? 1 : 0,
                     paddingLeft:  isActive ? "1.75rem" : 0,
                     paddingRight: isActive ? "1.5rem"  : 0,
