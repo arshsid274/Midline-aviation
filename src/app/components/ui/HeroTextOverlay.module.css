@@ -73,8 +73,8 @@
 /* ── Right CTA block ─────────────────────────────────────────── */
 .rightContent {
   position: absolute;
-  /* Sits above the floating WhatsApp button (bottom-right, ~80px tall zone). */
-  bottom: clamp(6rem, 10vh, 7.5rem);
+  /* Sits above the floating chat + WhatsApp buttons (bottom-right, ~150px tall stack). */
+  bottom: clamp(10.5rem, 17vh, 12rem);
   right: clamp(1.5rem, 4vw, 3rem);
   display: flex;
   flex-direction: column;

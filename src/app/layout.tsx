@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar/navbar";
 import ClarityInit from "./components/ClarityInit";
 import SiteFooter from "./components/ui/SiteFooter";
 import WhatsAppButton from "./components/ui/WhatsAppButton";
+import ChatWidget from "./components/ui/ChatWidget";
 import CookieConsent from "./components/ui/CookieConsent";
 import { hankenGrotesk, jetbrainsMono, playfairDisplay } from "@/lib/fonts";
 import {
@@ -162,6 +163,7 @@ export default function RootLayout({
         {children}
         <SiteFooter />
         <WhatsAppButton />
+        <ChatWidget />
         <CookieConsent />
       </body>
     </html>
