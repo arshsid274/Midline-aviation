@@ -76,6 +76,7 @@ const aircraftColumns: AircraftColumn[] = [
     ],
     badge: "SUPER MIDSIZE",
     href: "/fleet/gulfstream-g200",
+    brochure: "/PDF/g200.pdf",
   },
 ];
 
