@@ -7,8 +7,8 @@ interface Props {
   containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
-// Fraction of total scroll at which seq-0 ends (120 of 480 frames)
-const SEQ0_END = 120 / 480; // 0.25
+// Fraction of total scroll at which seq-0 ends (120 of 720 frames)
+const SEQ0_END = 120 / 720; // 0.1667
 
 // Complete the exit animation by this fraction of total scroll
 // (halfway through seq-0, so elements are gone before seq-1 starts)

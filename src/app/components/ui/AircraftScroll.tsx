@@ -41,10 +41,10 @@ export default function AircraftScroll() {
     img.src = "/sequence-0/001.webp";
   }, []);
 
-  // Gate for the heavier later sequences. seq1-3 = 360 frames (~75% of all
+  // Gate for the heavier later sequences. seq1-5 = 600 frames (~83% of all
   // image work) and are ONLY needed once the user scrolls. We hold them out of
   // the critical first-load window and start them on the first scroll OR once the
-  // browser goes idle, whichever comes first. Decoding 360 fewer large webp
+  // browser goes idle, whichever comes first. Decoding 600 fewer large webp
   // frames up front is the single biggest Total Blocking Time win.
   const [loadHeavy, setLoadHeavy] = useState(false);
   useEffect(() => {
@@ -79,15 +79,17 @@ export default function AircraftScroll() {
   }, []);
 
   // seq0 loads immediately — needed for the idle loop and first paint.
-  // seq1-3 wait for BOTH seq0 to finish AND the deferred loadHeavy trigger.
+  // seq1-5 wait for BOTH seq0 to finish AND the deferred loadHeavy trigger.
   const { images: seq0, loaded: loaded0 } = useImagePreloader("/sequence-0", 120);
   const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0 && loadHeavy);
   const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0 && loadHeavy);
   const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0 && loadHeavy);
+  const { images: seq4, loaded: loaded4 } = useImagePreloader("/sequence-4", 120, loaded0 && loadHeavy);
+  const { images: seq5, loaded: loaded5 } = useImagePreloader("/sequence-5", 120, loaded0 && loadHeavy);
 
   const allImages = useMemo(
-    () => ({ seq0, seq1, seq2, seq3 }),
-    [seq0, seq1, seq2, seq3],
+    () => ({ seq0, seq1, seq2, seq3, seq4, seq5 }),
+    [seq0, seq1, seq2, seq3, seq4, seq5],
   );
 
   // Mark "has scrolled" on first real scroll — snapshot the idle frame at that instant
@@ -157,7 +159,7 @@ export default function AircraftScroll() {
 
   // ── Scroll-driven loop: starts after user scrolls AND all sequences are ready
   useEffect(() => {
-    if (!loaded0 || !loaded1 || !loaded2 || !loaded3) return;
+    if (!loaded0 || !loaded1 || !loaded2 || !loaded3 || !loaded4 || !loaded5) return;
 
     let animationId: number;
 
@@ -197,7 +199,7 @@ export default function AircraftScroll() {
         return;
       }
 
-      // ── Scroll-driven: seq0 tail → seq1 → seq2 → seq3 ───────────────
+      // ── Scroll-driven: seq0 tail → seq1 → seq2 → seq3 → seq4 → seq5 ─
       const rect             = container.getBoundingClientRect();
       const scrollableHeight = rect.height - window.innerHeight;
       const scrollProgress   =
@@ -205,16 +207,18 @@ export default function AircraftScroll() {
           ? Math.max(0, Math.min(1, -rect.top / scrollableHeight))
           : 0;
 
-      // Full scroll path: seq0[startFrame..119] → seq1[0..119] → seq2[0..119] → seq3[0..119]
+      // Full scroll path: seq0[startFrame..119] → seq1 → seq2 → seq3 → seq4 → seq5, 120 frames each
       const startFrame  = transitionFrameRef.current;
-      const totalFrames = 480 - startFrame;
+      const totalFrames = 720 - startFrame;
       const rawFrame    = startFrame + Math.floor(scrollProgress * (totalFrames - 1));
 
       let img: HTMLImageElement | undefined;
       if (rawFrame < 120)      img = allImages.seq0[rawFrame];
       else if (rawFrame < 240) img = allImages.seq1[rawFrame - 120];
       else if (rawFrame < 360) img = allImages.seq2[rawFrame - 240];
-      else                     img = allImages.seq3[Math.min(rawFrame - 360, 119)];
+      else if (rawFrame < 480) img = allImages.seq3[rawFrame - 360];
+      else if (rawFrame < 600) img = allImages.seq4[rawFrame - 480];
+      else                     img = allImages.seq5[Math.min(rawFrame - 600, 119)];
 
       if (img) drawImage(img);
 
@@ -227,14 +231,14 @@ export default function AircraftScroll() {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationId);
     };
-  }, [loaded0, loaded1, loaded2, loaded3, allImages]);
+  }, [loaded0, loaded1, loaded2, loaded3, loaded4, loaded5, allImages]);
 
   return (
     <div
       ref={containerRef}
-      className="relative h-[1200vh] -mt-[72px] md:-mt-[84px]"
+      className="relative h-[1800vh] -mt-[72px] md:-mt-[84px]"
     >
-      {/* Sticky canvas — stays in viewport while scrolling through the 1200vh container */}
+      {/* Sticky canvas — stays in viewport while scrolling through the 1800vh container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
         {/* Canvas is always in the DOM — no loading→canvas swap that could cause CLS */}
         <canvas

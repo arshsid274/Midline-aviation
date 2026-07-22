@@ -131,14 +131,14 @@ export default function PopularDestinationsCarousel() {
 
       if (prefersReducedMotion) {
         gsap.set([textBlock, carouselBlock], { x: 0, y: 0, autoAlpha: 1 });
-        // No filter here — a lingering blur(0px) keeps each card on its own
-        // composited layer and paints a ghost band under the cards.
         gsap.set(cards, { autoAlpha: 1, scale: 1, y: 0 });
         return;
       }
 
-      // Set all cards to blurred glass state initially — pushed down
-      gsap.set(cards, { filter: "blur(14px)", autoAlpha: 0.35, scale: 0.97, y: 60 });
+      // NO filter/blur in this choreography: a blurred card smears its pixels
+      // outside its box and leaves ghost bands below the cards on some GPUs
+      // (reported twice). Compositor-safe props only: opacity/transform.
+      gsap.set(cards, { autoAlpha: 0, scale: 0.97, y: 36 });
 
       gsap
         .timeline({
@@ -159,21 +159,16 @@ export default function PopularDestinationsCarousel() {
           { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" },
           "-=0.4"
         )
-        // Stagger clear: each card rises up and unblurs one by one.
-        // clearProps removes the inline filter once each card settles —
-        // otherwise blur(0px) pins the card to a composited layer that
-        // renders a ghost band beneath it.
+        // Stagger: each card rises and fades in one by one.
         .to(
           cards,
           {
-            filter: "blur(0px)",
             autoAlpha: 1,
             scale: 1,
             y: 0,
-            duration: 0.65,
+            duration: 0.6,
             ease: "power3.out",
-            stagger: 0.48,
-            clearProps: "filter",
+            stagger: 0.1,
           },
           "-=0.3"
         );

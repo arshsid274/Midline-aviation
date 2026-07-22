@@ -26,6 +26,8 @@ interface AircraftColumn {
   images: string[];
   badge: string;
   href: string;
+  /** Path to the downloadable PDF brochure — button shows "coming soon" when absent. */
+  brochure?: string;
 }
 
 interface MetricCell {
@@ -62,6 +64,7 @@ const aircraftColumns: AircraftColumn[] = [
     ],
     badge: "LARGE JET",
     href: "/fleet/gulfstream-g450",
+    brochure: "/PDF/g450.pdf",
   },
   {
     code: "GULFSTREAM G200",
@@ -284,13 +287,26 @@ export default function FleetAircraftComparisonSection() {
                       {aircraft.name}
                     </h3>
 
-                    <button
-                      type="button"
-                      className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#c5c6cd] px-4 py-3 text-sm font-semibold text-[#44474d] transition-[background-color,transform,color] duration-150 ease-out hover:bg-[#e7eeff] hover:text-[#0d1c32] active:scale-[0.98] lg:mt-auto"
-                    >
-                      <Download className="h-4 w-4" />
-                      Download Brochure
-                    </button>
+                    {aircraft.brochure ? (
+                      <a
+                        href={aircraft.brochure}
+                        download={`Midline-Aviation-${aircraft.name.replace(/\s+/g, "-")}-Brochure.pdf`}
+                        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#c5c6cd] px-4 py-3 text-sm font-semibold text-[#44474d] transition-[background-color,transform,color] duration-150 ease-out hover:bg-[#e7eeff] hover:text-[#0d1c32] active:scale-[0.98] lg:mt-auto"
+                      >
+                        <Download className="h-4 w-4" />
+                        Download Brochure
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled
+                        aria-disabled="true"
+                        className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg border border-[#c5c6cd] px-4 py-3 text-sm font-semibold text-[#44474d] opacity-50 lg:mt-auto"
+                      >
+                        <Download className="h-4 w-4" />
+                        Brochure Coming Soon
+                      </button>
+                    )}
                   </div>
 
                   <div className="flex flex-col">
