@@ -31,7 +31,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Animation sequence frames — immutable: content never changes for a given filename
+        // Animation sequence frames — immutable: content never changes for a given filename.
+        // NOTE: if you replace a sequence's frames in place (same 001.webp … 120.webp
+        // names), this header means browsers will NOT re-fetch them for a year. Bump
+        // SEQ_VERSION in AircraftScroll.tsx so the URLs change, or returning visitors
+        // will see a mix of old and new footage.
         source: "/sequence-:seq/:frame",
         headers: [
           {

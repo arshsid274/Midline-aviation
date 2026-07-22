@@ -7,6 +7,9 @@ import HeroTextOverlay from "./HeroTextOverlay";
 const IDLE_FPS = 24;
 const IDLE_FRAME_INTERVAL = 1000 / IDLE_FPS;
 
+/** Bump when sequence-1..5 frames are replaced in place — busts the immutable cache. */
+const SEQ_VERSION = "2";
+
 export default function AircraftScroll() {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -80,12 +83,20 @@ export default function AircraftScroll() {
 
   // seq0 loads immediately — needed for the idle loop and first paint.
   // seq1-5 wait for BOTH seq0 to finish AND the deferred loadHeavy trigger.
+  //
+  // seq1-5 carry a ?v= token because their frames were replaced with new footage
+  // under the SAME filenames, and frames are served `Cache-Control: immutable`.
+  // Without a new URL, returning visitors would keep the old cached images for a
+  // year while the new seq4/5 loaded fresh — a mix of old and new footage.
+  // Bump SEQ_VERSION whenever a sequence's frames are replaced in place.
+  // seq0 is deliberately unversioned: its frames never changed, so re-downloading
+  // them would only cost returning visitors their cached LCP image.
   const { images: seq0, loaded: loaded0 } = useImagePreloader("/sequence-0", 120);
-  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0 && loadHeavy);
-  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0 && loadHeavy);
-  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0 && loadHeavy);
-  const { images: seq4, loaded: loaded4 } = useImagePreloader("/sequence-4", 120, loaded0 && loadHeavy);
-  const { images: seq5, loaded: loaded5 } = useImagePreloader("/sequence-5", 120, loaded0 && loadHeavy);
+  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0 && loadHeavy, SEQ_VERSION);
+  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0 && loadHeavy, SEQ_VERSION);
+  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0 && loadHeavy, SEQ_VERSION);
+  const { images: seq4, loaded: loaded4 } = useImagePreloader("/sequence-4", 120, loaded0 && loadHeavy, SEQ_VERSION);
+  const { images: seq5, loaded: loaded5 } = useImagePreloader("/sequence-5", 120, loaded0 && loadHeavy, SEQ_VERSION);
 
   const allImages = useMemo(
     () => ({ seq0, seq1, seq2, seq3, seq4, seq5 }),

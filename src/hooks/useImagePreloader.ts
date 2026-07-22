@@ -9,11 +9,18 @@ import { useState, useEffect } from 'react';
  * @param frameCount    Total number of frames to load
  * @param enabled       Set to false to defer loading until you're ready.
  *                      Defaults to true (load immediately).
+ * @param version       Cache-busting token appended as `?v=`. Frames are served
+ *                      with `Cache-Control: immutable` (see next.config.ts), so a
+ *                      browser will NOT revalidate them for a year. If you ever
+ *                      replace a sequence's frames while keeping the same
+ *                      filenames, you MUST bump this — otherwise returning
+ *                      visitors keep seeing the old images forever.
  */
 export const useImagePreloader = (
     sequencePath: string,
     frameCount: number,
     enabled = true,
+    version?: string,
 ) => {
     const [images, setImages] = useState<HTMLImageElement[]>([]);
     const [loaded, setLoaded] = useState(false);
@@ -23,13 +30,15 @@ export const useImagePreloader = (
 
         let cancelled = false;
 
+        const suffix = version ? `?v=${version}` : '';
+
         const loadImages = async () => {
             // Fetch all frames in parallel — total time = slowest single frame.
             const promises = Array.from({ length: frameCount }, (_, i) =>
                 new Promise<HTMLImageElement>((resolve) => {
                     const img = new Image();
                     img.decoding = 'async';
-                    img.src = `${sequencePath}/${(i + 1).toString().padStart(3, '0')}.webp`;
+                    img.src = `${sequencePath}/${(i + 1).toString().padStart(3, '0')}.webp${suffix}`;
                     img.onload  = () => resolve(img);
                     img.onerror = () => resolve(img);
                 })
@@ -46,7 +55,7 @@ export const useImagePreloader = (
         loadImages();
 
         return () => { cancelled = true; };
-    }, [sequencePath, frameCount, enabled]);
+    }, [sequencePath, frameCount, enabled, version]);
 
     return { images, loaded };
 };
