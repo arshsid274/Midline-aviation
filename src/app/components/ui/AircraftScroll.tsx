@@ -161,9 +161,17 @@ export default function AircraftScroll() {
     };
   }, [loaded0, seq0]);
 
-  // ── Scroll-driven loop: starts after user scrolls AND all sequences are ready
+  // ── Scroll-driven loop: PROGRESSIVE — starts as soon as seq0 is ready ───────
+  // We deliberately do NOT wait for seq1-5 to finish. Since those sequences are
+  // lazy-loaded on the user's first interaction, blocking here until all 6 are
+  // ready would freeze the hero for the entire ~21 MB download on the very first
+  // scroll (which reads as a broken slider). Instead we render whatever frames
+  // have arrived and let seq1-5 stream in — the render() helper below falls back
+  // to the latest available frame at any boundary that hasn't loaded yet.
+  // Effect deps include every loadedN + allImages, so it re-runs and picks up
+  // each sequence's frames the moment they finish decoding.
   useEffect(() => {
-    if (!loaded0 || !loaded1 || !loaded2 || !loaded3 || !loaded4 || !loaded5) return;
+    if (!loaded0) return;
 
     let animationId: number;
 
@@ -216,13 +224,29 @@ export default function AircraftScroll() {
       const totalFrames = 720 - startFrame;
       const rawFrame    = startFrame + Math.floor(scrollProgress * (totalFrames - 1));
 
-      let img: HTMLImageElement | undefined;
-      if (rawFrame < 120)      img = allImages.seq0[rawFrame];
-      else if (rawFrame < 240) img = allImages.seq1[rawFrame - 120];
-      else if (rawFrame < 360) img = allImages.seq2[rawFrame - 240];
-      else if (rawFrame < 480) img = allImages.seq3[rawFrame - 360];
-      else if (rawFrame < 600) img = allImages.seq4[rawFrame - 480];
-      else                     img = allImages.seq5[Math.min(rawFrame - 600, 119)];
+      // Map rawFrame → which sequence + local frame index (120 frames each).
+      const seqs = [
+        allImages.seq0, allImages.seq1, allImages.seq2,
+        allImages.seq3, allImages.seq4, allImages.seq5,
+      ];
+      const seqIdx = Math.min(5, Math.floor(rawFrame / 120));
+      const local  = Math.min(rawFrame - seqIdx * 120, 119);
+
+      let img: HTMLImageElement | undefined = seqs[seqIdx]?.[local];
+
+      // Progressive fallback: if the target sequence hasn't streamed in yet,
+      // hold on the last frame of the most recent sequence that HAS loaded so
+      // the hero keeps a coherent image instead of blanking or freezing on a
+      // stale idle frame while later frames download.
+      if (!img) {
+        for (let s = seqIdx - 1; s >= 0; s--) {
+          const seq = seqs[s];
+          if (seq && seq.length > 0) {
+            img = seq[seq.length - 1];
+            break;
+          }
+        }
+      }
 
       if (img) drawImage(img);
 
