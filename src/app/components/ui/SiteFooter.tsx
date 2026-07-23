@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { SITE_NAME } from "@/lib/seo";
 
 const footerColumns = [
@@ -41,11 +41,9 @@ const footerColumns = [
 ] as const;
 
 const socials = [
-  { label: "X (formerly Twitter)", href: "#", Icon: Twitter },
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "YouTube", href: "#", Icon: Youtube },
-  { label: "Facebook", href: "#", Icon: Facebook },
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/midline.aviation/", Icon: Instagram },
+  { label: "Facebook", href: "https://www.facebook.com/midline.aviation/", Icon: Facebook },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/midline-aviation/", Icon: Linkedin },
 ] as const;
 
 export default function SiteFooter() {

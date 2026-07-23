@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { SiFacebook, SiInstagram, SiLinkedin, SiX, SiYoutube } from "react-icons/si";
+import { SiFacebook, SiInstagram, SiLinkedin } from "react-icons/si";
 
 type FooterLink = {
   label: string;
@@ -113,16 +113,7 @@ export default function HomeFooter() {
           <p className="text-sm text-[#111a5a]/70">&copy; {new Date().getFullYear()} Midline Aviation. All rights reserved.</p>
           <div className="flex items-center gap-5 text-[#111a5a]/70">
             <a
-              href="https://x.com/midlineaviation"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Midline Aviation on X"
-              className="transition hover:text-[#016291]"
-            >
-              <SiX className="h-5 w-5" aria-hidden="true" />
-            </a>
-            <a
-              href="https://www.instagram.com/midlineaviation/"
+              href="https://www.instagram.com/midline.aviation/"
               target="_blank"
               rel="noreferrer"
               aria-label="Midline Aviation on Instagram"
@@ -131,16 +122,7 @@ export default function HomeFooter() {
               <SiInstagram className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
-              href="https://www.youtube.com/@midlineaviation"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Midline Aviation on YouTube"
-              className="transition hover:text-[#016291]"
-            >
-              <SiYoutube className="h-5 w-5" aria-hidden="true" />
-            </a>
-            <a
-              href="https://www.facebook.com/midlineaviation"
+              href="https://www.facebook.com/midline.aviation/"
               target="_blank"
               rel="noreferrer"
               aria-label="Midline Aviation on Facebook"
