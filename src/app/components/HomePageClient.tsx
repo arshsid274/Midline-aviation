@@ -57,7 +57,7 @@ export default function HomePageClient() {
   return (
     <>
       <main aria-busy={!loadingComplete} className="relative z-[1] bg-white">
-        <AircraftScroll />
+        <AircraftScroll heroReveal={loadingComplete} />
         <HeroBookingForm revealFromBelow={loadingComplete} />
         <ServicesShowcase />
         <PopularDestinationsCarousel />

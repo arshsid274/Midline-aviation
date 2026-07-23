@@ -10,7 +10,7 @@ const IDLE_FRAME_INTERVAL = 1000 / IDLE_FPS;
 /** Bump when sequence-1..5 frames are replaced in place — busts the immutable cache. */
 const SEQ_VERSION = "2";
 
-export default function AircraftScroll() {
+export default function AircraftScroll({ heroReveal = false }: { heroReveal?: boolean }) {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -274,8 +274,9 @@ export default function AircraftScroll() {
           aria-label="Aircraft animation"
           className="absolute inset-0 w-full h-full"
         />
-        {/* Hero text + CTA — visible only during sequence-0, slides out on scroll */}
-        <HeroTextOverlay containerRef={containerRef} />
+        {/* Hero text + CTA — hidden during loader, slides in from the sides once
+            the loader clears, then slides out on scroll through sequence-0 */}
+        <HeroTextOverlay containerRef={containerRef} reveal={heroReveal} />
       </div>
     </div>
   );

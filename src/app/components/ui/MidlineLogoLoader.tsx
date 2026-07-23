@@ -86,6 +86,16 @@ export default function MidlineLogoLoader() {
           0%   { width: 0%; }
           100% { width: 100%; }
         }
+
+        /* Accessibility: users who prefer reduced motion see the finished
+           logo immediately instead of the entrance choreography. */
+        @media (prefers-reduced-motion: reduce) {
+          .ml-bar { transform: scaleY(1) !important; animation: none !important; }
+          .ml-slash { display: none !important; }
+          .ml-plane-wrap { opacity: 1 !important; animation: none !important; transform: none !important; }
+          .ml-brand-name, .ml-brand-sub { clip-path: inset(0 0 0 0) !important; animation: none !important; }
+          .ml-progress-fill { width: 100% !important; animation: none !important; }
+        }
       `}</style>
 
       <div
@@ -128,7 +138,7 @@ export default function MidlineLogoLoader() {
                 position: "absolute",
                 inset: 0,
                 background:
-                  "linear-gradient(180deg,#60c2e0 0%,#2a72b8 35%,#163d80 65%,#0a2248 100%)",
+                  "linear-gradient(180deg,#eaf9ff 0%,#5fd6ff 40%,#00bcff 72%,#1e88d8 100%)",
               }}
             />
             <div className="ml-slash" />
@@ -150,7 +160,7 @@ export default function MidlineLogoLoader() {
                 position: "absolute",
                 inset: 0,
                 background:
-                  "linear-gradient(180deg,#44aed4 0%,#1e65b0 35%,#0f3070 65%,#071a40 100%)",
+                  "linear-gradient(180deg,#ffffff 0%,#7fe0ff 40%,#12a9f0 74%,#0f7fd6 100%)",
               }}
             />
             <div className="ml-slash" />
@@ -172,7 +182,7 @@ export default function MidlineLogoLoader() {
                 position: "absolute",
                 inset: 0,
                 background:
-                  "linear-gradient(180deg,#2e9ec6 0%,#1558a8 30%,#0a2668 60%,#051438 100%)",
+                  "linear-gradient(180deg,#eaf9ff 0%,#5fd6ff 38%,#00bcff 74%,#1273c9 100%)",
               }}
             />
             <div className="ml-slash" />
@@ -195,7 +205,14 @@ export default function MidlineLogoLoader() {
               style={{ width: "100%", height: "100%", transform: "rotate(-45deg)" }}
               aria-hidden="true"
             >
-              <path fill="white" d={PLANE_PATH} />
+              <defs>
+                <linearGradient id="ml-plane-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="100%" stopColor="#7fe3ff" />
+                </linearGradient>
+              </defs>
+              {/* White→cyan fill — bright against the deep-navy loader curtain. */}
+              <path fill="url(#ml-plane-grad)" d={PLANE_PATH} />
             </svg>
           </div>
 
@@ -207,7 +224,7 @@ export default function MidlineLogoLoader() {
               left: 0,
               right: 0,
               height: 2,
-              background: "rgba(13,40,84,0.12)",
+              background: "rgba(255,255,255,0.16)",
               borderRadius: 2,
               overflow: "hidden",
             }}
@@ -216,7 +233,7 @@ export default function MidlineLogoLoader() {
               className="ml-progress-fill"
               style={{
                 height: "100%",
-                background: "linear-gradient(90deg,#1e5ca0,#60c2e0)",
+                background: "linear-gradient(90deg,#00bcff,#eaf9ff)",
                 borderRadius: 2,
               }}
             />
@@ -230,7 +247,7 @@ export default function MidlineLogoLoader() {
             style={{
               fontSize: 56,
               fontWeight: 700,
-              color: "#0d2854",
+              color: "#ffffff",
               letterSpacing: "-1.5px",
               lineHeight: 1,
             }}
@@ -242,7 +259,7 @@ export default function MidlineLogoLoader() {
             style={{
               fontSize: 19,
               fontWeight: 400,
-              color: "#0d2854",
+              color: "#7fe3ff",
               letterSpacing: "5.5px",
               textAlign: "center",
             }}

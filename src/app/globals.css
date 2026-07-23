@@ -514,6 +514,40 @@ body.home-loader-complete [data-site-navbar="true"] {
   transform: translateY(0);
 }
 
+/* ── Floating action buttons (WhatsApp + Chat) ──────────────────────────────
+   On the homepage they stay tucked off the bottom edge behind the intro loader
+   and rise into place only once it clears — mirroring the navbar. The :has()
+   rule hides them from the very first paint (pure CSS, no JS, no flash); the
+   body-class rules drive the reveal once the loader completes. Other pages have
+   no loader element or classes, so the buttons render normally.
+   Uses the individual `translate` property (not `transform`) so it composes
+   with each button's `hover:scale` transform instead of overriding it. */
+body [data-home-fab="true"] {
+  transition:
+    transform 200ms ease,
+    translate 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 500ms ease;
+}
+
+body:has([data-home-loader="true"].home-loader-intro-active) [data-home-fab="true"],
+body.home-loader-active [data-home-fab="true"] {
+  translate: 0 150%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.home-loader-complete [data-home-fab="true"] {
+  translate: 0 0;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has([data-home-loader="true"].home-loader-intro-active) [data-home-fab="true"],
+  body.home-loader-active [data-home-fab="true"] {
+    translate: 0;
+  }
+}
+
 .journey-plane {
   left: 22%;
   animation: journeyPlaneGlide 8s linear infinite;

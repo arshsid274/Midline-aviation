@@ -117,6 +117,7 @@ export default function ChatWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-label={open ? "Close Midline Assistant chat" : "Chat with the Midline Assistant"}
+        data-home-fab="true"
         className="fixed bottom-5 right-4 z-[70] flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(7,12,42,0.35)] ring-1 ring-[#111a5a]/10 transition-transform duration-200 hover:scale-105 active:scale-95"
       >
         {open ? <X className="h-6 w-6 text-[#111a5a]" /> : <RobotIcon className="h-9 w-9" />}

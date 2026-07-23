@@ -11,9 +11,9 @@
   --base-ratio: 1;
   --base-size: 1920;
   --base-percent: 1%;
-  --primary-color: #003366; /* Midline Airlines Dark Blue */
-  --secondary-color: #0099ff; /* Midline Airlines Light Blue */
-  --accent-color: #ff6b35; /* Midline Airlines Orange Accent */
+  --primary-color: #111a5a; /* Brand deep navy */
+  --secondary-color: #00bcff; /* Brand sky cyan */
+  --accent-color: #016291; /* Brand mid teal-blue */
 }
 
 /* Main Visual Container */
@@ -79,7 +79,7 @@
   content: "";
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #0099ff, transparent);
+  background: linear-gradient(90deg, transparent, #00bcff, transparent);
   transition: 1s ease;
   position: absolute;
   left: 50%;
@@ -97,7 +97,7 @@
   text-align: center;
   font-family: var(--font-hanken), Arial, Helvetica, sans-serif;
   font-weight: 700;
-  color: #0099ff;
+  color: #00bcff;
   margin: 0;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -120,10 +120,10 @@
   letter-spacing: 0.03em;
   opacity: 0;
   transition: all 0.5s ease-out;
-  color: #0099ff;
+  color: #00bcff;
   background: none;
   -webkit-text-fill-color: currentColor;
-  filter: drop-shadow(0 4px 8px rgba(0, 153, 255, 0.3));
+  filter: drop-shadow(0 4px 8px rgba(0, 188, 255, 0.3));
   white-space: nowrap;
 }
 
@@ -168,7 +168,7 @@
   content: "";
   width: 2px;
   height: 0;
-  background: linear-gradient(180deg, #0099ff, transparent);
+  background: linear-gradient(180deg, #00bcff, transparent);
   transition: 1s ease;
   position: absolute;
   left: 0;
@@ -179,7 +179,7 @@
   content: "";
   width: 2px;
   height: 0;
-  background: linear-gradient(180deg, transparent, #0099ff);
+  background: linear-gradient(180deg, transparent, #00bcff);
   transition: 1s ease;
   position: absolute;
   right: 0;
@@ -190,23 +190,26 @@
 .mask_blank {
   width: 100%;
   height: 100%;
-  border: 2px solid #3a78b6;
+  border: 2px solid #016291;
   opacity: 1;
   background: transparent;
   position: relative;
   z-index: -1;
 }
 
-/* Visual Wrap - Opaque white mask with a transparent expanding cutout.
-   Implemented as a full-screen white layer (fixed geometry) whose "window"
+/* Visual Wrap - Opaque BRAND-NAVY curtain with a transparent expanding cutout.
+   Implemented as a full-screen navy layer (fixed geometry) whose "window"
    is carved out with an animated clip-path. clip-path is composited, so the
    reveal produces ZERO Cumulative Layout Shift — unlike animating
-   top/right/bottom/left, which moves the element's box every frame. */
+   top/right/bottom/left, which moves the element's box every frame.
+   Deep navy (not white) so the loader reads as a premium branded screen and the
+   light logo/plane are visible; a soft radial highlight sits behind the mark. */
 .visual_wrap {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: #ffffff;
+  background:
+    radial-gradient(120% 90% at 50% 42%, #1b2b7e 0%, #131f63 42%, #0b1240 100%);
   will-change: clip-path;
   clip-path: polygon(
     evenodd,
@@ -285,7 +288,7 @@
 }
 
 .intro_skip_btn:focus-visible {
-  outline: 2px solid #0099ff;
+  outline: 2px solid #00bcff;
   outline-offset: 4px;
 }
 
@@ -307,8 +310,8 @@
     width: clamp(56px, 9vw, 72px);
     height: clamp(56px, 9vw, 72px);
     border-radius: 50%;
-    border: 2px solid #0099ff;
-    background: rgba(0, 51, 102, 0.6);
+    border: 2px solid #00bcff;
+    background: rgba(17, 26, 90, 0.6);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     display: flex;
@@ -321,9 +324,9 @@
   }
 
   .intro_skip_btn:hover {
-    border-color: #ff6b35;
-    background: rgba(0, 51, 102, 0.8);
-    box-shadow: 0 0 15px rgba(0, 153, 255, 0.3);
+    border-color: #00bcff;
+    background: rgba(17, 26, 90, 0.8);
+    box-shadow: 0 0 15px rgba(0, 188, 255, 0.3);
   }
 
   .intro_skip_btn::before {
@@ -339,7 +342,7 @@
     content: "";
     width: clamp(5px, 0.6vw, 6px);
     height: clamp(8px, 1vw, 10px);
-    background: linear-gradient(135deg, transparent 40%, #0099ff 40%, #0099ff 60%, transparent 60%);
+    background: linear-gradient(135deg, transparent 40%, #00bcff 40%, #00bcff 60%, transparent 60%);
     clip-path: polygon(0 30%, 100% 0%, 100% 70%, 0 100%);
   }
 }
