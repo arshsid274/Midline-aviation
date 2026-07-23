@@ -15,12 +15,19 @@ import { useState, useEffect } from 'react';
  *                      replace a sequence's frames while keeping the same
  *                      filenames, you MUST bump this — otherwise returning
  *                      visitors keep seeing the old images forever.
+ * @param fetchPriority Network priority hint. Pass "low" for hero animation
+ *                      frames so the browser downloads the render-critical LCP
+ *                      image and hydration JS FIRST and fetches these bulky,
+ *                      not-yet-visible frames with leftover bandwidth. Without
+ *                      this, 100+ frames fired on load saturate the connection
+ *                      and delay LCP/TTI on real mobile networks.
  */
 export const useImagePreloader = (
     sequencePath: string,
     frameCount: number,
     enabled = true,
     version?: string,
+    fetchPriority: 'high' | 'low' | 'auto' = 'auto',
 ) => {
     const [images, setImages] = useState<HTMLImageElement[]>([]);
     const [loaded, setLoaded] = useState(false);
@@ -38,6 +45,10 @@ export const useImagePreloader = (
                 new Promise<HTMLImageElement>((resolve) => {
                     const img = new Image();
                     img.decoding = 'async';
+                    // Set priority BEFORE src so the fetch is scheduled at the hint.
+                    if (fetchPriority !== 'auto') {
+                        img.setAttribute('fetchpriority', fetchPriority);
+                    }
                     img.src = `${sequencePath}/${(i + 1).toString().padStart(3, '0')}.webp${suffix}`;
                     img.onload  = () => resolve(img);
                     img.onerror = () => resolve(img);
@@ -55,7 +66,7 @@ export const useImagePreloader = (
         loadImages();
 
         return () => { cancelled = true; };
-    }, [sequencePath, frameCount, enabled, version]);
+    }, [sequencePath, frameCount, enabled, version, fetchPriority]);
 
     return { images, loaded };
 };

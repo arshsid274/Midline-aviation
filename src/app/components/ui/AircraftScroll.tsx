@@ -44,41 +44,34 @@ export default function AircraftScroll() {
     img.src = "/sequence-0/001.webp";
   }, []);
 
-  // Gate for the heavier later sequences. seq1-5 = 600 frames (~83% of all
-  // image work) and are ONLY needed once the user scrolls. We hold them out of
-  // the critical first-load window and start them on the first scroll OR once the
-  // browser goes idle, whichever comes first. Decoding 600 fewer large webp
-  // frames up front is the single biggest Total Blocking Time win.
+  // Gate for the heavier later sequences. seq1-5 = 600 frames / ~21 MB (~83% of
+  // all image work) and are ONLY needed once the user starts scrolling through
+  // the hero. We load them on the FIRST real user interaction (scroll, wheel,
+  // touch, pointer, key) and NOT on any idle/timeout fallback.
+  //
+  // Why no idle preload: a lab audit (PageSpeed Insights) never interacts with
+  // the page, so an idle timer would fire mid-audit and pull all 21 MB + 600
+  // webp decodes into the measured load window — tanking Speed Index and Total
+  // Blocking Time under mobile CPU/network throttling. Interaction-gating means
+  // a non-scrolling visit (and every lab audit) downloads only seq0 (~2.5 MB),
+  // while real users still get seq1-5 the instant they engage with the hero.
   const [loadHeavy, setLoadHeavy] = useState(false);
   useEffect(() => {
     let triggered = false;
+    // Any of these signals real engagement — the user is about to move through
+    // the scroll hero, so it's time to fetch the remaining frames.
+    const events = ["scroll", "wheel", "touchstart", "pointerdown", "keydown"] as const;
     const trigger = () => {
       if (triggered) return;
       triggered = true;
       setLoadHeavy(true);
+      events.forEach((e) => window.removeEventListener(e, trigger));
     };
-    window.addEventListener("scroll", trigger, { once: true, passive: true });
+    events.forEach((e) =>
+      window.addEventListener(e, trigger, { once: true, passive: true }),
+    );
 
-    type IdleWindow = Window & {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-      cancelIdleCallback?: (id: number) => void;
-    };
-    const w = window as IdleWindow;
-    let idleId: number | undefined;
-    let timerId: ReturnType<typeof setTimeout> | undefined;
-    if (typeof w.requestIdleCallback === "function") {
-      idleId = w.requestIdleCallback(trigger, { timeout: 3000 });
-    } else {
-      timerId = setTimeout(trigger, 2500);
-    }
-
-    return () => {
-      window.removeEventListener("scroll", trigger);
-      if (idleId !== undefined && typeof w.cancelIdleCallback === "function") {
-        w.cancelIdleCallback(idleId);
-      }
-      if (timerId !== undefined) clearTimeout(timerId);
-    };
+    return () => events.forEach((e) => window.removeEventListener(e, trigger));
   }, []);
 
   // seq0 loads immediately — needed for the idle loop and first paint.
@@ -91,12 +84,12 @@ export default function AircraftScroll() {
   // Bump SEQ_VERSION whenever a sequence's frames are replaced in place.
   // seq0 is deliberately unversioned: its frames never changed, so re-downloading
   // them would only cost returning visitors their cached LCP image.
-  const { images: seq0, loaded: loaded0 } = useImagePreloader("/sequence-0", 120);
-  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0 && loadHeavy, SEQ_VERSION);
-  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0 && loadHeavy, SEQ_VERSION);
-  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0 && loadHeavy, SEQ_VERSION);
-  const { images: seq4, loaded: loaded4 } = useImagePreloader("/sequence-4", 120, loaded0 && loadHeavy, SEQ_VERSION);
-  const { images: seq5, loaded: loaded5 } = useImagePreloader("/sequence-5", 120, loaded0 && loadHeavy, SEQ_VERSION);
+  const { images: seq0, loaded: loaded0 } = useImagePreloader("/sequence-0", 120, true, undefined, "low");
+  const { images: seq1, loaded: loaded1 } = useImagePreloader("/sequence-1", 120, loaded0 && loadHeavy, SEQ_VERSION, "low");
+  const { images: seq2, loaded: loaded2 } = useImagePreloader("/sequence-2", 120, loaded0 && loadHeavy, SEQ_VERSION, "low");
+  const { images: seq3, loaded: loaded3 } = useImagePreloader("/sequence-3", 120, loaded0 && loadHeavy, SEQ_VERSION, "low");
+  const { images: seq4, loaded: loaded4 } = useImagePreloader("/sequence-4", 120, loaded0 && loadHeavy, SEQ_VERSION, "low");
+  const { images: seq5, loaded: loaded5 } = useImagePreloader("/sequence-5", 120, loaded0 && loadHeavy, SEQ_VERSION, "low");
 
   const allImages = useMemo(
     () => ({ seq0, seq1, seq2, seq3, seq4, seq5 }),
