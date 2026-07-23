@@ -120,6 +120,8 @@ export default function SiteFooter() {
               <a
                 key={label}
                 href={href}
+                target="_blank"
+                rel="noreferrer"
                 aria-label={label}
                 className="text-[#94A3B8] transition-colors duration-300 hover:text-white"
               >
