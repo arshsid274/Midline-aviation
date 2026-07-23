@@ -224,7 +224,7 @@ export default function ServiceShowcase() {
             mainClassName="min-w-[17ch] justify-center rounded-lg bg-[linear-gradient(90deg,#111a5a_0%,#0a6ea4_100%)] px-2 py-0.5 text-white sm:px-2 sm:py-1 md:px-3 md:py-2"
             staggerFrom="last"
             initial={{ y: "100%" }}
-            animate={{ y: 0 }}
+            animate={{ y: "0%" }}
             exit={{ y: "-120%" }}
             staggerDuration={0.025}
             splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
